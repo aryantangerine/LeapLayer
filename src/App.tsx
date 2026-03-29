@@ -454,11 +454,11 @@ const FeatureCard = ({
     viewport={{ once: true }}
     transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
     whileHover={{
-      y: -12,
-      scale: 1.02,
-      transition: { type: "spring", stiffness: 500, damping: 20 }
+      y: -10,
+      scale: 1.01,
+      transition: { type: "spring", stiffness: 400, damping: 15 }
     }}
-    className="bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-page-bg flex flex-col h-full cursor-pointer group transition-all duration-300 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
+    className="bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-page-bg flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
   >
     <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-[#F9F9F9] flex items-center justify-center mb-4">
       {graphic ? (
