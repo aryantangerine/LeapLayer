@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", serif;
+  
+  --color-page-bg: #F5F5F0;
+  --color-card-bg: #FFFFFF;
+  --color-heading: #000000;
+  --color-body: #4B4B4B;
+  --color-secondary: #86868B;
+  --color-accent: #000000;
+  --color-dark-bg: #000000;
+}
+
+@layer base {
+  body {
+    @apply bg-page-bg text-body font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tighter text-heading;
+  }
+}
+
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
