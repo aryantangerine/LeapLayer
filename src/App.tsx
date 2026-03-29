@@ -745,7 +745,8 @@ const Timeline = () => {
                 className="max-w-md"
               >
                 <h4 className="text-[26px] font-extrabold text-black mb-4 leading-[1.2] tracking-tight">
-                  2022: AI can talk. That's about it.
+                  2022;<br />
+                  <span className="text-[0.95em]">AI can talk. That's about it.</span>
                 </h4>
                 <p className="text-black/40 leading-relaxed text-[17px] font-medium">
                   The era of chatbots and creative writing was just the beginning of the wave.
@@ -791,8 +792,11 @@ const Timeline = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="max-w-md mt-10 pt-10 border-t border-black/10"
+                className="max-w-md mt-10 pt-10 relative"
               >
+                {/* Connecting dotted line for 2026 second milestone */}
+                <div className="absolute top-[-40px] h-[40px] w-[1px] border-l border-dotted border-[#34B36C]/40 left-[4.5px]" />
+
                 <h4 className="text-[26px] font-extrabold text-black mb-4 leading-[1.2] tracking-tight">
                   <span className="inline-block bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Enterprise security</span> for data privacy
                 </h4>
