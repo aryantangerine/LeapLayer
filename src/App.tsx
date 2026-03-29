@@ -398,8 +398,8 @@ const PropTechGraphic = () => {
               <Building2 className="text-white/80 w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-white font-bold text-lg leading-tight">Start</h4>
-              <p className="text-white/40 text-sm">Integration</p>
+              <h4 className="text-white font-bold text-lg leading-tight">Start?</h4>
+              <p className="text-white/40 text-sm">Don't know where to begin?</p>
             </div>
           </div>
           <span className="text-white/30 font-mono text-sm mt-1">02</span>
@@ -680,7 +680,7 @@ const PainPoints = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <FeatureCard
           delay={0.1}
-          badge="Operations"
+          badge="CHALLENGE 01"
           graphic={<ToolsGraphic />}
           title="Too Many Tools, No Clear Path"
           description="Thousands of AI tools exist. We audit your workflows, find what actually moves the needle, and build custom agents around it."
@@ -688,15 +688,15 @@ const PainPoints = () => (
 
         <FeatureCard
           delay={0.2}
-          badge="Strategy"
+          badge="CHALLENGE 02"
           graphic={<PropTechGraphic />}
-          title="Don't Know Where To Start: So Much Time Investment"
+          title="Too Much Time To Figure It Out"
           description="We pinpoint the highest-impact implementations, then give your team hands-on workshops and clear documentation so everyone's confident from day one."
         />
 
         <FeatureCard
           delay={0.3}
-          badge="Security"
+          badge="CHALLENGE 03"
           graphic={<FolderGraphic />}
           title="What About Data Privacy?"
           description="We only deploy systems that meet enterprise-grade standards such as GDPR and SOC 2 Type 2."
@@ -744,8 +744,10 @@ const Timeline = () => {
                 transition={{ delay: 0 }}
                 className="max-w-md"
               >
-                <h4 className="text-[26px] font-extrabold text-black mb-4 leading-[1.2] tracking-tight">
-                  2022;<br />
+                <h4 className="text-[26px] font-bold text-black mb-6 leading-[1.2] tracking-tight">
+                  <span className="inline-block px-5 py-2 rounded-full bg-black/8 text-[13px] font-extrabold uppercase tracking-widest text-black border border-black/5 mb-4">
+                    2022
+                  </span><br />
                   <span className="text-[0.95em]">AI can talk. That's about it.</span>
                 </h4>
                 <p className="text-black/40 leading-relaxed text-[17px] font-medium">
@@ -779,8 +781,11 @@ const Timeline = () => {
                 transition={{ delay: 0.2 }}
                 className="max-w-md"
               >
-                <h4 className="text-[26px] font-extrabold text-black mb-4 leading-[1.2] tracking-tight">
-                  Early 2026: <span className="inline-block bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">AI can now do tasks</span> with you as a director.
+                <h4 className="text-[26px] font-bold text-black mb-6 leading-[1.2] tracking-tight">
+                  <span className="inline-block px-5 py-2 rounded-full bg-black/8 text-[13px] font-extrabold uppercase tracking-widest text-black border border-black/5 mb-4">
+                    Early 2026
+                  </span><br />
+                  <span className="inline-block bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">AI can now do tasks</span> with you as a director.
                 </h4>
                 <p className="text-black/40 leading-relaxed text-[17px] font-medium">
                   Autonomous agents now execute complex workflows from start to finish.
@@ -795,7 +800,7 @@ const Timeline = () => {
                 className="max-w-md mt-10 pt-10 relative"
               >
                 {/* Connecting dotted line for 2026 second milestone */}
-                <div className="absolute top-[-40px] h-[40px] w-[1px] border-l border-dotted border-[#34B36C]/40 left-[4.5px]" />
+                <div className="absolute top-[-28px] h-[48px] w-[1px] border-l border-dotted border-[#34B36C]/40 left-[4.5px]" />
 
                 <h4 className="text-[26px] font-extrabold text-black mb-4 leading-[1.2] tracking-tight">
                   <span className="inline-block bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Enterprise security</span> for data privacy
