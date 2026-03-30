@@ -151,7 +151,7 @@ const Navbar = () => {
               onClick={handleDiscoveryCall}
               className="!py-2 !px-5 text-xs shadow-lg"
             >
-              Discovery Call
+              Book Strategy Call
             </Button>
           </div>
 
@@ -184,7 +184,7 @@ const Navbar = () => {
                   {item}
                 </a>
               ))}
-              <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Discovery Call</Button>
+              <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Book Strategy Call</Button>
             </div>
           </motion.div>
         )}
@@ -293,13 +293,14 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
+            className="flex justify-center"
           >
             <Button
               variant="primary"
               onClick={handleDiscoveryCall}
-              className="text-lg md:text-[1.1rem] px-10 py-4"
+              className="text-lg md:text-[1.1rem] px-10 py-4 shadow-2xl transition-all"
             >
-              Free Discovery Call
+              Book Strategy Call
             </Button>
           </motion.div>
         </div>
@@ -683,15 +684,15 @@ const PainPoints = () => (
           badge="CHALLENGE 01"
           graphic={<ToolsGraphic />}
           title="Too Many Tools, No Clear Path"
-          description="Thousands of AI tools exist. We audit your workflows, find what actually moves the needle, and build custom agents around it."
+          description="Thousands of AI tools exist. We audit your workflows, find which specific tools actually move the needle, and implement custom agents. We make it simple and clear."
         />
 
         <FeatureCard
           delay={0.2}
           badge="CHALLENGE 02"
           graphic={<PropTechGraphic />}
-          title="Too Much Time To Figure It Out"
-          description="We pinpoint the highest-impact implementations, then give your team hands-on workshops and clear documentation so everyone's confident from day one."
+          title="Where do I even begin?"
+          description="We pinpoint the highest-impact implementations, develop your strategy and give your team hands-on workshops with clear documentation, then so everyone's confident from day one."
         />
 
         <FeatureCard
@@ -699,7 +700,7 @@ const PainPoints = () => (
           badge="CHALLENGE 03"
           graphic={<FolderGraphic />}
           title="What About Data Privacy?"
-          description="We only deploy systems that meet enterprise-grade standards such as GDPR and SOC 2 Type 2."
+          description="We focus on systems that meet enterprise-grade standards such as GDPR and SOC 2 Type 2."
         />
       </div>
     </div>
@@ -849,8 +850,8 @@ const WhyNow = () => {
   return (
     <section id="why-now" className="py-48 bg-page-bg relative z-40 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading 
-          title={<>Why <span className="inline-block font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Now?</span> What's at Stake?</>} 
+        <SectionHeading
+          title={<>Why <span className="inline-block font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Now?</span> What's at Stake?</>}
           subtitle="The entire industry is now moving towards the adoption of these systems in early 2026. The AI capabilities are now able to actually increase productivity in the workplace by increasing your work output and saving time on tasks."
         />
 
@@ -991,7 +992,7 @@ const Discovery = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight">
-              Schedule your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">leap</span> with a free discovery call
+              Schedule your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">leap</span> with a strategy call
             </h2>
             <p className="text-secondary text-lg md:text-xl mb-12 max-w-lg leading-relaxed">
               Book a quick call and get a clear look at how LeapLayer works, what's included, and whether it fits your pace.
@@ -1114,7 +1115,7 @@ const Footer = () => {
               className="!px-6 !py-2 text-xs"
               onClick={handleDiscoveryCall}
             >
-              Book a Discovery Call
+              Book Strategy Call
             </Button>
           </div>
 
