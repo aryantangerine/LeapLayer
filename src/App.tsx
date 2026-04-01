@@ -19,6 +19,7 @@ import word_icon from './assets/word.png';
 import salesforce_icon from './assets/salesforce.png';
 import jira_icon from './assets/jira.png';
 import googledrive_icon from './assets/googledrive.png';
+import aryan_portrait from './assets/aryan.png';
 
 // --- Components ---
 
@@ -88,7 +89,7 @@ const SectionHeading = ({
 
 // --- Sections ---
 
-const Navbar = () => {
+const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -123,24 +124,46 @@ const Navbar = () => {
       >
         {/* Logo (Left) */}
         <div className="flex-1 flex justify-start">
-          <a href="#" className="text-xl font-bold tracking-tighter text-heading flex items-center gap-2">
+          <button
+            onClick={() => {
+              setView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="text-xl font-bold tracking-tighter text-heading flex items-center gap-2"
+          >
             <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
               <div className="w-3 h-3 bg-white rounded-full" />
             </div>
             <span>LeapLayer</span>
-          </a>
+          </button>
         </div>
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
           {['Why Now', 'Our Three Layer Solution', 'About Us'].map((item) => (
-            <a
+            <button
               key={item}
-              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-[13px] font-semibold uppercase tracking-wider text-heading/60 hover:text-heading transition-all duration-300 hover:scale-105"
+              onClick={() => {
+                if (item === 'About Us') {
+                  setView('about');
+                  window.scrollTo(0, 0);
+                } else {
+                  setView('home');
+                  const id = item.toLowerCase().replace(/\s+/g, '-');
+                  setTimeout(() => {
+                    const el = document.getElementById(id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
+              }}
+              className={`text-[13px] font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
+                (item === 'About Us' && currentView === 'about') || (item !== 'About Us' && currentView === 'home')
+                  ? 'text-heading'
+                  : 'text-heading/60 hover:text-heading'
+              }`}
             >
               {item}
-            </a>
+            </button>
           ))}
         </div>
 
@@ -175,14 +198,26 @@ const Navbar = () => {
           >
             <div className="p-8 flex flex-col gap-6">
               {['Why Now', 'Our Three Layer Solution', 'About Us'].map((item) => (
-                <a
+                <button
                   key={item}
-                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-xl font-bold text-heading tracking-tight"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-xl font-bold text-heading tracking-tight text-left"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    if (item === 'About Us') {
+                      setView('about');
+                      window.scrollTo(0, 0);
+                    } else {
+                      setView('home');
+                      const id = item.toLowerCase().replace(/\s+/g, '-');
+                      setTimeout(() => {
+                        const el = document.getElementById(id);
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }
+                  }}
                 >
                   {item}
-                </a>
+                </button>
               ))}
               <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Book Strategy Call</Button>
             </div>
@@ -982,7 +1017,7 @@ const Discovery = () => {
   };
 
   return (
-    <section id="discovery" className="bg-black py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20 mb-12">
+    <section id="discovery" className="bg-black py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div
@@ -1096,7 +1131,7 @@ const Discovery = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   const handleDiscoveryCall = () => {
     window.open('https://cal.com/leaplayer/discovery', '_blank');
   };
@@ -1131,7 +1166,17 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-sm">Company</h4>
             <ul className="space-y-4 text-secondary text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+              <li>
+                <button
+                  onClick={() => {
+                    setView('about');
+                    window.scrollTo(0, 0);
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  About Us
+                </button>
+              </li>
               <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
               <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -1152,22 +1197,149 @@ const Footer = () => {
   );
 };
 
+const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
+  const handleDiscoveryCall = () => {
+    setView('home');
+    setTimeout(() => {
+      const el = document.getElementById('discovery');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  return (
+    <main>
+      {/* Section 1: Founder Hero */}
+      <section className="bg-black py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:order-last"
+            >
+              <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group">
+                <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
+                  <motion.img
+                    src={aryan_portrait}
+                    alt="Aryan - Founder"
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.6 }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement?.querySelector('.placeholder-icon')?.classList.remove('hidden');
+                    }}
+                  />
+                  <div className="placeholder-icon hidden absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#111111]">
+                    <Users className="text-white/5 w-32 h-32" />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-white text-2xl font-bold">Aryan</h3>
+                  <p className="text-secondary font-medium">Founder, LeapLayer</p>
+                </div>
+
+                {/* Decorative glow */}
+                <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10 group-hover:bg-white/10 transition-colors duration-500" />
+              </div>
+            </motion.div>
+
+            {/* Left side (Desktop) / Bottom (Mobile) - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight text-left">
+                Meet the <br />
+                <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
+              </h2>
+              
+              <div className="space-y-6 mb-12">
+                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+                  An engineer with a dual background in Mechanical Engineering and Computer Science, built with experience at Jaguar Land Rover. Proactively engaged with JLR's senior AI leadership; including the Chief of Data & AI and Head of AI, on enterprise agentic AI adoption, with a dedicated AI team placement in progress.
+                </p>
+                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+                  Early commercial perspective from internships spanning engineering, software, and venture capital.
+                </p>
+                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+                  Founded LeapLayer after seeing a widening gap: large enterprises are investing heavily in AI, while the businesses that stand to benefit most are being left behind. LeapLayer exists to close that gap.
+                </p>
+              </div>
+
+              <div className="flex justify-start">
+                <Button
+                  variant="secondary"
+                  className="!px-10 !py-4 text-lg border border-white/20"
+                  onClick={handleDiscoveryCall}
+                >
+                  Book Strategy Call
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Strategy Layer CTA (Merged) */}
+      <section className="py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+        {/* Subtle grid background */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #000 1px, transparent 1px),
+              linear-gradient(to bottom, #000 1px, transparent 1px)
+            `,
+            backgroundSize: '4rem 4rem',
+            maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 40%, transparent 100%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 40%, transparent 100%)'
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-heading max-w-5xl mx-auto leading-[1.1]"
+          >
+            Ready to build the AI strategy <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">Layer</span> into your business.
+          </motion.h2>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+const HomePage = () => (
+  <main>
+    <Hero />
+    <Integrations />
+    <PainPoints />
+    <Timeline />
+    <WhyNow />
+    <Solution />
+    <Discovery />
+  </main>
+);
+
 // --- Main App ---
 
 export default function App() {
+  const [view, setView] = useState<'home' | 'about'>('home');
+
   return (
     <div className="selection:bg-accent selection:text-white">
-      <Navbar />
-      <main>
-        <Hero />
-        <Integrations />
-        <PainPoints />
-        <Timeline />
-        <WhyNow />
-        <Solution />
-        <Discovery />
-      </main>
-      <Footer />
+      <Navbar setView={setView} currentView={view} />
+      {view === 'home' ? <HomePage /> : <AboutPage setView={setView} />}
+      <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
+        <Footer setView={setView} />
+      </div>
     </div>
   );
 }
