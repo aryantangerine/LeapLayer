@@ -94,7 +94,11 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleDiscoveryCall = () => {
-    window.open('https://cal.com/leaplayer/discovery', '_blank');
+    const el = document.getElementById('discovery');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      window.dispatchEvent(new CustomEvent('trigger-booking'));
+    }
   };
 
   useEffect(() => {
@@ -275,7 +279,11 @@ const Hero = () => {
   const words = "The Layer That Leaps Your Business Ahead".split(" ");
 
   const handleDiscoveryCall = () => {
-    window.open('https://cal.com/leaplayer/discovery', '_blank');
+    const el = document.getElementById('discovery');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      window.dispatchEvent(new CustomEvent('trigger-booking'));
+    }
   };
 
   return (
@@ -1012,9 +1020,34 @@ const Solution = () => (
 );
 
 const Discovery = () => {
+  const [isBookingVisible, setIsBookingVisible] = useState(false);
+
   const handleDiscoveryCall = () => {
-    window.open('https://cal.com/leaplayer/discovery', '_blank');
+    setIsBookingVisible(true);
   };
+
+  useEffect(() => {
+    const handleTrigger = () => setIsBookingVisible(true);
+    window.addEventListener('trigger-booking', handleTrigger);
+    return () => window.removeEventListener('trigger-booking', handleTrigger);
+  }, []);
+
+  useEffect(() => {
+    if (isBookingVisible) {
+      // Small delay to ensure the container is fully mounted before script init
+      setTimeout(() => {
+        // @ts-ignore
+        if (window.Cal && window.Cal.ns["discovery-strategy-call"]) {
+          // @ts-ignore
+          window.Cal.ns["discovery-strategy-call"]("inline", {
+            elementOrSelector: "#my-cal-inline-discovery-strategy-call",
+            config: { "layout": "month_view", "useSlotsViewOnSmallScreen": "true" },
+            calLink: "aryan-leap-layer/discovery-strategy-call",
+          });
+        }
+      }, 100);
+    }
+  }, [isBookingVisible]);
 
   return (
     <section id="discovery" className="bg-black py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
@@ -1034,10 +1067,10 @@ const Discovery = () => {
             </p>
             <Button
               variant="secondary"
-              className="!px-10 !py-4 text-lg border border-white/20"
+              className="!px-10 !py-4 text-lg border border-white/20 active:scale-95"
               onClick={handleDiscoveryCall}
             >
-              Book a Call
+              {isBookingVisible ? "Booking Open..." : "Book a Call"}
             </Button>
           </motion.div>
 
@@ -1046,84 +1079,134 @@ const Discovery = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative"
+            className="relative min-h-[700px] w-full flex items-center justify-center"
           >
-            {/* Mock Calendar Widget */}
-            <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden">
-              <div className="flex justify-between items-center mb-10">
-                <h3 className="text-white text-xl font-medium">April <span className="text-secondary">2026</span></h3>
-                <div className="flex gap-6">
-                  <ChevronLeft className="text-secondary w-5 h-5 cursor-pointer hover:text-white transition-colors" />
-                  <ChevronRight className="text-secondary w-5 h-5 cursor-pointer hover:text-white transition-colors" />
-                </div>
-              </div>
+            <div className="relative w-full flex items-center justify-center min-h-[600px]">
+              <AnimatePresence>
+                {!isBookingVisible ? (
+                  <motion.div
+                    key="mockup"
+                    initial={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full relative z-10"
+                  >
+                    {/* Mock Calendar Widget */}
+                    <div 
+                      className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group cursor-pointer transition-all duration-500 hover:border-white/10"
+                      onClick={handleDiscoveryCall}
+                    >
+                      <div className="flex justify-between items-center mb-10">
+                        <h3 className="text-white text-xl font-medium">April <span className="text-secondary">2026</span></h3>
+                        <div className="flex gap-6">
+                          <ChevronLeft className="text-secondary w-5 h-5 cursor-pointer hover:text-white transition-colors" />
+                          <ChevronRight className="text-secondary w-5 h-5 cursor-pointer hover:text-white transition-colors" />
+                        </div>
+                      </div>
 
-              <div className="grid grid-cols-7 gap-y-6 mb-10 text-center">
-                {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
-                  <span key={day} className="text-[10px] font-bold text-secondary tracking-widest">{day}</span>
-                ))}
+                      <div className="grid grid-cols-7 gap-y-6 mb-10 text-center">
+                        {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+                          <span key={day} className="text-[10px] font-bold text-secondary tracking-widest">{day}</span>
+                        ))}
 
-                {/* Empty spaces for start of month */}
-                <div className="h-10" />
-                <div className="h-10" />
-                <div className="h-10" />
-                <span className="text-secondary text-sm flex items-center justify-center h-10">1</span>
-                <span className="text-secondary text-sm flex items-center justify-center h-10">2</span>
-                <span className="text-secondary text-sm flex items-center justify-center h-10">3</span>
-                <span className="text-secondary text-sm flex items-center justify-center h-10">4</span>
+                        {/* Empty spaces for start of month */}
+                        <div className="h-10" />
+                        <div className="h-10" />
+                        <div className="h-10" />
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">1</span>
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">2</span>
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">3</span>
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">4</span>
 
-                <span className="text-secondary text-sm flex items-center justify-center h-10">5</span>
-                <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center mx-auto">
-                  <span className="text-black text-sm font-bold">6</span>
-                </div>
-                {[7, 8, 9, 10].map(d => (
-                  <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto">
-                    <span className="text-white text-sm">{d}</span>
-                  </div>
-                ))}
-                <span className="text-secondary text-sm flex items-center justify-center h-10">11</span>
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">5</span>
+                        <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                          <span className="text-black text-sm font-bold">6</span>
+                        </div>
+                        {[7, 8, 9, 10].map(d => (
+                          <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto hover:bg-white/10 transition-colors">
+                            <span className="text-white text-sm">{d}</span>
+                          </div>
+                        ))}
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">11</span>
 
-                <span className="text-secondary text-sm flex items-center justify-center h-10">12</span>
-                {[13, 14, 15, 16, 17].map(d => (
-                  <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto">
-                    <span className="text-white text-sm">{d}</span>
-                  </div>
-                ))}
-                <span className="text-secondary text-sm flex items-center justify-center h-10">18</span>
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">12</span>
+                        {[13, 14, 15, 16, 17].map(d => (
+                          <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto hover:bg-white/10 transition-colors">
+                            <span className="text-white text-sm">{d}</span>
+                          </div>
+                        ))}
+                        <span className="text-secondary text-sm flex items-center justify-center h-10">18</span>
+                      </div>
 
-                <span className="text-secondary text-sm flex items-center justify-center h-10">19</span>
-                {[20, 21, 22, 23, 24].map(d => (
-                  <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto">
-                    <span className="text-white text-sm">{d}</span>
-                  </div>
-                ))}
-                <span className="text-secondary text-sm flex items-center justify-center h-10">25</span>
+                      <div className="pt-8 border-t border-white/5">
+                        <div className="flex justify-between items-center mb-6">
+                          <span className="text-white font-medium">Mon <span className="text-secondary">06</span></span>
+                          <div className="bg-black rounded-lg p-1 flex gap-1">
+                            <span className="text-[10px] px-2 py-1 text-secondary">12h</span>
+                            <span className="text-[10px] px-2 py-1 bg-white/10 text-white rounded-md">24h</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <button 
+                            className="py-4 border border-white/10 rounded-xl text-white font-medium hover:bg-white/20 hover:border-white/30 transition-all active:scale-95"
+                            onClick={(e) => { e.stopPropagation(); handleDiscoveryCall(); }}
+                          >
+                            07:00
+                          </button>
+                          <button 
+                            className="py-4 border border-white/10 rounded-xl text-white font-medium hover:bg-white/20 hover:border-white/30 transition-all active:scale-95 bg-white/5"
+                            onClick={(e) => { e.stopPropagation(); handleDiscoveryCall(); }}
+                          >
+                            09:00
+                          </button>
+                        </div>
+                      </div>
 
-                <span className="text-secondary text-sm flex items-center justify-center h-10">26</span>
-                {[27, 28, 29, 30].map(d => (
-                  <div key={d} className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center mx-auto">
-                    <span className="text-white text-sm">{d}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-8 border-t border-white/5">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-white font-medium">Mon <span className="text-secondary">06</span></span>
-                  <div className="bg-black rounded-lg p-1 flex gap-1">
-                    <span className="text-[10px] px-2 py-1 text-secondary">12h</span>
-                    <span className="text-[10px] px-2 py-1 bg-white/10 text-white rounded-md">24h</span>
-                  </div>
-                </div>
-                <button className="w-full py-4 border border-white/10 rounded-xl text-white font-medium hover:bg-white/5 transition-colors">
-                  07:00
-                </button>
-              </div>
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-black px-4 py-2 rounded-full font-bold text-sm shadow-xl">
+                          Click to Select Time
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="real-booking"
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                    className="w-full absolute inset-0 z-20 h-full"
+                  >
+                    <div className="bg-[#151515] rounded-[2.5rem] overflow-hidden border-[8px] border-white/10 shadow-2xl relative h-full flex flex-col">
+                      {/* Top Bar for Context */}
+                      <div className="px-8 py-4 border-b border-white/5 flex justify-between items-center bg-[#1A1A1A]">
+                        <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Strategy Call Booking</span>
+                        <div className="w-2 h-2 rounded-full bg-[#2DAC65] animate-pulse" />
+                      </div>
+                      
+                      <div 
+                        id="my-cal-inline-discovery-strategy-call" 
+                        className="w-full grow overflow-y-auto scroll-smooth custom-scrollbar"
+                        style={{ background: 'transparent' }}
+                      />
+                      
+                      <button 
+                        onClick={() => setIsBookingVisible(false)}
+                        className="absolute top-3 right-4 z-50 p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-all shadow-lg"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10" />
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10" />
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#2DAC65]/10 blur-[120px] rounded-full -z-10" />
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#2DAC65]/5 blur-[120px] rounded-full -z-10" />
           </motion.div>
         </div>
       </div>
@@ -1133,7 +1216,11 @@ const Discovery = () => {
 
 const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   const handleDiscoveryCall = () => {
-    window.open('https://cal.com/leaplayer/discovery', '_blank');
+    const el = document.getElementById('discovery');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      window.dispatchEvent(new CustomEvent('trigger-booking'));
+    }
   };
 
   return (
@@ -1202,7 +1289,10 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
     setView('home');
     setTimeout(() => {
       const el = document.getElementById('discovery');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('trigger-booking'));
+      }
     }, 100);
   };
 
@@ -1308,8 +1398,11 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-heading max-w-5xl mx-auto leading-[1.1]"
           >
-            Ready to build the AI strategy <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">Layer</span> into your business.
+            Ready to Build Your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">AI</span> <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">Layer?</span>
           </motion.h2>
+          <p className="text-xl md:text-3xl lg:text-4xl text-heading/50 mt-2 font-bold tracking-tighter leading-[1.1]">
+            Save Time and Pain across Your Business Today
+          </p>
         </div>
       </section>
     </main>
@@ -1333,10 +1426,37 @@ const HomePage = () => (
 export default function App() {
   const [view, setView] = useState<'home' | 'about'>('home');
 
+  useEffect(() => {
+    // Cal.com initialization
+    (function (C, A, L) {
+      // @ts-ignore
+      let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    // @ts-ignore
+    window.Cal("init", "discovery-strategy-call", { origin: "https://app.cal.com" });
+    // @ts-ignore
+    window.Cal.ns["discovery-strategy-call"]("ui", { 
+      "hideEventTypeDetails": true, 
+      "layout": "month_view",
+      "theme": "dark"
+    });
+  }, []);
+
   return (
     <div className="selection:bg-accent selection:text-white">
       <Navbar setView={setView} currentView={view} />
-      {view === 'home' ? <HomePage /> : <AboutPage setView={setView} />}
+      {view === 'home' ? (
+        <main>
+          <Hero />
+          <Integrations />
+          <PainPoints />
+          <Timeline />
+          <WhyNow />
+          <Solution />
+          <Discovery />
+        </main>
+      ) : <AboutPage setView={setView} />}
       <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
         <Footer setView={setView} />
       </div>

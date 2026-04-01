@@ -42,3 +42,21 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Cal.com Custom Scrollbar */
+#my-cal-inline-discovery-strategy-call::-webkit-scrollbar {
+  width: 6px;
+}
+
+#my-cal-inline-discovery-strategy-call::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#my-cal-inline-discovery-strategy-call::-webkit-scrollbar-thumb {
+  background: #2a2a2a; /* Matte grey matching card borders */
+  border-radius: 10px;
+}
+
+#my-cal-inline-discovery-strategy-call::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
