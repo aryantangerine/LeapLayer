@@ -1427,6 +1427,13 @@ export default function App() {
   const [view, setView] = useState<'home' | 'about'>('home');
 
   useEffect(() => {
+    // Basic path routing for SEO/Sitemap support
+    if (window.location.pathname === '/about' || window.location.pathname === '/about/') {
+      setView('about');
+    }
+  }, []);
+
+  useEffect(() => {
     // Cal.com initialization
     (function (C, A, L) {
       // @ts-ignore
