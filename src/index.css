@@ -39,6 +39,17 @@
   100% { transform: translateX(-50%); }
 }
 
+.pill-scroll-track {
+  display: flex;
+  width: max-content;
+  animation: pillScroll 35s linear infinite;
+}
+
+@keyframes pillScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 html {
   scroll-behavior: smooth;
 }

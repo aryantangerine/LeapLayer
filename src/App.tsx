@@ -26,9 +26,10 @@ import aryan_portrait from './assets/aryan.png';
 const Button = ({
   children,
   variant = 'primary',
+  textGlow = true,
   className = '',
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' }) => {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline', textGlow?: boolean }) => {
   const baseStyles = "relative overflow-hidden px-8 py-3 rounded-full font-semibold transition-all duration-300 group shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.98]";
   const variants = {
     primary: "bg-accent text-white/90 hover:text-white hover:bg-[#1a1a1a] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]",
@@ -38,7 +39,7 @@ const Button = ({
 
   return (
     <button className={`${baseStyles} ${variants[variant]} ${className}`} {...props}>
-      <span className="relative z-10 drop-shadow-sm group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">
+      <span className={`relative z-10 transition-all duration-300 ${textGlow ? 'drop-shadow-sm group-hover:drop-shadow-[0_0_8px_currentColor]' : ''}`}>
         {children}
       </span>
       {/* Expressive loading/shine overlay */}
@@ -286,6 +287,13 @@ const Hero = () => {
     }
   };
 
+  const handleSeeHow = () => {
+    const el = document.getElementById('solutions');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="min-h-screen bg-page-bg flex items-center pt-40 pb-40 overflow-hidden relative">
       {/* Vercel-style fading grid background & pulses */}
@@ -311,6 +319,37 @@ const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <div className="z-10 max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative -mb-6 overflow-hidden mx-auto px-4"
+            style={{
+              maxWidth: '520px', 
+              maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+            }}
+          >
+            <div className="pill-scroll-track gap-4 py-12">
+              {[
+                "Build Your AI Strategy",
+                "Attract New Customers",
+                "Stay Ahead Of The Market",
+                "Convert More Leads",
+                "Build Your AI Strategy",
+                "Attract New Customers",
+                "Stay Ahead Of The Market",
+                "Convert More Leads",
+              ].map((label, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm md:text-base font-bold whitespace-nowrap backdrop-blur-md flex-shrink-0 transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </motion.div>
           <h1 className="text-heading text-5xl md:text-7xl lg:text-8xl leading-[0.9] font-bold tracking-tighter mb-8">
             {words.map((word, i) => (
               <motion.span
@@ -318,7 +357,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`inline-block ${word.toLowerCase().includes('leaps') ? 'font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -my-[0.15em] -ml-[0.15em] mr-[-0.05em] md:mr-[-0.1em]' : 'mr-[0.2em]'}`}
+                className={`inline-block ${word.toLowerCase().includes('leap') ? 'font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -my-[0.15em] -ml-[0.15em] mr-[-0.05em] md:mr-[-0.1em]' : 'mr-[0.2em]'}`}
               >
                 {word}
               </motion.span>
@@ -328,22 +367,30 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-lg md:text-[1.3rem] max-w-2xl mx-auto mb-10 leading-[1.5] font-semibold"
+            className="text-[#3A3A3A]/80 text-lg md:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-10 leading-[1.5] font-semibold"
           >
-            What if everyone on your team got hours back a week? We save your team time and pain using AI solutions and autonomous agents. Safely and securely.
+            We implement proven AI systems that attract new customers, convert leads,<br className="hidden lg:block" />and give you a strategy built for serious growth, so you lead your market<br className="hidden lg:block" />instead of playing catchup.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex justify-center"
+            className="flex flex-col sm:flex-row justify-center gap-4"
           >
+            <Button
+              variant="secondary"
+              onClick={handleSeeHow}
+              textGlow={false}
+              className="text-xl md:text-[1.2rem] px-10 py-4 shadow-2xl transition-all"
+            >
+              See how
+            </Button>
             <Button
               variant="primary"
               onClick={handleDiscoveryCall}
-              className="text-lg md:text-[1.1rem] px-10 py-4 shadow-2xl transition-all"
+              className="text-xl md:text-[1.2rem] px-10 py-4 shadow-2xl transition-all"
             >
-              Book Strategy Call
+              Book a call
             </Button>
           </motion.div>
         </div>
