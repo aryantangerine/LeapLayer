@@ -77,13 +77,13 @@ const SectionHeading = ({
     initial={{ opacity: 0, y: 20, scale: 0.97 }}
     whileInView={{ opacity: 1, y: 0, scale: 1 }}
     viewport={{ once: true }}
-    className={`mb-16 ${centered ? 'text-center' : ''} ${className}`}
+    className={`mb-10 md:mb-16 ${centered ? 'text-center' : ''} ${className}`}
   >
-    <h2 className={`text-4xl md:text-5xl lg:text-6xl mb-6 font-bold tracking-tighter ${dark ? 'text-white' : 'text-heading'}`}>
+    <h2 className={`text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 font-bold tracking-tighter ${dark ? 'text-white' : 'text-heading'}`}>
       {title}
     </h2>
     {subtitle && (
-      <p className={`text-lg md:text-xl max-w-2xl ${centered ? 'mx-auto' : ''} ${dark ? 'text-secondary' : 'text-body'}`}>
+      <p className={`text-base md:text-xl max-w-2xl ${centered ? 'mx-auto' : ''} ${dark ? 'text-secondary' : 'text-body'}`}>
         {subtitle}
       </p>
     )}
@@ -256,7 +256,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen bg-page-bg flex items-center pt-40 pb-40 overflow-hidden relative">
+    <section className="min-h-screen bg-page-bg flex items-center pt-28 pb-20 md:pt-40 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background */}
       <Shader className="absolute inset-0 z-0 pointer-events-none">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
@@ -292,13 +292,13 @@ const Hero = () => {
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 text-center relative z-10 w-full min-w-0">
         <div className="z-10 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative -mb-6 overflow-hidden mx-auto px-4"
+            className="relative -mb-4 md:-mb-6 overflow-hidden mx-auto px-4"
             style={{
               maxWidth: '520px', 
               maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
@@ -325,7 +325,7 @@ const Hero = () => {
               ))}
             </div>
           </motion.div>
-          <h1 className="text-heading text-5xl md:text-7xl lg:text-8xl leading-[0.9] font-bold tracking-tighter mb-8">
+          <h1 className="text-heading text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] md:leading-[0.9] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
                 key={i}
@@ -342,9 +342,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-lg md:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-10 leading-[1.5] font-semibold"
+            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
           >
-            We implement proven <span className="text-[#1a1a1a]">AI systems</span> that attract <span className="text-[#1a1a1a]">new customers</span>, convert <span className="text-[#1a1a1a]">leads</span>, and give you<br className="hidden lg:block" />a <span className="text-[#1a1a1a]">strategy</span> built for serious growth. Lead your market instead of playing catchup.
+            We implement proven <span className="text-[#1a1a1a]">AI systems</span> that attract <span className="text-[#1a1a1a]">new customers</span>, convert <span className="text-[#1a1a1a]">leads</span>, and give you a<br className="hidden lg:block" /> <span className="text-[#1a1a1a]">strategy</span> built for serious growth. Lead your market instead of playing catchup.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -356,14 +356,14 @@ const Hero = () => {
               variant="secondary"
               onClick={handleSeeHow}
               textGlow={false}
-              className="text-xl md:text-[1.2rem] px-10 py-4 shadow-2xl transition-all"
+              className="text-base md:text-[1.2rem] px-8 py-3.5 md:px-10 md:py-4 shadow-2xl transition-all"
             >
               See how
             </Button>
             <Button
               variant="primary"
               onClick={handleDiscoveryCall}
-              className="text-xl md:text-[1.2rem] px-10 py-4 shadow-2xl transition-all"
+              className="text-base md:text-[1.2rem] px-8 py-3.5 md:px-10 md:py-4 shadow-2xl transition-all"
             >
               Book a call
             </Button>
@@ -375,10 +375,10 @@ const Hero = () => {
 };
 
 const spotlightFeatures = [
-  { text: "Works after-hours, 24/7 booking and rush periods" },
-  { text: "Books appointments in natural conversation" },
-  { text: "Answers calls automatically" },
-  { text: "Transfers to human agents when needed" },
+  { text: "24/7 always on... Never lose a customer after hours" },
+  { text: "Books, reschedules and cancels appointments through natural conversation" },
+  { text: "Follows up and reminds customers automatically" },
+  { text: "Escalates to a human when it matters" },
 ];
 
 // [x%, size(px), duration(s), delay(s), drift(px), startY%]
@@ -538,7 +538,7 @@ const VoiceAICard = () => (
             className="flex items-center gap-4"
           >
             <CheckCircle2 className="w-5 h-5 text-[#2DAC65] flex-shrink-0" />
-            <span className="text-white/90 text-[1.2rem] font-bold leading-snug">{f.text}</span>
+            <span className="text-white/90 text-[0.95rem] md:text-[1.2rem] font-bold leading-snug">{f.text}</span>
           </motion.li>
         ))}
       </ul>
@@ -585,13 +585,13 @@ const Integrations = ({ title, spotlight, zIndex = 'z-20' }: { title?: React.Rea
 
       {spotlight ? (
         <div className="max-w-7xl mx-auto px-6 -mt-4 pb-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             <VoiceAICard />
             <iframe
               src="/voice-widget.html"
               title="Voice AI Widget"
-              className="w-full border-0 rounded-[2.5rem]"
-              style={{ height: '360px', background: 'transparent' }}
+              className="w-full border-0 rounded-[2rem] md:rounded-[2.5rem]"
+              style={{ height: '320px', background: 'transparent' }}
             />
           </div>
         </div>
@@ -760,7 +760,7 @@ const FeatureCard = ({
   >
     <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} />
     <div className="relative z-10 p-7 flex flex-col">
-      <h3 className="text-[2rem] md:text-[2.2rem] font-bold text-heading mb-5 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
+      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-4 md:mb-5 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
         {title}
       </h3>
       {learnMore && (
@@ -956,10 +956,10 @@ const FolderGraphic = () => (
 );
 
 const PainPoints = () => (
-  <section className="pt-28 pb-32 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+  <section className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl mx-auto px-6">
       <SectionHeading centered={true} title={<><span className="block">Improve Your Customer Acquisition</span><span className="block mt-4">Using Our <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Proven AI Systems.</motion.span></span></>} />
-      <p className="text-lg md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto -mt-8 mb-16 leading-[1.5]">
+      <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto -mt-4 md:-mt-8 mb-10 md:mb-16 leading-[1.55] px-1">
         Stop wasting budget on AI that doesn't move the needle. We focus purely on the three systems that lower your customer acquisition cost: <span className="text-[#1a1a1a]">attracting customers</span>, <span className="text-[#1a1a1a]">converting leads</span>, and <span className="text-[#1a1a1a]">delivering your service faster</span>.
       </p>
 
@@ -984,7 +984,7 @@ const PainPoints = () => (
 const Discovery = () => {
 
   return (
-    <section id="discovery" className="pt-28 pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    <section id="discovery" className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div
@@ -993,10 +993,10 @@ const Discovery = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-7xl font-bold text-heading mb-8 leading-[1.05] tracking-tight">
+            <h2 className="text-4xl md:text-7xl font-bold text-heading mb-5 md:mb-8 leading-[1.05] tracking-tight">
               Schedule your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">leap</span> with a strategy call
             </h2>
-            <p className="text-[#3A3A3A] text-lg md:text-xl mb-12 max-w-lg leading-relaxed">
+            <p className="text-[#3A3A3A] text-base md:text-xl mb-8 md:mb-12 max-w-lg leading-relaxed">
               If you are able to take on more clients and customers, book a call to get a clear look at how LeapLayer can help.
             </p>
             <Button
@@ -1016,7 +1016,7 @@ const Discovery = () => {
           >
             <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-[#E5E5E0] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.1)]">
               <div className="flex flex-col gap-5">
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1 flex flex-col gap-1.5">
                     <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Name</label>
                     <input type="text" placeholder="Your name" className="w-full bg-[#F5F5F2] border border-[#E5E5E0] rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none focus:border-[#2DAC65]/60 transition-colors" />
@@ -1056,9 +1056,9 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   };
 
   return (
-    <footer className="bg-dark-bg pt-48 pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
+    <footer className="bg-dark-bg pt-20 pb-10 md:pt-48 md:pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-12 mb-20">
+        <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-8 md:gap-12 mb-12 md:mb-20">
           <div>
             <a href="#" className="text-3xl font-bold tracking-tighter text-white mb-6 block">LeapLayer</a>
             <p className="text-secondary max-w-xs mb-8">
@@ -1131,9 +1131,9 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   return (
     <main>
       {/* Section 1: Founder Hero */}
-      <section className="bg-black py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
+      <section className="bg-black py-20 md:py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -1176,19 +1176,19 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight text-left">
+              <h2 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
                 Meet the <br />
                 <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
               </h2>
-              
-              <div className="space-y-6 mb-12">
-                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+
+              <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
+                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
                   An engineer with a dual background in Mechanical Engineering and Computer Science, built with experience at Jaguar Land Rover. Proactively engaged with JLR's senior AI leadership; including the Chief of Data & AI and Head of AI, on enterprise agentic AI adoption, with a dedicated AI team placement in progress.
                 </p>
-                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
                   Early commercial perspective from internships spanning engineering, software, and venture capital.
                 </p>
-                <p className="text-[#9CA3AF] text-lg md:text-xl max-w-lg leading-relaxed">
+                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
                   Founded LeapLayer after seeing a widening gap: large enterprises are investing heavily in AI, while the businesses that stand to benefit most are being left behind. LeapLayer exists to close that gap.
                 </p>
               </div>
@@ -1208,7 +1208,7 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
       </section>
 
       {/* Section 2: Strategy Layer CTA (Merged) */}
-      <section className="py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+      <section className="py-20 md:py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
         {/* Subtle grid background */}
         <div
           className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]"
@@ -1228,11 +1228,11 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
             initial={{ opacity: 0, scale: 0.97 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-heading max-w-5xl mx-auto leading-[1.1]"
+            className="text-3xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-heading max-w-5xl mx-auto leading-[1.1]"
           >
             Ready to Build Your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">AI</span> <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">Layer?</span>
           </motion.h2>
-          <p className="text-xl md:text-3xl lg:text-4xl text-heading/50 mt-2 font-bold tracking-tighter leading-[1.1]">
+          <p className="text-lg md:text-3xl lg:text-4xl text-heading/50 mt-2 font-bold tracking-tighter leading-[1.1]">
             Save Time and Pain across Your Business Today
           </p>
         </div>
@@ -1247,7 +1247,11 @@ const HomePage = () => (
     <PainPoints />
     <Integrations spotlight title={
       <div className="flex flex-col items-center gap-3">
-        <span className="text-white/85 font-medium" style={{ fontSize: '1.25rem', letterSpacing: '0em', fontFamily: 'inherit' }}>TRY ONE OF OUR SYSTEMS NOW</span>
+        <span className="inline-flex items-center gap-[0.3em] px-5 py-2.5 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]">
+          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Try One</motion.span>
+          <span>of our systems</span>
+          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>Now</motion.span>
+        </span>
         <span className="text-white"><motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Voice AI</motion.span> system for <motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>24/7 booking</motion.span></span>
       </div>
     } />
@@ -1294,7 +1298,11 @@ export default function App() {
           <PainPoints />
           <Integrations spotlight title={
       <div className="flex flex-col items-center gap-3">
-        <span className="text-white/85 font-medium" style={{ fontSize: '1.25rem', letterSpacing: '0em', fontFamily: 'inherit' }}>TRY ONE OF OUR SYSTEMS NOW</span>
+        <span className="inline-flex items-center gap-[0.3em] px-5 py-2.5 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]">
+          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Try One</motion.span>
+          <span>of our systems</span>
+          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>Now</motion.span>
+        </span>
         <span className="text-white"><motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Voice AI</motion.span> system for <motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>24/7 booking</motion.span></span>
       </div>
     } />
