@@ -1169,10 +1169,76 @@ const StayAhead = () => (
   </section>
 );
 
+// ─── Google Forms Integration ────────────────────────────────────────────────
+// HOW TO SET UP (one-time, ~5 minutes):
+//
+// 1. Go to forms.google.com → click "+ Blank" to create a new form.
+// 2. Add exactly these 4 questions (use "Short answer" for the first 3,
+//    "Paragraph" for the last):
+//      • Name
+//      • Company
+//      • Email
+//      • What are you looking to solve?
+// 3. Click the eye icon (preview/open form) — a new tab opens with the live form.
+// 4. Right-click anywhere on that preview page → "View Page Source".
+// 5. Press Ctrl/Cmd+F and search for "entry." — you'll find 4 IDs like:
+//      entry.123456789  (for Name)
+//      entry.987654321  (for Company)
+//    Copy each one and paste below.
+// 6. Copy your Form ID from the URL bar of the preview tab:
+//    https://docs.google.com/forms/d/e/HERE_IS_YOUR_FORM_ID/viewform
+//    Paste it into GOOGLE_FORM_ID below.
+// ─────────────────────────────────────────────────────────────────────────────
+const GOOGLE_FORM_ID = '1FAIpQLScKb2VaqwXM9o8TOE0FjIrDw29EZRjrl3nDVojKN0w8ihIjsw';
+const GOOGLE_FORM_ENTRIES = {
+  name:    'entry.2122665688',
+  company: 'entry.1914270802',
+  email:   'entry.1877460158',
+  message: 'entry.416588063',
+};
+const GOOGLE_FORM_ACTION = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+
 const Discovery = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [fields, setFields] = useState({ name: '', company: '', email: '', message: '' });
+  const [errors, setErrors] = useState<Partial<typeof fields>>({});
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  const validate = () => {
+    const errs: Partial<typeof fields> = {};
+    if (!fields.name.trim()) errs.name = 'Name is required';
+    if (!fields.email.trim()) errs.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) errs.email = 'Enter a valid email';
+    if (!fields.message.trim()) errs.message = 'Please tell us about your industry and capacity';
+    return errs;
+  };
+
+  const handleChange = (field: keyof typeof fields) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFields(prev => ({ ...prev, [field]: e.target.value }));
+      if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));
+    };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    setStatus('submitting');
+    // Submit native form to hidden iframe — response loads there, not in the page
+    formRef.current?.submit();
+    setTimeout(() => setStatus('success'), 1000);
+  };
+
+  const inputClass = (field: keyof typeof fields) =>
+    `w-full bg-[#F5F5F2] border rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none transition-colors ${
+      errors[field] ? 'border-red-400 focus:border-red-400' : 'border-[#E5E5E0] focus:border-[#2DAC65]/60'
+    }`;
 
   return (
     <section id="discovery" className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+      {/* Hidden iframe absorbs the Google Forms redirect so the page never navigates away */}
+      <iframe name="google-form-target" title="form-response" className="hidden" aria-hidden="true" />
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div
@@ -1187,6 +1253,10 @@ const Discovery = () => {
             <p className="text-[#3A3A3A] text-base md:text-xl mb-8 md:mb-12 max-w-lg leading-relaxed">
               If you are able to take on more clients and customers, book a call to get a clear look at how LeapLayer can help.
             </p>
+            <div className="flex items-center gap-2.5 text-[#3A3A3A]/40 text-xs font-medium">
+              <ShieldCheck size={14} className="text-[#2DAC65]/70 flex-shrink-0" />
+              <span>Your details are stored securely in Google Forms — never shared or sold.</span>
+            </div>
           </motion.div>
 
           <motion.div
@@ -1196,30 +1266,118 @@ const Discovery = () => {
             transition={{ duration: 0.8 }}
             className="relative w-full"
           >
-            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-[#E5E5E0] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.1)]">
-              <div className="flex flex-col gap-5">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1 flex flex-col gap-1.5">
-                    <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Name</label>
-                    <input type="text" placeholder="Your name" className="w-full bg-[#F5F5F2] border border-[#E5E5E0] rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none focus:border-[#2DAC65]/60 transition-colors" />
-                  </div>
-                  <div className="flex-1 flex flex-col gap-1.5">
-                    <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Company</label>
-                    <input type="text" placeholder="Your company" className="w-full bg-[#F5F5F2] border border-[#E5E5E0] rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none focus:border-[#2DAC65]/60 transition-colors" />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Email</label>
-                  <input type="email" placeholder="your@email.com" className="w-full bg-[#F5F5F2] border border-[#E5E5E0] rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none focus:border-[#2DAC65]/60 transition-colors" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">What are you looking to solve?</label>
-                  <textarea rows={4} placeholder="Tell us about your business and what you're hoping AI can help with..." className="w-full bg-[#F5F5F2] border border-[#E5E5E0] rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none focus:border-[#2DAC65]/60 transition-colors resize-none" />
-                </div>
-                <Button variant="primary" className="!w-full !py-4 text-base mt-1">
-                  Send Message
-                </Button>
-              </div>
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-[#E5E5E0] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.1)] overflow-hidden">
+              <AnimatePresence mode="wait">
+                {status === 'success' ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                    className="flex flex-col items-center justify-center text-center py-10 gap-5"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
+                      className="w-16 h-16 rounded-full bg-[#2DAC65]/10 flex items-center justify-center"
+                    >
+                      <CheckCircle2 className="text-[#2DAC65]" size={32} />
+                    </motion.div>
+                    <div>
+                      <h3 className="text-xl font-bold text-heading mb-2">Message sent!</h3>
+                      <p className="text-[#3A3A3A]/60 text-sm max-w-xs">
+                        We'll be in touch within 24 hours to discuss how we can help your business leap ahead.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => { setStatus('idle'); setFields({ name: '', company: '', email: '', message: '' }); }}
+                      className="text-[#2DAC65] text-sm font-semibold hover:underline underline-offset-2"
+                    >
+                      Send another message
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    ref={formRef}
+                    action={GOOGLE_FORM_ACTION}
+                    method="POST"
+                    target="google-form-target"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.25 }}
+                    className="flex flex-col gap-5"
+                  >
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1 flex flex-col gap-1.5">
+                        <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Name <span className="text-red-400">*</span></label>
+                        <input
+                          type="text"
+                          name={GOOGLE_FORM_ENTRIES.name}
+                          value={fields.name}
+                          onChange={handleChange('name')}
+                          placeholder="Your name"
+                          autoComplete="name"
+                          className={inputClass('name')}
+                        />
+                        {errors.name && <p className="text-red-400 text-xs mt-0.5">{errors.name}</p>}
+                      </div>
+                      <div className="flex-1 flex flex-col gap-1.5">
+                        <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Company</label>
+                        <input
+                          type="text"
+                          name={GOOGLE_FORM_ENTRIES.company}
+                          value={fields.company}
+                          onChange={handleChange('company')}
+                          placeholder="Your company"
+                          autoComplete="organization"
+                          className={inputClass('company')}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Email <span className="text-red-400">*</span></label>
+                      <input
+                        type="email"
+                        name={GOOGLE_FORM_ENTRIES.email}
+                        value={fields.email}
+                        onChange={handleChange('email')}
+                        placeholder="your@email.com"
+                        autoComplete="email"
+                        className={inputClass('email')}
+                      />
+                      {errors.email && <p className="text-red-400 text-xs mt-0.5">{errors.email}</p>}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">What industry are you in? Are you a B2B or B2C business, and how many more clients per month can you take on? <span className="text-red-400">*</span></label>
+                      <textarea
+                        rows={4}
+                        name={GOOGLE_FORM_ENTRIES.message}
+                        value={fields.message}
+                        onChange={handleChange('message')}
+                        placeholder="e.g. B2B SaaS, could take on 5–10 more clients per month..."
+                        className={`${inputClass('message')} resize-none`}
+                      />
+                      {errors.message && <p className="text-red-400 text-xs mt-0.5">{errors.message}</p>}
+                    </div>
+
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="!w-full !py-4 text-base mt-1"
+                      disabled={status === 'submitting'}
+                    >
+                      {status === 'submitting' ? 'Sending…' : 'Send Message'}
+                    </Button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
