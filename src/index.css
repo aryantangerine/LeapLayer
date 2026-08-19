@@ -42,7 +42,7 @@
 .pill-scroll-track {
   display: flex;
   width: max-content;
-  animation: pillScroll 35s linear infinite;
+  animation: pillScroll 16s linear infinite;
 }
 
 @keyframes pillScroll {

@@ -21,6 +21,7 @@ import salesforce_icon from './assets/salesforce.png';
 import jira_icon from './assets/jira.png';
 import googledrive_icon from './assets/googledrive.png';
 import aryan_portrait from './assets/aryan.png';
+import logo_black from './assets/logoblack.png';
 
 // --- Components ---
 
@@ -137,12 +138,9 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
               setView('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="text-xl font-bold tracking-tighter text-heading flex items-center gap-2"
+            className="flex items-center"
           >
-            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-              <div className="w-3 h-3 bg-white rounded-full" />
-            </div>
-            <span>LeapLayer</span>
+            <img src={logo_black} alt="LeapLayer" className="h-7 w-auto" />
           </button>
         </div>
 
@@ -307,14 +305,14 @@ const Hero = () => {
           >
             <div className="pill-scroll-track gap-4 py-12">
               {[
-                "Build Your AI Strategy",
-                "Attract New Customers",
-                "Stay Ahead Of The Market",
-                "Convert More Leads",
-                "Build Your AI Strategy",
-                "Attract New Customers",
-                "Stay Ahead Of The Market",
-                "Convert More Leads",
+                "Contractors",
+                "Handymen/Women",
+                "Landscapers",
+                "Home Services",
+                "Contractors",
+                "Handymen/Women",
+                "Landscapers",
+                "Home Services",
               ].map((label, i) => (
                 <span
                   key={i}
@@ -344,7 +342,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 1 }}
             className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
           >
-            We implement proven <span className="text-[#1a1a1a]">AI systems</span> that attract <span className="text-[#1a1a1a]">new customers</span>, convert <span className="text-[#1a1a1a]">leads</span>, and give you a<br className="hidden lg:block" /> <span className="text-[#1a1a1a]">strategy</span> built for serious growth. Lead your market instead of playing catchup.
+            We implement proven <span className="text-[#1a1a1a]">systems</span> that attract <span className="text-[#1a1a1a]">new customers</span>, convert <span className="text-[#1a1a1a]">leads</span>, and give you a<br className="hidden lg:block" /> <span className="text-[#1a1a1a]">strategy</span> built for serious growth. Lead your market instead of playing catchup.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -562,7 +560,9 @@ const Integrations = ({ title, spotlight, zIndex = 'z-20' }: { title?: React.Rea
     { name: "Notion", slug: "notion", color: "000000" },
     { name: "Jira", iconUrl: jira_icon, color: "0052CC" },
     { name: "Xero", slug: "xero", color: "13B5EA" },
-    { name: "Microsoft Teams", iconUrl: teams_icon, color: "6264A7" }
+    { name: "Microsoft Teams", iconUrl: teams_icon, color: "6264A7" },
+    { name: "Instagram", slug: "instagram", color: "E4405F" },
+    { name: "Facebook", slug: "facebook", color: "1877F2" }
   ];
 
   return (
@@ -575,7 +575,7 @@ const Integrations = ({ title, spotlight, zIndex = 'z-20' }: { title?: React.Rea
           title={title ?? (
             <div className="flex flex-col items-center">
               <span className="text-white">
-                <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Integrating AI</span> across your specific
+                <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Integrating Automations</span> across your specific
               </span>
               <span>systems and workflows</span>
             </div>
