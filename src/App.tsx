@@ -118,7 +118,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="pointer-events-auto relative flex items-center justify-between w-full max-w-5xl px-6 py-3 rounded-2xl md:rounded-full overflow-hidden transition-[box-shadow] duration-500"
+        className="pointer-events-auto relative flex items-center justify-between w-full max-w-5xl md:max-w-[73.6rem] px-6 py-3 md:py-4 rounded-2xl md:rounded-full overflow-hidden transition-[box-shadow] duration-500"
         style={{
           background: isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)',
           backdropFilter: 'blur(20px) saturate(180%)',
@@ -140,13 +140,13 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
             }}
             className="flex items-center"
           >
-            <img src={logo_black} alt="LeapLayer" className="h-7 w-auto" />
+            <img src={logo_black} alt="LeapLayer" className="h-7 md:h-9 w-auto" />
           </button>
         </div>
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
-          {['Why Now', 'Our Three Layer Solution', 'About Us'].map((item) => (
+          {['Products', 'About Us', 'Why Now'].map((item) => (
             <button
               key={item}
               onClick={() => {
@@ -178,7 +178,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
           <div className="hidden md:block">
             <Button
               onClick={handleDiscoveryCall}
-              className="!py-2 !px-5 text-xs shadow-lg"
+              className="!py-3 !px-7 text-sm shadow-lg"
             >
               Book Strategy Call
             </Button>
@@ -203,7 +203,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
             className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
           >
             <div className="p-8 flex flex-col gap-6">
-              {['Why Now', 'Our Three Layer Solution', 'About Us'].map((item) => (
+              {['Products', 'About Us', 'Why Now'].map((item) => (
                 <button
                   key={item}
                   className="text-xl font-bold text-heading tracking-tight text-left"
@@ -254,9 +254,9 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen bg-page-bg flex items-center pt-28 pb-20 md:pt-40 md:pb-40 overflow-hidden relative">
-      {/* WebGL shader background */}
-      <Shader className="absolute inset-0 z-0 pointer-events-none">
+    <section className="min-h-screen bg-page-bg flex items-center md:items-start pt-28 pb-20 md:pt-40 md:pb-40 overflow-hidden relative">
+      {/* WebGL shader background (mobile: static, unchanged) */}
+      <Shader className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
         <ChromaFlow
           baseColor="#ffffff"
@@ -282,55 +282,59 @@ const Hero = () => {
         <FilmGrain strength={0.05} />
       </Shader>
 
-      {/* White radial glow behind text for contrast against shader */}
+      {/* WebGL shader background (desktop: aberration/highlight track cursor x-position — strong baseline on the right at rest, intensifies further on hover) */}
+      <Shader className="absolute inset-0 z-0 pointer-events-none hidden md:block">
+        <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
+        <ChromaFlow
+          baseColor="#ffffff"
+          downColor="#2DAC65"
+          leftColor="#2DAC65"
+          momentum={13}
+          radius={3.5}
+          rightColor="#2DAC65"
+          upColor="#2DAC65"
+        />
+        <FlutedGlass
+          aberration={{ type: 'mouse', axis: 'x', outputMin: 0.55, outputMax: 1.6, smoothing: 0.2, momentum: 0.15 }}
+          angle={31}
+          frequency={8}
+          highlight={{ type: 'mouse', axis: 'x', outputMin: 0.35, outputMax: 0.85, smoothing: 0.2, momentum: 0.15 }}
+          highlightSoftness={0.2}
+          lightAngle={-90}
+          refraction={4}
+          shape="rounded"
+          softness={1}
+          speed={0.15}
+        />
+        <FilmGrain strength={0.05} />
+      </Shader>
+
+      {/* White radial glow behind text for contrast against shader (mobile: centered) */}
       <div
-        className="absolute inset-0 z-[5] pointer-events-none"
+        className="absolute inset-0 z-[5] pointer-events-none md:hidden"
         style={{
           background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,245,240,0.95) 35%, rgba(245,245,240,0.65) 62%, transparent 100%)',
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 text-center relative z-10 w-full min-w-0">
-        <div className="z-10 max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative -mb-4 md:-mb-6 overflow-hidden mx-auto px-4"
-            style={{
-              maxWidth: '520px', 
-              maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
-            }}
-          >
-            <div className="pill-scroll-track gap-4 py-12">
-              {[
-                "Contractors",
-                "Handymen/Women",
-                "Landscapers",
-                "Home Services",
-                "Contractors",
-                "Handymen/Women",
-                "Landscapers",
-                "Home Services",
-              ].map((label, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center px-5 py-2.5 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm md:text-base font-bold whitespace-nowrap backdrop-blur-md flex-shrink-0 transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]"
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-          <h1 className="text-heading text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] md:leading-[0.9] font-bold tracking-tighter mb-6 md:mb-8">
+      {/* Desktop: dense/white behind the left-aligned text, fading out to let the animation read stronger on the right */}
+      <div
+        className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
+        style={{
+          background: 'linear-gradient(to right, rgba(245,245,240,0.97) 0%, rgba(245,245,240,0.88) 20%, rgba(245,245,240,0.45) 38%, rgba(245,245,240,0.1) 54%, transparent 68%)',
+        }}
+      />
+
+      <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24 text-center md:text-left relative z-10 w-full min-w-0">
+        <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
+          <h1 className="text-heading text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`inline-block ${word.toLowerCase().includes('leap') ? 'font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -my-[0.15em] -ml-[0.15em] mr-[-0.05em] md:mr-[-0.1em]' : 'mr-[0.2em]'}`}
+                className={`inline-block ${word.toLowerCase().includes('leap') ? 'font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -my-[0.15em] -ml-[0.15em] mr-[0.05em]' : 'mr-[0.2em]'}`}
               >
                 {word}
               </motion.span>
@@ -340,15 +344,15 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
+            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto md:mx-0 mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
           >
-            We implement proven <span className="text-[#1a1a1a]">systems</span> that attract <span className="text-[#1a1a1a]">new customers</span>, convert <span className="text-[#1a1a1a]">leads</span>, and give you a<br className="hidden lg:block" /> <span className="text-[#1a1a1a]">strategy</span> built for serious growth. Lead your market instead of playing catchup.
+            Done-for-you <span className="text-[#1a1a1a]">systems</span> that get you more <span className="text-[#1a1a1a]">Google reviews</span>, a <span className="text-[#1a1a1a]">smart website</span> with <span className="text-[#1a1a1a]">lead capture</span> and <span className="text-[#1a1a1a]">AI automations</span> that <span className="text-[#1a1a1a]">attract and convert viewers into customers</span>. Designed for your business to grow.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center md:justify-start gap-4"
           >
             <Button
               variant="secondary"
@@ -358,13 +362,16 @@ const Hero = () => {
             >
               See how
             </Button>
-            <Button
-              variant="primary"
+            <button
               onClick={handleDiscoveryCall}
-              className="text-base md:text-[1.2rem] px-8 py-3.5 md:px-10 md:py-4 shadow-2xl transition-all"
+              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
-              Book a call
-            </Button>
+              <span className="text-base md:text-[1.2rem] font-semibold">Book a call</span>
+              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                <ArrowRight size={20} />
+              </span>
+            </button>
           </motion.div>
         </div>
       </div>
@@ -752,6 +759,7 @@ const scrollToDiscovery = () => {
 
 const FeatureCard = ({
   title,
+  description,
   learnMore,
   delay = 0,
   momentum,
@@ -759,6 +767,7 @@ const FeatureCard = ({
   mountDelay,
 }: {
   title: string,
+  description?: string,
   learnMore?: boolean,
   delay?: number,
   momentum?: number,
@@ -771,19 +780,30 @@ const FeatureCard = ({
     viewport={{ once: true }}
     transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
     whileHover={{ y: -10, scale: 1.01, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-    className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white flex flex-col cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
+    className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
   >
     <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} />
-    <div className="relative z-10 p-7 flex flex-col">
-      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-4 md:mb-5 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
+    <div className="relative z-10 p-7 flex flex-col h-full">
+      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-3 md:mb-4 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
         {title}
       </h3>
+      {description && (
+        <p className="text-[#2A2A2A] text-base md:text-lg leading-relaxed mb-5 md:mb-6">
+          {description}
+        </p>
+      )}
       {learnMore && (
-        <div>
-          <span onClick={scrollToDiscovery} className="group/btn relative overflow-hidden inline-flex items-center px-4 py-2 rounded-xl bg-[#111111] text-white text-[0.88rem] font-semibold tracking-tight cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.05] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
-            <span className="relative z-10">Learn More →</span>
-            <span className="absolute inset-0 -translate-x-[150%] skew-x-[-25deg] group-hover/btn:translate-x-[150%] transition-transform duration-700 ease-in-out bg-white/20" />
-          </span>
+        <div className="mt-auto pt-2">
+          <button
+            onClick={scrollToDiscovery}
+            className="group/btn inline-flex items-center gap-3 md:gap-4 pl-6 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98]"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            <span className="text-sm md:text-base font-semibold">Learn More</span>
+            <span className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover/btn:translate-x-0.5">
+              <ArrowRight size={16} />
+            </span>
+          </button>
         </div>
       )}
     </div>
@@ -973,18 +993,18 @@ const FolderGraphic = () => (
 const PainPoints = () => (
   <section className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading centered={true} title={<><span className="block">Improve Your Customer Acquisition</span><span className="block mt-4">Using Our <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Proven AI Systems.</motion.span></span></>} />
+      <SectionHeading centered={true} title={<>Three Systems, <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>One Goal.</motion.span></>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto -mt-4 md:-mt-8 mb-10 md:mb-16 leading-[1.55] px-1">
-        Stop wasting budget on AI that doesn't move the needle. We focus purely on the three systems that lower your customer acquisition cost: <span className="text-[#1a1a1a]">attracting customers</span>, <span className="text-[#1a1a1a]">converting leads</span>, and <span className="text-[#1a1a1a]">delivering your service faster</span>.
+        There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
         {[
-          { title: "Attract New Customers",       learnMore: true, momentum: 9,  detail: 1.2, mountDelay: 0 },
-          { title: "Convert More Leads",          learnMore: true, momentum: 13, detail: 1.7, mountDelay: 4 },
-          { title: "Deliver Your Service Faster", learnMore: true, momentum: 18, detail: 2.4, mountDelay: 8 },
+          { title: "Attract New Customers", description: "Personalised review follow-ups automated for you, a physical tap-to-review card, and auto-posted review graphics on social media.", learnMore: true, momentum: 9,  detail: 1.2, mountDelay: 0 },
+          { title: "Convert More Leads",     description: "A smart website with instant lead capture, automations and missed-call text-back, so inbound interest doesn't go cold.", learnMore: true, momentum: 13, detail: 1.7, mountDelay: 4 },
+          { title: "Retain More Customers",  description: "Automated follow-up sequences and database reactivation, bringing back past customers automatically.", learnMore: true, momentum: 18, detail: 2.4, mountDelay: 8 },
         ].map((card, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}>
+          <motion.div key={i} className="h-full" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}>
             <FeatureCard {...card} />
           </motion.div>
         ))}
@@ -1636,20 +1656,8 @@ export default function App() {
         <main>
           <Hero />
           <PainPoints />
-          <Integrations spotlight title={
-      <div className="flex flex-col items-center gap-3">
-        <span className="inline-flex items-center gap-[0.3em] px-5 py-2.5 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]">
-          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Try One</motion.span>
-          <span>of our systems</span>
-          <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>Now</motion.span>
-        </span>
-        <span className="text-white"><motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Voice AI</motion.span> system for <motion.span className="inline-block font-serif italic font-bold bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, delay: 1.5, ease: 'easeInOut' }}>24/7 booking</motion.span></span>
-      </div>
-    } />
           <MoreSystems />
           <StayAhead />
-          <Discovery />
-          <Integrations zIndex="z-[65]" />
         </main>
       ) : <AboutPage setView={setView} />}
       <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
