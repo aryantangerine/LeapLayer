@@ -236,7 +236,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
 
 
 const Hero = () => {
-  const words = "The Layer That Leaps Your Business Ahead".split(" ");
+  const words = "Leap Your Business Ahead".split(" ");
 
   const handleDiscoveryCall = () => {
     const el = document.getElementById('discovery');
@@ -254,7 +254,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen bg-page-bg flex items-center md:items-start pt-28 pb-20 md:pt-40 md:pb-40 overflow-hidden relative">
+    <section className="min-h-screen bg-page-bg flex items-center xl:items-start pt-36 pb-20 md:pt-52 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background (mobile: static, unchanged) */}
       <Shader className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
@@ -327,7 +327,7 @@ const Hero = () => {
 
       <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24 text-center md:text-left relative z-10 w-full min-w-0">
         <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <h1 className="text-heading text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
+          <h1 className="text-heading text-[2.9rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
                 key={i}
@@ -993,8 +993,8 @@ const FolderGraphic = () => (
 const PainPoints = () => (
   <section className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading centered={true} title={<>Three Systems, <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>One Goal.</motion.span></>} />
-      <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto -mt-4 md:-mt-8 mb-10 md:mb-16 leading-[1.55] px-1">
+      <SectionHeading centered={true} className="!mb-4 md:!mb-6" title={<>Three Systems, <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>One Goal.</motion.span></>} />
+      <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
       </p>
 
@@ -1476,6 +1476,84 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   );
 };
 
+const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => void, zIndex?: string }) => (
+  <section className={`bg-black py-20 md:py-48 overflow-hidden relative ${zIndex} rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20`}>
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="lg:order-last"
+        >
+          <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group">
+            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
+              <motion.img
+                src={aryan_portrait}
+                alt="Aryan - Founder"
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.6 }}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement?.querySelector('.placeholder-icon')?.classList.remove('hidden');
+                }}
+              />
+              <div className="placeholder-icon hidden absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#111111]">
+                <Users className="text-white/5 w-32 h-32" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-white text-2xl font-bold">Aryan</h3>
+              <p className="text-secondary font-medium">Founder, LeapLayer</p>
+            </div>
+
+            {/* Decorative glow */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10 group-hover:bg-white/10 transition-colors duration-500" />
+          </div>
+        </motion.div>
+
+        {/* Left side (Desktop) / Bottom (Mobile) - Text Content */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
+            Meet the <br />
+            <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
+          </h2>
+
+          <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
+            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
+              An engineer with a dual background in Mechanical Engineering and Computer Science, built with experience at Jaguar Land Rover. Proactively engaged with JLR's senior AI leadership; including the Chief of Data & AI and Head of AI, on enterprise agentic AI adoption, with a dedicated AI team placement in progress.
+            </p>
+            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
+              Early commercial perspective from internships spanning engineering, software, and venture capital.
+            </p>
+            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
+              Founded LeapLayer after seeing a widening gap: large enterprises are investing heavily in AI, while the businesses that stand to benefit most are being left behind. LeapLayer exists to close that gap.
+            </p>
+          </div>
+
+          <div className="flex justify-start">
+            <Button
+              variant="secondary"
+              className="!px-10 !py-4 text-lg border border-white/20"
+              onClick={onBookCall}
+            >
+              Book Strategy Call
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </section>
+);
+
 const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   const handleDiscoveryCall = () => {
     setView('home');
@@ -1491,81 +1569,7 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   return (
     <main>
       {/* Section 1: Founder Hero */}
-      <section className="bg-black py-20 md:py-48 overflow-hidden relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-            {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="lg:order-last"
-            >
-              <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group">
-                <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
-                  <motion.img
-                    src={aryan_portrait}
-                    alt="Aryan - Founder"
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.6 }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement?.querySelector('.placeholder-icon')?.classList.remove('hidden');
-                    }}
-                  />
-                  <div className="placeholder-icon hidden absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#111111]">
-                    <Users className="text-white/5 w-32 h-32" />
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-white text-2xl font-bold">Aryan</h3>
-                  <p className="text-secondary font-medium">Founder, LeapLayer</p>
-                </div>
-
-                {/* Decorative glow */}
-                <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10 group-hover:bg-white/10 transition-colors duration-500" />
-              </div>
-            </motion.div>
-
-            {/* Left side (Desktop) / Bottom (Mobile) - Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
-                Meet the <br />
-                <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
-              </h2>
-
-              <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
-                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-                  An engineer with a dual background in Mechanical Engineering and Computer Science, built with experience at Jaguar Land Rover. Proactively engaged with JLR's senior AI leadership; including the Chief of Data & AI and Head of AI, on enterprise agentic AI adoption, with a dedicated AI team placement in progress.
-                </p>
-                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-                  Early commercial perspective from internships spanning engineering, software, and venture capital.
-                </p>
-                <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-                  Founded LeapLayer after seeing a widening gap: large enterprises are investing heavily in AI, while the businesses that stand to benefit most are being left behind. LeapLayer exists to close that gap.
-                </p>
-              </div>
-
-              <div className="flex justify-start">
-                <Button
-                  variant="secondary"
-                  className="!px-10 !py-4 text-lg border border-white/20"
-                  onClick={handleDiscoveryCall}
-                >
-                  Book Strategy Call
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <FounderSection onBookCall={handleDiscoveryCall} />
 
       {/* Section 2: Strategy Layer CTA (Merged) */}
       <section className="py-20 md:py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
