@@ -180,7 +180,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
               onClick={handleDiscoveryCall}
               className="!py-3 !px-7 text-sm shadow-lg"
             >
-              Book Strategy Call
+              Book A Call
             </Button>
           </div>
 
@@ -225,7 +225,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
                   {item}
                 </button>
               ))}
-              <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Book Strategy Call</Button>
+              <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Book A Call</Button>
             </div>
           </motion.div>
         )}
@@ -360,14 +360,14 @@ const Hero = () => {
               textGlow={false}
               className="text-base md:text-[1.2rem] px-8 py-3.5 md:px-10 md:py-4 shadow-2xl transition-all"
             >
-              See how
+              See How
             </Button>
             <button
               onClick={handleDiscoveryCall}
               className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
-              <span className="text-base md:text-[1.2rem] font-semibold">Book a call</span>
+              <span className="text-base md:text-[1.2rem] font-semibold">Book A Call</span>
               <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
                 <ArrowRight size={20} />
               </span>
