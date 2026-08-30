@@ -9,7 +9,8 @@ import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
-  ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone
+  ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
+  Linkedin, Play
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -21,6 +22,7 @@ import salesforce_icon from './assets/salesforce.png';
 import jira_icon from './assets/jira.png';
 import googledrive_icon from './assets/googledrive.png';
 import aryan_portrait from './assets/aryan.png';
+import aryan_avatar from './assets/aryan_picture.jpg';
 import logo_black from './assets/logoblack.png';
 
 // --- Components ---
@@ -73,14 +75,15 @@ const SectionHeading = ({
   centered = true,
   dark = false,
   className = '',
-}: { title: React.ReactNode, subtitle?: string, centered?: boolean, dark?: boolean, className?: string }) => (
+  titleClassName = '',
+}: { title: React.ReactNode, subtitle?: string, centered?: boolean, dark?: boolean, className?: string, titleClassName?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20, scale: 0.97 }}
     whileInView={{ opacity: 1, y: 0, scale: 1 }}
     viewport={{ once: true }}
     className={`mb-10 md:mb-16 ${centered ? 'text-center' : ''} ${className}`}
   >
-    <h2 className={`text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 font-bold tracking-tighter ${dark ? 'text-white' : 'text-heading'}`}>
+    <h2 className={`${titleClassName || 'text-3xl md:text-5xl lg:text-6xl'} mb-4 md:mb-6 font-bold tracking-tighter ${dark ? 'text-white' : 'text-heading'}`}>
       {title}
     </h2>
     {subtitle && (
@@ -254,7 +257,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen bg-page-bg flex items-center xl:items-start pt-36 pb-20 md:pt-52 md:pb-40 overflow-hidden relative">
+    <section className="sm:min-h-[100dvh] bg-page-bg flex items-start sm:items-center xl:items-start pt-36 pb-28 md:pt-52 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background (mobile: static, unchanged) */}
       <Shader className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
@@ -327,7 +330,7 @@ const Hero = () => {
 
       <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24 text-center md:text-left relative z-10 w-full min-w-0">
         <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <h1 className="text-heading text-[2.9rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
+          <h1 className="text-heading text-[3.2rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
                 key={i}
@@ -362,16 +365,23 @@ const Hero = () => {
             >
               See How
             </Button>
-            <button
-              onClick={handleDiscoveryCall}
-              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              <span className="text-base md:text-[1.2rem] font-semibold">Book A Call</span>
-              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={20} />
-              </span>
-            </button>
+            <div className="relative">
+              <img
+                src={aryan_avatar}
+                alt="Aryan"
+                className="absolute z-10 left-1/2 -translate-x-1/2 -top-7 w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-white shadow-[0_2px_10px_rgba(0,0,0,0.2)]"
+              />
+              <button
+                onClick={handleDiscoveryCall}
+                className="group inline-flex items-center justify-between gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                <span className="text-base md:text-[1.2rem] font-semibold">Book A Call</span>
+                <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                  <ArrowRight size={20} />
+                </span>
+              </button>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -990,15 +1000,103 @@ const FolderGraphic = () => (
   </div>
 );
 
+const HomeFounderIntro = () => {
+  const handleDiscoveryCall = () => {
+    const el = document.getElementById('discovery');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      window.dispatchEvent(new CustomEvent('trigger-booking'));
+    }
+  };
+
+  return (
+  <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        {/* Left: heading, name + LinkedIn, bio */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center sm:text-left"
+        >
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-heading mb-6 md:mb-8 leading-[1.05] tracking-tight">
+            Meet the Founder
+          </h2>
+
+          <div className="flex items-center justify-center sm:justify-start gap-3 mb-6">
+            <span className="text-xl md:text-2xl font-bold text-heading">Aryan</span>
+            <a
+              href="https://www.linkedin.com/in/aryan-parekh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Aryan's LinkedIn profile"
+              className="w-9 h-9 rounded-full bg-[#1a1a1a]/10 text-[#1a1a1a]/60 flex items-center justify-center flex-shrink-0 transition-colors duration-300 hover:bg-[#1a1a1a]/20 hover:text-[#1a1a1a]"
+            >
+              <Linkedin size={18} />
+            </a>
+          </div>
+
+          <p className="text-[#3A3A3A]/80 text-base md:text-xl max-w-xl mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
+            Aryan has a background at Jaguar Land Rover as an Engineer, working across AI teams, Investment teams, and Marketing teams. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <a
+              href="https://www.linkedin.com/in/aryan-parekh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(45,172,101,0.4)] active:scale-[0.98]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              <span className="text-base md:text-[1.2rem] font-semibold">See LinkedIn Profile</span>
+              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                <ArrowRight size={20} />
+              </span>
+            </a>
+
+            <button
+              onClick={handleDiscoveryCall}
+              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              <span className="text-base md:text-[1.2rem] font-semibold">Let's Talk</span>
+              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                <ArrowRight size={20} />
+              </span>
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Right: rounded video container — embed goes here once video is sent */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="relative aspect-video w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#1A1A1A] to-[#0A0A0A] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
+              <Play className="text-white/70 ml-1" size={28} fill="currentColor" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </section>
+  );
+};
+
 const PainPoints = () => (
-  <section className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading centered={true} className="!mb-4 md:!mb-6" title={<>Three Systems, <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>One Goal.</motion.span></>} />
+  <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
+      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You.</motion.span></>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
         {[
           { title: "Attract New Customers", description: "Personalised review follow-ups automated for you, a physical tap-to-review card, and auto-posted review graphics on social media.", learnMore: true, momentum: 9,  detail: 1.2, mountDelay: 0 },
           { title: "Convert More Leads",     description: "A smart website with instant lead capture, automations and missed-call text-back, so inbound interest doesn't go cold.", learnMore: true, momentum: 13, detail: 1.7, mountDelay: 4 },
@@ -1421,8 +1519,8 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
         <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-8 md:gap-12 mb-12 md:mb-20">
           <div>
             <a href="#" className="text-3xl font-bold tracking-tighter text-white mb-6 block">LeapLayer</a>
-            <p className="text-secondary max-w-xs mb-8">
-              The implementation layer that leaps your business ahead with custom AI solutions.
+            <p className="text-secondary max-w-sm mb-8">
+              Done-for-you systems that get you more Google reviews, a smart website with lead capture and AI automations that attract and convert viewers into customers. Designed for your business to grow.
             </p>
             <Button
               variant="secondary"
@@ -1434,11 +1532,11 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
           </div>
 
           <div>
-            <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-sm">Solutions</h4>
+            <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-sm">Products</h4>
             <ul className="space-y-4 text-secondary text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">AI Audit</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Custom Agents</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Team Training</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Smart Websites</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Magic Review Collection Automations</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Re-Marketing Systems</a></li>
             </ul>
           </div>
 
@@ -1659,6 +1757,7 @@ export default function App() {
       {view === 'home' ? (
         <main>
           <Hero />
+          <HomeFounderIntro />
           <PainPoints />
           <MoreSystems />
           <StayAhead />
