@@ -1038,8 +1038,24 @@ const HomeFounderIntro = () => {
             </a>
           </div>
 
-          <p className="text-[#3A3A3A]/80 text-base md:text-xl max-w-xl mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
-            Aryan has a background at Jaguar Land Rover as an Engineer, working across AI teams, Investment teams, and Marketing teams. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
+          <p className="text-[#3A3A3A]/80 text-lg md:text-2xl font-medium max-w-xl sm:max-w-none mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
+            Aryan has a background at <span className="relative inline-block text-[#1a1a1a] whitespace-nowrap">
+              Jaguar Land Rover
+              <svg
+                className="absolute pointer-events-none"
+                style={{ left: '-12%', right: '-12%', top: '-28%', bottom: '-22%', width: '124%', height: '150%' }}
+                viewBox="0 0 220 80"
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <path
+                  d="M14,42 C11,17 46,6 111,5 C176,4 209,15 211,39 C213,63 179,74 111,75 C43,76 9,65 13,43 C15,31 31,21 56,17"
+                  stroke="#2DAC65"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span> as an <span className="text-[#1a1a1a]">Engineer</span>, working across <span className="text-[#1a1a1a]">AI teams</span>, <span className="text-[#1a1a1a]">Investment teams</span>, and <span className="text-[#1a1a1a]">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
@@ -1091,7 +1107,7 @@ const HomeFounderIntro = () => {
 const PainPoints = () => (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
-      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You.</motion.span></>} />
+      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
       </p>
@@ -1114,175 +1130,10 @@ const PainPoints = () => (
 
 
 
-const MoreSystems = () => (
+const WantToLearn = () => (
   <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-page-bg relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading
-        centered
-        title={
-          <>
-            <span className="block">...And many more interconnected AI systems</span>
-            <span className="block mt-2">
-              to grow your{' '}
-              <motion.span
-                className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]"
-                style={{
-                  backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)',
-                  backgroundSize: '250% 100%',
-                  backgroundPosition: '100% center',
-                }}
-                animate={{ backgroundPosition: ['100% center', '0% center'] }}
-                transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
-              >
-                business.
-              </motion.span>
-            </span>
-          </>
-        }
-      />
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-        whileHover={{ y: -6, scale: 1.01, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-        className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
-      >
-        <FluidCardBg momentum={13} detail={1.7} mountDelay={0} />
-        <div className="relative z-10 px-7 py-7 flex flex-row items-start gap-8 md:gap-12">
-          <motion.span
-            className="font-serif italic font-bold bg-clip-text text-transparent leading-none flex-shrink-0"
-            style={{
-              fontSize: 'clamp(5rem, 12vw, 9rem)',
-              backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 25%, #67CB53 38%, #eeff99 50%, #67CB53 62%, #34B36C 75%, #2DAC65 100%)',
-              backgroundSize: '300% 100%',
-              backgroundPosition: '100% center',
-            }}
-            animate={{ backgroundPosition: ['100% center', '0% center', '100% center'] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', times: [0, 0.42, 1] }}
-          >
-            8+
-          </motion.span>
-          <div className="flex flex-col gap-4 justify-center">
-            <h3 className="text-[1.5rem] md:text-[2.2rem] font-normal text-heading leading-[1.2] tracking-tight">
-              Available tailored AI systems that connect together and maximize your business, increasing your ability to intake new customers and deliver for new clients.
-            </h3>
-            <div>
-              <motion.div
-                onClick={scrollToDiscovery}
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-                className="relative overflow-hidden inline-flex items-center px-8 py-4 rounded-2xl bg-[#111111] text-white text-base md:text-lg font-semibold tracking-tight cursor-pointer select-none"
-                variants={{
-                  rest: { y: 0, scale: 1, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' },
-                  hover: { y: -4, scale: 1.03, boxShadow: '0 12px 40px rgba(45,172,101,0.45), 0 4px 15px rgba(0,0,0,0.3)' },
-                }}
-                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-              >
-                {/* Green spotlight from top-centre */}
-                <motion.div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'radial-gradient(ellipse 90% 55% at 50% -5%, rgba(45,172,101,0.65) 0%, rgba(45,172,101,0.18) 50%, transparent 75%)' }}
-                  variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                />
-                {/* Shine sweep */}
-                <motion.div
-                  className="absolute inset-0 pointer-events-none skew-x-[-25deg]"
-                  style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)' }}
-                  variants={{ rest: { x: '-150%' }, hover: { x: '150%' } }}
-                  transition={{ duration: 0.65, ease: 'easeInOut' }}
-                />
-                <span className="relative z-10">Enquire Today →</span>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
-
-const RED_GRADIENT = 'linear-gradient(105deg, #B91C1C 0%, #DC2626 25%, #EF4444 38%, #fecaca 50%, #EF4444 62%, #DC2626 75%, #B91C1C 100%)';
-
-const StayAhead = () => (
-  <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-page-bg relative z-[48] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading
-        centered
-        title={
-          <>
-            <span className="block">
-              Stay ahead of the{' '}
-              <motion.span
-                className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]"
-                style={{ backgroundImage: 'linear-gradient(105deg, #B91C1C 0%, #DC2626 25%, #EF4444 38%, #E55555 50%, #EF4444 62%, #DC2626 75%, #B91C1C 100%)', backgroundSize: '300% 100%', backgroundPosition: '100% center' }}
-                animate={{ backgroundPosition: ['100% center', '0% center', '100% center'] }}
-                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', times: [0, 0.42, 1] }}
-              >
-                competition.
-              </motion.span>
-            </span>
-          </>
-        }
-      />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {[
-          {
-            number: '20',
-            labelTop: 'years of',
-            labelBottom: 'experience',
-            text: <>Your legacy and client base, <strong>outpaced</strong> by a one-year competitor who built on AI from day one.</>,
-            delay: 0.1,
-          },
-          {
-            number: '1',
-            labelTop: 'year of',
-            labelBottom: 'experience',
-            text: <>With the right AI systems in place, <strong>out-market</strong>, <strong>out-convert</strong>, and <strong>out-grow</strong> decades of competition. The imbalance is real. We've seen it.</>,
-            delay: 0.2,
-          },
-        ].map(({ number, labelTop, labelBottom, text, delay }) => (
-          <motion.div
-            key={number}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
-            whileHover={{ y: -6, scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 15 } }}
-            className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white cursor-pointer"
-          >
-            <FluidCardBg momentum={number === '20' ? 11 : 16} detail={number === '20' ? 1.4 : 2.0} mountDelay={number === '20' ? 0 : 4} swirlA="#fdf0f0" swirlB="#f5c2c2" accent="#DC2626" overlayStart="72%" intensity={0.5} />
-            <div className="relative z-10 px-7 py-7 flex flex-row items-start gap-6 md:gap-8">
-              <div className="flex flex-col items-start flex-shrink-0">
-                <motion.span
-                  className="font-serif italic font-bold bg-clip-text text-transparent leading-none"
-                  style={{
-                    fontSize: 'clamp(3.5rem, 8vw, 6rem)',
-                    backgroundImage: 'linear-gradient(105deg, #B91C1C 0%, #DC2626 25%, #EF4444 38%, #E55555 50%, #EF4444 62%, #DC2626 75%, #B91C1C 100%)',
-                    backgroundSize: '300% 100%',
-                    backgroundPosition: '100% center',
-                  }}
-                  animate={{ backgroundPosition: ['100% center', '0% center', '100% center'] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', times: [0, 0.42, 1], delay: number === '1' ? 1.5 : 0 }}
-                >
-                  {number}
-                </motion.span>
-                <div className="text-[#3A3A3A]/50 font-semibold text-xs md:text-sm uppercase tracking-widest mt-1 leading-tight">
-                  <span className="block">{labelTop}</span>
-                  <span className="block">{labelBottom}</span>
-                </div>
-              </div>
-              <p className="text-[1.3rem] md:text-[1.65rem] font-normal text-heading leading-[1.25] tracking-tight">
-                {text}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      <SectionHeading centered className="!mb-0" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Want to <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>learn</motion.span> it yourself?</>} />
     </div>
   </section>
 );
@@ -1759,8 +1610,7 @@ export default function App() {
           <Hero />
           <HomeFounderIntro />
           <PainPoints />
-          <MoreSystems />
-          <StayAhead />
+          <WantToLearn />
         </main>
       ) : <AboutPage setView={setView} />}
       <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
