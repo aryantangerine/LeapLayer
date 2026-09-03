@@ -1021,7 +1021,7 @@ const HomeFounderIntro = () => {
           transition={{ duration: 0.7 }}
           className="text-center sm:text-left"
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-heading mb-6 md:mb-8 leading-[1.05] tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-6 md:mb-8 leading-[1.05] tracking-tight">
             Meet the Founder
           </h2>
 
@@ -1038,7 +1038,7 @@ const HomeFounderIntro = () => {
             </a>
           </div>
 
-          <p className="text-[#3A3A3A]/80 text-lg md:text-2xl font-medium max-w-xl sm:max-w-none mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
+          <p className="text-[#3A3A3A]/80 text-base md:text-xl font-medium max-w-xl sm:max-w-none mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
             Aryan has a background at <span className="relative inline-block text-[#1a1a1a] whitespace-nowrap">
               Jaguar Land Rover
               <svg
@@ -1107,7 +1107,7 @@ const HomeFounderIntro = () => {
 const PainPoints = () => (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
-      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
+      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
       </p>
@@ -1133,7 +1133,7 @@ const PainPoints = () => (
 const WantToLearn = () => (
   <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-page-bg relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-7xl mx-auto px-6">
-      <SectionHeading centered className="!mb-0" titleClassName="text-5xl md:text-7xl lg:text-8xl" title={<>Want to <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>learn</motion.span> it yourself?</>} />
+      <SectionHeading centered className="!mb-0" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Want to <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>learn</motion.span> it yourself?</>} />
     </div>
   </section>
 );
