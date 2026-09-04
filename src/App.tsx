@@ -312,24 +312,16 @@ const Hero = () => {
         <FilmGrain strength={0.05} />
       </Shader>
 
-      {/* White radial glow behind text for contrast against shader (mobile: centered) */}
+      {/* White radial glow behind text for contrast against shader */}
       <div
-        className="absolute inset-0 z-[5] pointer-events-none md:hidden"
+        className="absolute inset-0 z-[5] pointer-events-none"
         style={{
           background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,245,240,0.95) 35%, rgba(245,245,240,0.65) 62%, transparent 100%)',
         }}
       />
 
-      {/* Desktop: dense/white behind the left-aligned text, fading out to let the animation read stronger on the right */}
-      <div
-        className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
-        style={{
-          background: 'linear-gradient(to right, rgba(245,245,240,0.97) 0%, rgba(245,245,240,0.88) 20%, rgba(245,245,240,0.45) 38%, rgba(245,245,240,0.1) 54%, transparent 68%)',
-        }}
-      />
-
-      <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24 text-center md:text-left relative z-10 w-full min-w-0">
-        <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
+      <div className="max-w-[85rem] mx-auto px-6 text-center relative z-10 w-full min-w-0">
+        <div className="z-10 max-w-5xl mx-auto md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
           <h1 className="text-heading text-[3.2rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
@@ -347,7 +339,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto md:mx-0 mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
+            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
           >
             Done-for-you <span className="text-[#1a1a1a]">systems</span> that get you more <span className="text-[#1a1a1a]">Google reviews</span>, a <span className="text-[#1a1a1a]">smart website</span> with <span className="text-[#1a1a1a]">lead capture</span> and <span className="text-[#1a1a1a]">AI automations</span> that <span className="text-[#1a1a1a]">attract and convert viewers into customers</span>. Designed for your business to grow.
           </motion.p>
@@ -355,7 +347,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center md:justify-start gap-4"
+            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center gap-4"
           >
             <Button
               variant="secondary"
@@ -585,7 +577,7 @@ const Integrations = ({ title, spotlight, zIndex = 'z-20' }: { title?: React.Rea
   return (
     <section id="solutions" className={`${spotlight ? 'pt-12 pb-12' : 'py-16'} bg-black overflow-hidden relative ${zIndex} -mt-20 rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)]`} style={{ transform: 'translateZ(0)', willChange: 'transform' }}>
       {spotlight && <SparkParticles />}
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[85rem] mx-auto px-6 relative z-10">
         <SectionHeading
           dark
           className={spotlight ? '!mb-6' : ''}
@@ -601,7 +593,7 @@ const Integrations = ({ title, spotlight, zIndex = 'z-20' }: { title?: React.Rea
       </div>
 
       {spotlight ? (
-        <div className="max-w-7xl mx-auto px-6 -mt-4 pb-8 relative z-10">
+        <div className="max-w-[85rem] mx-auto px-6 -mt-4 pb-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             <VoiceAICard />
             <iframe
@@ -1011,7 +1003,7 @@ const HomeFounderIntro = () => {
 
   return (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
+    <div className="max-w-[85rem] mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
         {/* Left: heading, name + LinkedIn, bio */}
         <motion.div
@@ -1106,7 +1098,7 @@ const HomeFounderIntro = () => {
 
 const PainPoints = () => (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-7xl md:max-w-none mx-auto px-6 md:px-16 lg:px-24">
+    <div className="max-w-[85rem] mx-auto px-6">
       <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
@@ -1132,241 +1124,102 @@ const PainPoints = () => (
 
 const WantToLearn = () => (
   <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-page-bg relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-7xl mx-auto px-6">
+    <div className="max-w-[85rem] mx-auto px-6">
       <SectionHeading centered className="!mb-0" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Want to <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>learn</motion.span> it yourself?</>} />
+
+      {/* Coming Soon banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] mt-10 md:mt-16 px-8 py-12 md:px-16 md:py-16 text-center shadow-[0_30px_60px_-15px_rgba(6,95,70,0.4)]"
+        style={{ background: 'linear-gradient(120deg, #064E3B 0%, #0D9467 32%, #14B8A6 62%, #2DD4C6 100%)' }}
+      >
+        {/* Decorative wavy line texture */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+          viewBox="0 0 1500 460"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <path d="M-50,380 C250,280 450,480 750,360 C1050,240 1250,420 1550,300" stroke="white" strokeOpacity="0.18" strokeWidth="1.5" />
+          <path d="M-50,320 C250,220 450,420 750,300 C1050,180 1250,360 1550,240" stroke="white" strokeOpacity="0.14" strokeWidth="1.5" />
+          <path d="M-50,440 C250,340 450,540 750,420 C1050,300 1250,480 1550,360" stroke="white" strokeOpacity="0.14" strokeWidth="1.5" />
+          <path d="M-50,60 C250,140 450,-20 750,60 C1050,140 1250,-20 1550,60" stroke="white" strokeOpacity="0.12" strokeWidth="1.5" />
+          <circle cx="130" cy="110" r="55" stroke="white" strokeOpacity="0.2" strokeWidth="1.5" />
+          <circle cx="230" cy="200" r="28" stroke="white" strokeOpacity="0.2" strokeWidth="1.5" />
+        </svg>
+
+        <div className="relative z-10">
+          <h3 className="text-white font-extrabold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4">
+            Even More Systems &amp; Tools<br className="hidden sm:block" /> Are Coming Soon...
+          </h3>
+          <p className="font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10">
+            <span className="text-white">Stay </span>
+            <span style={{ color: '#A7F3D0' }}>Tuned</span>
+            <span style={{ color: '#5EEAD4' }}>!</span>
+          </p>
+
+          <button
+            onClick={scrollToDiscovery}
+            className="group inline-flex items-center gap-3 md:gap-4 pl-6 md:pl-7 pr-1.5 py-1.5 rounded-full bg-white/15 border border-white/40 backdrop-blur-sm text-white shadow-lg transition-all duration-300 hover:bg-white/25 hover:-translate-y-0.5 active:scale-[0.98]"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            <span className="text-sm md:text-base font-semibold">Join The Waitlist</span>
+            <span className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/25 text-white flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+              <ArrowRight size={18} />
+            </span>
+          </button>
+        </div>
+      </motion.div>
     </div>
   </section>
 );
 
-// ─── Google Forms Integration ────────────────────────────────────────────────
-// HOW TO SET UP (one-time, ~5 minutes):
-//
-// 1. Go to forms.google.com → click "+ Blank" to create a new form.
-// 2. Add exactly these 4 questions (use "Short answer" for the first 3,
-//    "Paragraph" for the last):
-//      • Name
-//      • Company
-//      • Email
-//      • What are you looking to solve?
-// 3. Click the eye icon (preview/open form) — a new tab opens with the live form.
-// 4. Right-click anywhere on that preview page → "View Page Source".
-// 5. Press Ctrl/Cmd+F and search for "entry." — you'll find 4 IDs like:
-//      entry.123456789  (for Name)
-//      entry.987654321  (for Company)
-//    Copy each one and paste below.
-// 6. Copy your Form ID from the URL bar of the preview tab:
-//    https://docs.google.com/forms/d/e/HERE_IS_YOUR_FORM_ID/viewform
-//    Paste it into GOOGLE_FORM_ID below.
-// ─────────────────────────────────────────────────────────────────────────────
-const GOOGLE_FORM_ID = '1FAIpQLScKb2VaqwXM9o8TOE0FjIrDw29EZRjrl3nDVojKN0w8ihIjsw';
-const GOOGLE_FORM_ENTRIES = {
-  name:    'entry.2122665688',
-  company: 'entry.1914270802',
-  email:   'entry.1877460158',
-  message: 'entry.416588063',
-};
-const GOOGLE_FORM_ACTION = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
-
-const Discovery = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [fields, setFields] = useState({ name: '', company: '', email: '', message: '' });
-  const [errors, setErrors] = useState<Partial<typeof fields>>({});
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
-
-  const validate = () => {
-    const errs: Partial<typeof fields> = {};
-    if (!fields.name.trim()) errs.name = 'Name is required';
-    if (!fields.email.trim()) errs.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) errs.email = 'Enter a valid email';
-    if (!fields.message.trim()) errs.message = 'Please tell us about your industry and capacity';
-    return errs;
-  };
-
-  const handleChange = (field: keyof typeof fields) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFields(prev => ({ ...prev, [field]: e.target.value }));
-      if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));
-    };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-    setStatus('submitting');
-    // Submit native form to hidden iframe — response loads there, not in the page
-    formRef.current?.submit();
-    setTimeout(() => setStatus('success'), 1000);
-  };
-
-  const inputClass = (field: keyof typeof fields) =>
-    `w-full bg-[#F5F5F2] border rounded-xl px-4 py-3.5 text-[#1a1a1a] placeholder:text-[#1a1a1a]/30 text-sm focus:outline-none transition-colors ${
-      errors[field] ? 'border-red-400 focus:border-red-400' : 'border-[#E5E5E0] focus:border-[#2DAC65]/60'
-    }`;
-
-  return (
-    <section id="discovery" className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-      {/* Hidden iframe absorbs the Google Forms redirect so the page never navigates away */}
-      <iframe name="google-form-target" title="form-response" className="hidden" aria-hidden="true" />
-
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-7xl font-bold text-heading mb-5 md:mb-8 leading-[1.05] tracking-tight">
-              Schedule your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">leap</span> with a strategy call
-            </h2>
-            <p className="text-[#3A3A3A] text-base md:text-xl mb-8 md:mb-12 max-w-lg leading-relaxed">
-              If you are able to take on more clients and customers, book a call to get a clear look at how LeapLayer can help.
-            </p>
-            <div className="flex items-center gap-2.5 text-[#3A3A3A]/40 text-xs font-medium">
-              <ShieldCheck size={14} className="text-[#2DAC65]/70 flex-shrink-0" />
-              <span>Your details are stored securely in Google Forms — never shared or sold.</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative w-full"
-          >
-            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-[#E5E5E0] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.1)] overflow-hidden">
-              <AnimatePresence mode="wait">
-                {status === 'success' ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                    className="flex flex-col items-center justify-center text-center py-10 gap-5"
-                  >
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
-                      className="w-16 h-16 rounded-full bg-[#2DAC65]/10 flex items-center justify-center"
-                    >
-                      <CheckCircle2 className="text-[#2DAC65]" size={32} />
-                    </motion.div>
-                    <div>
-                      <h3 className="text-xl font-bold text-heading mb-2">Message sent!</h3>
-                      <p className="text-[#3A3A3A]/60 text-sm max-w-xs">
-                        We'll be in touch within 24 hours to discuss how we can help your business leap ahead.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => { setStatus('idle'); setFields({ name: '', company: '', email: '', message: '' }); }}
-                      className="text-[#2DAC65] text-sm font-semibold hover:underline underline-offset-2"
-                    >
-                      Send another message
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    ref={formRef}
-                    action={GOOGLE_FORM_ACTION}
-                    method="POST"
-                    target="google-form-target"
-                    onSubmit={handleSubmit}
-                    noValidate
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.25 }}
-                    className="flex flex-col gap-5"
-                  >
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <div className="flex-1 flex flex-col gap-1.5">
-                        <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Name <span className="text-red-400">*</span></label>
-                        <input
-                          type="text"
-                          name={GOOGLE_FORM_ENTRIES.name}
-                          value={fields.name}
-                          onChange={handleChange('name')}
-                          placeholder="Your name"
-                          autoComplete="name"
-                          className={inputClass('name')}
-                        />
-                        {errors.name && <p className="text-red-400 text-xs mt-0.5">{errors.name}</p>}
-                      </div>
-                      <div className="flex-1 flex flex-col gap-1.5">
-                        <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Company</label>
-                        <input
-                          type="text"
-                          name={GOOGLE_FORM_ENTRIES.company}
-                          value={fields.company}
-                          onChange={handleChange('company')}
-                          placeholder="Your company"
-                          autoComplete="organization"
-                          className={inputClass('company')}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">Email <span className="text-red-400">*</span></label>
-                      <input
-                        type="email"
-                        name={GOOGLE_FORM_ENTRIES.email}
-                        value={fields.email}
-                        onChange={handleChange('email')}
-                        placeholder="your@email.com"
-                        autoComplete="email"
-                        className={inputClass('email')}
-                      />
-                      {errors.email && <p className="text-red-400 text-xs mt-0.5">{errors.email}</p>}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#3A3A3A]/60 text-xs font-medium tracking-wide uppercase">What industry are you in? Are you a B2B or B2C business, and how many more clients per month can you take on? <span className="text-red-400">*</span></label>
-                      <textarea
-                        rows={4}
-                        name={GOOGLE_FORM_ENTRIES.message}
-                        value={fields.message}
-                        onChange={handleChange('message')}
-                        placeholder="e.g. B2B SaaS, could take on 5–10 more clients per month..."
-                        className={`${inputClass('message')} resize-none`}
-                      />
-                      {errors.message && <p className="text-red-400 text-xs mt-0.5">{errors.message}</p>}
-                    </div>
-
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      className="!w-full !py-4 text-base mt-1"
-                      disabled={status === 'submitting'}
-                    >
-                      {status === 'submitting' ? 'Sending…' : 'Send Message'}
-                    </Button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
+const Discovery = () => (
+  <section id="discovery" className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    <div className="max-w-6xl mx-auto px-6 md:px-10">
+      <SectionHeading
+        centered
+        title={<>Schedule your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">leap</span> with a strategy call</>}
+        subtitle="Book a time that works for you — no pressure, just a clear look at how LeapLayer can help your business grow."
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="bg-white rounded-[2.5rem] border border-[#E5E5E0] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.1)] overflow-hidden"
+      >
+        <iframe
+          src="https://api.leadconnectorhq.com/widget/booking/OAg9PWUFqdMh8BKeredT"
+          style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '800px' }}
+          scrolling="no"
+          id="OAg9PWUFqdMh8BKeredT_1788551245494"
+          title="Book a Discovery Call"
+          allow="payment"
+        />
+      </motion.div>
+    </div>
+  </section>
+);
 
 const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
   const handleDiscoveryCall = () => {
-    const el = document.getElementById('discovery');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      window.dispatchEvent(new CustomEvent('trigger-booking'));
-    }
+    setView('home');
+    setTimeout(() => {
+      const el = document.getElementById('discovery');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('trigger-booking'));
+      }
+    }, 100);
   };
 
   return (
     <footer className="bg-dark-bg pt-20 pb-10 md:pt-48 md:pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-[85rem] mx-auto px-6">
         <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-8 md:gap-12 mb-12 md:mb-20">
           <div>
             <a href="#" className="text-3xl font-bold tracking-tighter text-white mb-6 block">LeapLayer</a>
@@ -1427,7 +1280,7 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
 
 const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => void, zIndex?: string }) => (
   <section className={`bg-black py-20 md:py-48 overflow-hidden relative ${zIndex} rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20`}>
-    <div className="max-w-7xl mx-auto px-6">
+    <div className="max-w-[85rem] mx-auto px-6">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
         {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
         <motion.div
@@ -1536,7 +1389,7 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+        <div className="max-w-[85rem] mx-auto px-6 relative z-10 text-center">
           <motion.h2
             initial={{ opacity: 0, scale: 0.97 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -1611,6 +1464,7 @@ export default function App() {
           <HomeFounderIntro />
           <PainPoints />
           <WantToLearn />
+          <Discovery />
         </main>
       ) : <AboutPage setView={setView} />}
       <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
