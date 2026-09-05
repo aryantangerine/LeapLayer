@@ -10,7 +10,7 @@ import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
-  Linkedin, Play
+  Linkedin, Play, MessageSquareText, Smartphone
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -97,17 +97,9 @@ const SectionHeading = ({
 
 // --- Sections ---
 
-const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => void, currentView: string }) => {
+const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'booking') => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 20);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const handleDiscoveryCall = () => {
-    const el = document.getElementById('discovery');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      window.dispatchEvent(new CustomEvent('trigger-booking'));
-    }
-  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -180,7 +172,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
         <div className="flex-1 flex justify-end items-center">
           <div className="hidden md:block">
             <Button
-              onClick={handleDiscoveryCall}
+              onClick={goToBooking}
               className="!py-3 !px-7 text-sm shadow-lg"
             >
               Book A Call
@@ -228,7 +220,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
                   {item}
                 </button>
               ))}
-              <Button className="w-full py-4 text-lg rounded-2xl" onClick={handleDiscoveryCall}>Book A Call</Button>
+              <Button className="w-full py-4 text-lg rounded-2xl" onClick={goToBooking}>Book A Call</Button>
             </div>
           </motion.div>
         )}
@@ -240,14 +232,6 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about') => vo
 
 const Hero = () => {
   const words = "Leap Your Business Ahead".split(" ");
-
-  const handleDiscoveryCall = () => {
-    const el = document.getElementById('discovery');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      window.dispatchEvent(new CustomEvent('trigger-booking'));
-    }
-  };
 
   const handleSeeHow = () => {
     const el = document.getElementById('solutions');
@@ -312,16 +296,24 @@ const Hero = () => {
         <FilmGrain strength={0.05} />
       </Shader>
 
-      {/* White radial glow behind text for contrast against shader */}
+      {/* White radial glow behind text for contrast against shader (mobile: centered) */}
       <div
-        className="absolute inset-0 z-[5] pointer-events-none"
+        className="absolute inset-0 z-[5] pointer-events-none md:hidden"
         style={{
           background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,245,240,0.95) 35%, rgba(245,245,240,0.65) 62%, transparent 100%)',
         }}
       />
 
-      <div className="max-w-[85rem] mx-auto px-6 text-center relative z-10 w-full min-w-0">
-        <div className="z-10 max-w-5xl mx-auto md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
+      {/* Desktop: dense/white behind the left-aligned text, fading out to let the animation read stronger on the right */}
+      <div
+        className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
+        style={{
+          background: 'linear-gradient(to right, rgba(245,245,240,0.97) 0%, rgba(245,245,240,0.88) 20%, rgba(245,245,240,0.45) 38%, rgba(245,245,240,0.1) 54%, transparent 68%)',
+        }}
+      />
+
+      <div className="max-w-[85rem] mx-auto px-6 text-center md:text-left relative z-10 w-full min-w-0">
+        <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
           <h1 className="text-heading text-[3.2rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
             {words.map((word, i) => (
               <motion.span
@@ -339,7 +331,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
+            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto md:mx-0 mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
           >
             Done-for-you <span className="text-[#1a1a1a]">systems</span> that get you more <span className="text-[#1a1a1a]">Google reviews</span>, a <span className="text-[#1a1a1a]">smart website</span> with <span className="text-[#1a1a1a]">lead capture</span> and <span className="text-[#1a1a1a]">AI automations</span> that <span className="text-[#1a1a1a]">attract and convert viewers into customers</span>. Designed for your business to grow.
           </motion.p>
@@ -347,7 +339,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center md:justify-start gap-4"
           >
             <Button
               variant="secondary"
@@ -364,7 +356,7 @@ const Hero = () => {
                 className="absolute z-10 left-1/2 -translate-x-1/2 -top-7 w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-white shadow-[0_2px_10px_rgba(0,0,0,0.2)]"
               />
               <button
-                onClick={handleDiscoveryCall}
+                onClick={goToBooking}
                 className="group inline-flex items-center justify-between gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
@@ -754,10 +746,7 @@ const FluidCardBg = ({
   );
 };
 
-const scrollToDiscovery = () => {
-  const el = document.getElementById('discovery');
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-};
+const goToBooking = () => window.dispatchEvent(new CustomEvent('navigate-to-booking'));
 
 const FeatureCard = ({
   title,
@@ -767,6 +756,7 @@ const FeatureCard = ({
   momentum,
   detail,
   mountDelay,
+  icon: Icon,
 }: {
   title: string,
   description?: string,
@@ -775,6 +765,7 @@ const FeatureCard = ({
   momentum?: number,
   detail?: number,
   mountDelay?: number,
+  icon?: React.ElementType,
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -785,19 +776,26 @@ const FeatureCard = ({
     className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
   >
     <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} />
-    <div className="relative z-10 p-7 flex flex-col h-full">
+    {/* Floating decorative shape */}
+    <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#2DAC65]/15 blur-3xl pointer-events-none" />
+    <div className="relative z-10 p-7 md:p-9 flex flex-col h-full">
+      {Icon && (
+        <div className="w-11 h-11 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center mb-4">
+          <Icon className="text-[#2DAC65]" size={20} />
+        </div>
+      )}
       <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-3 md:mb-4 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
         {title}
       </h3>
       {description && (
-        <p className="text-[#2A2A2A] text-base md:text-lg leading-relaxed mb-5 md:mb-6">
+        <p className="text-[#2A2A2A] text-base md:text-lg leading-relaxed mb-6 md:mb-8">
           {description}
         </p>
       )}
       {learnMore && (
         <div className="mt-auto pt-2">
           <button
-            onClick={scrollToDiscovery}
+            onClick={goToBooking}
             className="group/btn inline-flex items-center gap-3 md:gap-4 pl-6 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98]"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
@@ -993,13 +991,6 @@ const FolderGraphic = () => (
 );
 
 const HomeFounderIntro = () => {
-  const handleDiscoveryCall = () => {
-    const el = document.getElementById('discovery');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      window.dispatchEvent(new CustomEvent('trigger-booking'));
-    }
-  };
 
   return (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
@@ -1065,7 +1056,7 @@ const HomeFounderIntro = () => {
             </a>
 
             <button
-              onClick={handleDiscoveryCall}
+              onClick={goToBooking}
               className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
@@ -1099,6 +1090,11 @@ const HomeFounderIntro = () => {
 const PainPoints = () => (
   <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-[85rem] mx-auto px-6">
+      <div className="flex justify-center">
+        <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm font-bold uppercase tracking-wider">
+          Local Business Package
+        </span>
+      </div>
       <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
       <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
         There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
@@ -1152,8 +1148,8 @@ const WantToLearn = () => (
         </svg>
 
         <div className="relative z-10">
-          <h3 className="text-white font-extrabold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4">
-            Even More Systems &amp; Tools<br className="hidden sm:block" /> Are Coming Soon...
+          <h3 className="text-white font-extrabold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 max-w-3xl mx-auto">
+            We teach business leaders practical AI to grow sales, marketing and operations.
           </h3>
           <p className="font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10">
             <span className="text-white">Stay </span>
@@ -1162,7 +1158,7 @@ const WantToLearn = () => (
           </p>
 
           <button
-            onClick={scrollToDiscovery}
+            onClick={goToBooking}
             className="group inline-flex items-center gap-3 md:gap-4 pl-6 md:pl-7 pr-1.5 py-1.5 rounded-full bg-white/15 border border-white/40 backdrop-blur-sm text-white shadow-lg transition-all duration-300 hover:bg-white/25 hover:-translate-y-0.5 active:scale-[0.98]"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
@@ -1177,8 +1173,15 @@ const WantToLearn = () => (
   </section>
 );
 
-const Discovery = () => (
-  <section id="discovery" className="pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+const Discovery = ({ standalone = false }: { standalone?: boolean } = {}) => (
+  <section
+    id="discovery"
+    className={
+      standalone
+        ? "pt-32 pb-20 md:pt-44 md:pb-32 bg-page-bg relative min-h-screen"
+        : "pt-16 pb-20 md:pt-28 md:pb-32 bg-page-bg relative z-[60] rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20"
+    }
+  >
     <div className="max-w-6xl mx-auto px-6 md:px-10">
       <SectionHeading
         centered
@@ -1205,18 +1208,13 @@ const Discovery = () => (
   </section>
 );
 
-const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
-  const handleDiscoveryCall = () => {
-    setView('home');
-    setTimeout(() => {
-      const el = document.getElementById('discovery');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-        window.dispatchEvent(new CustomEvent('trigger-booking'));
-      }
-    }, 100);
-  };
+const BookingPage = () => (
+  <main>
+    <Discovery standalone />
+  </main>
+);
 
+const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => void }) => {
   return (
     <footer className="bg-dark-bg pt-20 pb-10 md:pt-48 md:pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
       <div className="max-w-[85rem] mx-auto px-6">
@@ -1229,7 +1227,7 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
             <Button
               variant="secondary"
               className="!px-6 !py-2 text-xs"
-              onClick={handleDiscoveryCall}
+              onClick={goToBooking}
             >
               Book Strategy Call
             </Button>
@@ -1356,22 +1354,11 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
   </section>
 );
 
-const AboutPage = ({ setView }: { setView: (v: 'home' | 'about') => void }) => {
-  const handleDiscoveryCall = () => {
-    setView('home');
-    setTimeout(() => {
-      const el = document.getElementById('discovery');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-        window.dispatchEvent(new CustomEvent('trigger-booking'));
-      }
-    }, 100);
-  };
-
+const AboutPage = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => void }) => {
   return (
     <main>
       {/* Section 1: Founder Hero */}
-      <FounderSection onBookCall={handleDiscoveryCall} />
+      <FounderSection onBookCall={goToBooking} />
 
       {/* Section 2: Strategy Layer CTA (Merged) */}
       <section className="py-20 md:py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
@@ -1429,13 +1416,22 @@ const HomePage = () => (
 // --- Main App ---
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'about'>('home');
+  const [view, setView] = useState<'home' | 'about' | 'booking'>('home');
 
   useEffect(() => {
     // Basic path routing for SEO/Sitemap support
     if (window.location.pathname === '/about' || window.location.pathname === '/about/') {
       setView('about');
     }
+  }, []);
+
+  useEffect(() => {
+    const handleNavigateToBooking = () => {
+      setView('booking');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('navigate-to-booking', handleNavigateToBooking);
+    return () => window.removeEventListener('navigate-to-booking', handleNavigateToBooking);
   }, []);
 
   useEffect(() => {
@@ -1464,9 +1460,12 @@ export default function App() {
           <HomeFounderIntro />
           <PainPoints />
           <WantToLearn />
-          <Discovery />
         </main>
-      ) : <AboutPage setView={setView} />}
+      ) : view === 'about' ? (
+        <AboutPage setView={setView} />
+      ) : (
+        <BookingPage />
+      )}
       <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
         <Footer setView={setView} />
       </div>
