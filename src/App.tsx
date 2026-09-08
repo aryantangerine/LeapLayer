@@ -4,13 +4,14 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react';
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
-  Linkedin, Play, MessageSquareText, Smartphone
+  Linkedin, Play, MessageSquareText, Smartphone,
+  ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -21,7 +22,6 @@ import word_icon from './assets/word.png';
 import salesforce_icon from './assets/salesforce.png';
 import jira_icon from './assets/jira.png';
 import googledrive_icon from './assets/googledrive.png';
-import aryan_portrait from './assets/aryan.png';
 import aryan_avatar from './assets/aryan_picture.jpg';
 import logo_black from './assets/logoblack.png';
 
@@ -97,9 +97,35 @@ const SectionHeading = ({
 
 // --- Sections ---
 
+const productsMenu = [
+  { icon: Globe, title: "Smart Website", description: "A lead-generating website built and launched in days." },
+  { icon: Star, title: "Review System", description: "Automated follow-ups that get you more 5-star Google reviews." },
+  { icon: RefreshCw, title: "Automated Lead Follow Up", description: "Never lose a lead with automatic follow-up sequences." },
+  { icon: Search, title: "Local SEO", description: "Get found first when local customers search on Google." },
+  { icon: Inbox, title: "All-In-One Inbox", description: "Every customer message, in one place." },
+  { icon: PhoneMissed, title: "Missed Call Text Back", description: "Automatically text back missed calls so you never lose a customer." },
+];
+
 const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'booking') => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 20);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [productsMenuPos, setProductsMenuPos] = useState({ left: 0, top: 0 });
+  const productsBtnRef = useRef<HTMLButtonElement>(null);
+  const productsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openProductsMenu = () => {
+    if (productsCloseTimer.current) clearTimeout(productsCloseTimer.current);
+    const rect = productsBtnRef.current?.getBoundingClientRect();
+    if (rect) {
+      setProductsMenuPos({ left: rect.left + rect.width / 2, top: rect.bottom + 28 });
+    }
+    setIsProductsOpen(true);
+  };
+
+  const closeProductsMenu = () => {
+    productsCloseTimer.current = setTimeout(() => setIsProductsOpen(false), 120);
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -115,11 +141,13 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className="pointer-events-auto relative flex items-center justify-between w-full max-w-5xl md:max-w-[73.6rem] px-6 py-3 md:py-4 rounded-2xl md:rounded-full overflow-hidden transition-[box-shadow] duration-500"
         style={{
-          background: isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)',
+          background: currentView === 'about' ? 'rgba(255,255,255,0.85)' : (isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)'),
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           border: '1px solid rgba(255,255,255,0.3)',
-          boxShadow: isScrolled
+          boxShadow: currentView === 'about'
+            ? 'inset 0 1.5px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2), 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1)'
+            : isScrolled
             ? 'inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1px 0 rgba(255,255,255,0.12), inset 1px 0 0 rgba(255,255,255,0.12), inset -1px 0 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)'
             : 'inset 0 1.5px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(255,255,255,0.08), inset 1px 0 0 rgba(255,255,255,0.08), inset -1px 0 0 rgba(255,255,255,0.08), 0 4px 20px rgba(0,0,0,0.07)',
         }}
@@ -133,7 +161,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
               setView('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center"
+            className="flex items-center ml-2 md:ml-4 -translate-y-0.5"
           >
             <img src={logo_black} alt="LeapLayer" className="h-7 md:h-9 w-auto" />
           </button>
@@ -141,30 +169,46 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
-          {['Products', 'About Us', 'Why Now'].map((item) => (
-            <button
-              key={item}
-              onClick={() => {
-                if (item === 'About Us') {
-                  setView('about');
-                  window.scrollTo(0, 0);
-                } else {
+          {['Products', 'About Us', 'Why Now', 'AI For Business Leaders'].map((item) => (
+            item === 'Products' ? (
+              <button
+                key={item}
+                ref={productsBtnRef}
+                onMouseEnter={openProductsMenu}
+                onMouseLeave={closeProductsMenu}
+                onClick={() => {
                   setView('home');
-                  const id = item.toLowerCase().replace(/\s+/g, '-');
                   setTimeout(() => {
-                    const el = document.getElementById(id);
+                    const el = document.getElementById('products');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
-                }
-              }}
-              className={`text-[13px] font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
-                (item === 'About Us' && currentView === 'about') || (item !== 'About Us' && currentView === 'home')
-                  ? 'text-heading'
-                  : 'text-heading/60 hover:text-heading'
-              }`}
-            >
-              {item}
-            </button>
+                }}
+                className="flex items-center gap-1 text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
+              >
+                {item}
+                <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
+              </button>
+            ) : (
+              <button
+                key={item}
+                onClick={() => {
+                  if (item === 'About Us') {
+                    setView('about');
+                    window.scrollTo(0, 0);
+                  } else {
+                    setView('home');
+                    const id = item.toLowerCase().replace(/\s+/g, '-');
+                    setTimeout(() => {
+                      const el = document.getElementById(id);
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className="text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
+              >
+                {item}
+              </button>
+            )
           ))}
         </div>
 
@@ -173,7 +217,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
           <div className="hidden md:block">
             <Button
               onClick={goToBooking}
-              className="!py-3 !px-7 text-sm shadow-lg"
+              className="!py-3.5 !px-8 text-base !text-white shadow-lg"
             >
               Book A Call
             </Button>
@@ -188,6 +232,54 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
         </div>
       </motion.div>
 
+      {/* Products mega menu — rendered as a sibling of the (overflow-hidden) pill so it isn't clipped */}
+      <AnimatePresence>
+        {isProductsOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+            onMouseEnter={openProductsMenu}
+            onMouseLeave={closeProductsMenu}
+            className="fixed z-[110] w-[760px] max-w-[calc(100vw-3rem)] -translate-x-1/2 rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] border border-white/50 p-7 pointer-events-auto"
+            style={{
+              left: productsMenuPos.left,
+              top: productsMenuPos.top,
+              background: 'rgba(255,255,255,0.65)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            }}
+          >
+            <div className="text-xs font-bold uppercase tracking-wider text-heading/40 mb-5 px-2">Systems &amp; Features</div>
+            <div className="grid grid-cols-2 gap-2">
+              {productsMenu.map((feat) => (
+                <div
+                  key={feat.title}
+                  className="group flex items-start gap-4 p-4 rounded-2xl bg-transparent hover:bg-[#111111] transition-colors duration-300 cursor-pointer"
+                  onClick={() => {
+                    setIsProductsOpen(false);
+                    setView('home');
+                    setTimeout(() => {
+                      const el = document.getElementById('products');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                >
+                  <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/60 group-hover:bg-white/10 group-hover:border-white/20 flex items-center justify-center flex-shrink-0 transition-colors duration-300">
+                    <feat.icon size={20} className="text-heading group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div>
+                    <div className="text-base font-bold text-heading group-hover:text-white leading-snug transition-colors duration-300">{feat.title}</div>
+                    <div className="text-sm text-heading/50 group-hover:text-white/60 leading-snug mt-0.5 transition-colors duration-300">{feat.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -198,7 +290,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
             className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
           >
             <div className="p-8 flex flex-col gap-6">
-              {['Products', 'About Us', 'Why Now'].map((item) => (
+              {['Products', 'About Us', 'Why Now', 'AI For Business Leaders'].map((item) => (
                 <button
                   key={item}
                   className="text-xl font-bold text-heading tracking-tight text-left"
@@ -231,7 +323,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 
 
 const Hero = () => {
-  const words = "Leap Your Business Ahead".split(" ");
+  const lines = ["More Reviews.", "Better Visibility.", "More Customers."];
 
   const handleSeeHow = () => {
     const el = document.getElementById('solutions');
@@ -241,7 +333,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="sm:min-h-[100dvh] bg-page-bg flex items-start sm:items-center xl:items-start pt-36 pb-28 md:pt-52 md:pb-40 overflow-hidden relative">
+    <section className="bg-page-bg flex items-center pt-40 pb-32 md:pt-48 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background (mobile: static, unchanged) */}
       <Shader className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
@@ -304,42 +396,73 @@ const Hero = () => {
         }}
       />
 
-      {/* Desktop: dense/white behind the left-aligned text, fading out to let the animation read stronger on the right */}
+      {/* Desktop: dense/white behind the centered text, fading out toward the edges to let the animation read stronger there */}
       <div
         className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
         style={{
-          background: 'linear-gradient(to right, rgba(245,245,240,0.97) 0%, rgba(245,245,240,0.88) 20%, rgba(245,245,240,0.45) 38%, rgba(245,245,240,0.1) 54%, transparent 68%)',
+          background: 'radial-gradient(ellipse 60% 75% at 50% 45%, rgba(245,245,240,0.97) 35%, rgba(245,245,240,0.7) 60%, transparent 100%)',
         }}
       />
 
-      <div className="max-w-[85rem] mx-auto px-6 text-center md:text-left relative z-10 w-full min-w-0">
-        <div className="z-10 max-w-5xl mx-auto md:mx-0 md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
-          <h1 className="text-heading text-[3.2rem] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] md:leading-[0.92] font-bold tracking-tighter mb-6 md:mb-8">
-            {words.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`inline-block ${word.toLowerCase().includes('leap') ? 'font-serif italic font-bold text-[1.1em] bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -my-[0.15em] -ml-[0.15em] mr-[0.05em]' : 'mr-[0.2em]'}`}
-              >
-                {word}
-              </motion.span>
-            ))}
+      <div className="max-w-[85rem] mx-auto px-6 text-center relative z-10 w-full min-w-0">
+        <div className="z-10 max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex justify-center mb-5 md:mb-6"
+          >
+            <span
+              className="inline-flex items-center px-5 py-2.5 rounded-full backdrop-blur-md text-[#0D6B45] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]"
+              style={{ background: 'rgba(255,255,255,0.7)' }}
+            >
+              The Local Business Growth Engine
+            </span>
+          </motion.div>
+          <h1 className="text-heading text-[2.75rem] sm:text-6xl md:text-7xl leading-[1.05] font-bold tracking-tighter mb-6 md:mb-7">
+            {lines.map((line, i) => {
+              const isHighlighted = line === "More Customers.";
+              return (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.15 }}
+                  className="block"
+                >
+                  {isHighlighted ? (
+                    <motion.span
+                      className="inline-block bg-clip-text text-transparent"
+                      style={{
+                        backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)',
+                        backgroundSize: '250% 100%',
+                        backgroundPosition: '100% center',
+                      }}
+                      animate={{ backgroundPosition: ['100% center', '0% center'] }}
+                      transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+                    >
+                      {line}
+                    </motion.span>
+                  ) : (
+                    line
+                  )}
+                </motion.span>
+              );
+            })}
           </h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="text-[#3A3A3A]/80 text-[0.95rem] md:text-[1.15rem] lg:text-[1.3rem] max-w-2xl lg:max-w-4xl mx-auto md:mx-0 mb-7 md:mb-10 leading-[1.55] font-semibold px-1"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-[#1a1a1a] text-base md:text-xl max-w-2xl mx-auto text-center mb-7 md:mb-9 leading-[1.55] font-semibold px-1"
           >
-            Done-for-you <span className="text-[#1a1a1a]">systems</span> that get you more <span className="text-[#1a1a1a]">Google reviews</span>, a <span className="text-[#1a1a1a]">smart website</span> with <span className="text-[#1a1a1a]">lead capture</span> and <span className="text-[#1a1a1a]">AI automations</span> that <span className="text-[#1a1a1a]">attract and convert viewers into customers</span>. Designed for your business to grow.
+            Done-for-you systems that get you more Google reviews, a smart website with lead capture and AI automations that attract and convert viewers into customers. Designed for your business to grow.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row items-center md:items-stretch justify-center md:justify-start gap-4"
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button
               variant="secondary"
@@ -749,8 +872,13 @@ const FluidCardBg = ({
 const goToBooking = () => window.dispatchEvent(new CustomEvent('navigate-to-booking'));
 
 const FeatureCard = ({
+  badge,
   title,
   description,
+  bullets,
+  accentColor = '#2DAC65',
+  swirlA,
+  swirlB,
   learnMore,
   delay = 0,
   momentum,
@@ -758,8 +886,13 @@ const FeatureCard = ({
   mountDelay,
   icon: Icon,
 }: {
-  title: string,
+  badge?: string,
+  title: React.ReactNode,
   description?: string,
+  bullets?: { title: string, text: string }[],
+  accentColor?: string,
+  swirlA?: string,
+  swirlB?: string,
   learnMore?: boolean,
   delay?: number,
   momentum?: number,
@@ -775,22 +908,50 @@ const FeatureCard = ({
     whileHover={{ y: -10, scale: 1.01, transition: { type: "spring", stiffness: 400, damping: 15 } }}
     className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
   >
-    <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} />
+    <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} accent={accentColor} swirlA={swirlA} swirlB={swirlB} />
     {/* Floating decorative shape */}
-    <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#2DAC65]/15 blur-3xl pointer-events-none" />
+    <div
+      className="absolute -top-16 -right-16 w-64 h-64 rounded-full blur-3xl pointer-events-none"
+      style={{ backgroundColor: `${accentColor}26` }}
+    />
     <div className="relative z-10 p-7 md:p-9 flex flex-col h-full">
       {Icon && (
         <div className="w-11 h-11 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center mb-4">
-          <Icon className="text-[#2DAC65]" size={20} />
+          <Icon style={{ color: accentColor }} size={20} />
         </div>
       )}
-      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-3 md:mb-4 leading-[1.15] tracking-tight group-hover:text-accent transition-colors">
+      {badge && (
+        <span
+          className="inline-flex items-center self-start px-5 py-2 mb-5 rounded-full text-base md:text-lg font-bold tracking-wide"
+          style={{ backgroundColor: `${accentColor}26`, color: accentColor }}
+        >
+          {badge}
+        </span>
+      )}
+      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-3 md:mb-4 leading-[1.15] tracking-tight transition-colors">
         {title}
       </h3>
       {description && (
         <p className="text-[#2A2A2A] text-base md:text-lg leading-relaxed mb-6 md:mb-8">
           {description}
         </p>
+      )}
+      {bullets && (
+        <ul className="space-y-4 md:space-y-5 mb-7 md:mb-9">
+          {bullets.map((bullet) => (
+            <li key={bullet.title} className="flex items-start gap-3.5">
+              <span
+                className="mt-1 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: `${accentColor}26` }}
+              >
+                <Check size={14} style={{ color: accentColor }} strokeWidth={3} />
+              </span>
+              <p className="text-[#2A2A2A] text-base md:text-[1.05rem] leading-relaxed">
+                <span className="font-bold text-heading">{bullet.title}</span>{' '}{bullet.text}
+              </p>
+            </li>
+          ))}
+        </ul>
       )}
       {learnMore && (
         <div className="mt-auto pt-2">
@@ -991,10 +1152,52 @@ const FolderGraphic = () => (
 );
 
 const HomeFounderIntro = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
+  const bubbleYSlow = useTransform(scrollYProgress, [0, 1], [-140, 140]);
+  const bubbleYFast = useTransform(scrollYProgress, [0, 1], [180, -180]);
 
   return (
-  <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-[85rem] mx-auto px-6">
+  <section ref={sectionRef} className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+    {/* Floating pastel bubbles — bleed off the left/right edges, drift as the section scrolls into/out of view */}
+    <motion.div
+      className="absolute -left-[6%] top-[20%] w-[160px] h-[160px] md:w-[220px] md:h-[220px] pointer-events-none"
+      style={{ y: bubbleYSlow }}
+    >
+      <motion.div
+        className="w-full h-full bg-[#2DAC65]/12"
+        animate={{
+          x: [0, 10, -8, 0],
+          y: [0, -14, 8, 0],
+          borderRadius: [
+            '63% 37% 54% 46% / 55% 45% 55% 45%',
+            '42% 58% 61% 39% / 47% 60% 40% 53%',
+            '63% 37% 54% 46% / 55% 45% 55% 45%',
+          ],
+        }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </motion.div>
+    <motion.div
+      className="absolute -right-[8%] top-[62%] w-[240px] h-[240px] md:w-[340px] md:h-[340px] pointer-events-none"
+      style={{ y: bubbleYFast }}
+    >
+      <motion.div
+        className="w-full h-full bg-[#2DAC65]/12"
+        animate={{
+          x: [0, -12, 8, 0],
+          y: [0, 10, -12, 0],
+          borderRadius: [
+            '40% 60% 55% 45% / 45% 55% 45% 55%',
+            '58% 42% 39% 61% / 55% 40% 60% 45%',
+            '40% 60% 55% 45% / 45% 55% 45% 55%',
+          ],
+        }}
+        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+      />
+    </motion.div>
+
+    <div className="max-w-[85rem] mx-auto px-6 relative z-10">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
         {/* Left: heading, name + LinkedIn, bio */}
         <motion.div
@@ -1087,27 +1290,169 @@ const HomeFounderIntro = () => {
   );
 };
 
-const PainPoints = () => (
-  <section className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-[85rem] mx-auto px-6">
-      <div className="flex justify-center">
-        <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-[#2DAC65]/10 border-[1.5px] border-[#2DAC65]/40 text-[#2DAC65] text-sm font-bold uppercase tracking-wider">
-          Local Business Package
-        </span>
-      </div>
-      <SectionHeading centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
-      <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#3A3A3A]/80 text-center max-w-5xl mx-auto mb-8 md:mb-10 leading-[1.55] px-1">
-        There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
-      </p>
+const GoogleWord = () => (
+  <span className="whitespace-nowrap">
+    <span style={{ color: '#4285F4' }}>G</span>
+    <span style={{ color: '#EA4335' }}>o</span>
+    <span style={{ color: '#FBBC05' }}>o</span>
+    <span style={{ color: '#4285F4' }}>g</span>
+    <span style={{ color: '#34A853' }}>l</span>
+    <span style={{ color: '#EA4335' }}>e</span>
+  </span>
+);
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-        {[
-          { title: "Attract New Customers", description: "Personalised review follow-ups automated for you, a physical tap-to-review card, and auto-posted review graphics on social media.", learnMore: true, momentum: 9,  detail: 1.2, mountDelay: 0 },
-          { title: "Convert More Leads",     description: "A smart website with instant lead capture, automations and missed-call text-back, so inbound interest doesn't go cold.", learnMore: true, momentum: 13, detail: 1.7, mountDelay: 4 },
-          { title: "Retain More Customers",  description: "Automated follow-up sequences and database reactivation, bringing back past customers automatically.", learnMore: true, momentum: 18, detail: 2.4, mountDelay: 8 },
-        ].map((card, i) => (
-          <motion.div key={i} className="h-full" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}>
-            <FeatureCard {...card} />
+const painPointCards: {
+  pill?: string,
+  heading?: string,
+  subheading?: string,
+  badge?: string,
+  title: React.ReactNode,
+  description?: string,
+  bullets?: { title: string, text: string }[],
+  accentColor?: string,
+  swirlA?: string,
+  swirlB?: string,
+  learnMore?: boolean,
+  momentum?: number,
+  detail?: number,
+  mountDelay?: number,
+}[] = [
+  {
+    badge: "Attract New Customers",
+    title: <>Get More <GoogleWord /> Reviews with Automated Review Collection</>,
+    description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
+    bullets: [
+      { title: "Tap. Review. Done.", text: "Customers tap their phone on your NFC review card and your Google review page opens instantly — no app, no typing, no searching." },
+      { title: "Automated review texts.", text: "When a customer isn't there on the job, a personalised review request goes out by text and follows up automatically." },
+    ],
+    learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
+  },
+  {
+    badge: "Convert More Leads",
+    title: <>A <span style={{ color: '#2F6FED' }}>Smart Website</span> With Lead Capture</>,
+    description: "A smart website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
+    bullets: [
+      { title: "Automated website replies.", text: "Customers get texted straight from your website while you're busy, so you can pick the conversation up later." },
+      { title: "Built to rank.", text: "Fast, clean, SEO-ready pages so local customers actually find you when they search." },
+      { title: "Capture every enquiry.", text: "Forms, click-to-call and instant lead capture on every page, so interest never slips through." },
+    ],
+    accentColor: "#2F6FED",
+    swirlA: "#f0f5fd",
+    swirlB: "#c8d8f5",
+    learnMore: true, momentum: 13, detail: 1.7, mountDelay: 0.15,
+  },
+  {
+    title: "Retain More Customers",
+    description: "Automated follow-up sequences and database reactivation, bringing back past customers automatically.",
+    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
+    learnMore: true, momentum: 18, detail: 2.4, mountDelay: 0.3,
+  },
+  {
+    title: "Local SEO",
+    description: "Get found first when local customers search on Google.",
+    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
+    learnMore: true, momentum: 22, detail: 2.8, mountDelay: 0.45,
+  },
+  {
+    title: "Business Phone",
+    description: "A dedicated business number that keeps work calls separate from your personal phone.",
+    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
+    learnMore: true, momentum: 26, detail: 3.2, mountDelay: 0.6,
+  },
+];
+
+const PainPoints = () => (
+  <section className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
+    <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px]">
+      <svg
+        className="absolute inset-x-0 bottom-0 w-full h-[90px] md:h-[150px] 2xl:h-[270px]"
+        viewBox="0 0 1440 240"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0,0 L600,218 Q720,262 840,218 L1440,0 L1440,240 L0,240 Z"
+          fill="var(--color-page-bg, #F5F5F0)"
+        />
+      </svg>
+      <div className="relative">
+        <div className="max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="flex justify-center">
+            <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md text-[#67CB53] text-sm font-bold uppercase tracking-wider">
+              Local Business Package
+            </span>
+          </div>
+          <SectionHeading dark centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> No Effort.</>} />
+          <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#9CA3AF] text-center max-w-4xl mx-auto leading-[1.55] px-1">
+            There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div className="max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
+      {/* Row 1: Attract New Customers + Convert More Leads, side by side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        {painPointCards.slice(0, 2).map(({ pill, heading, subheading, ...card }, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
+          >
+            {pill && (
+              <span className="inline-flex items-center px-4 py-1.5 mb-5 rounded-full bg-[#111111] text-white text-sm font-semibold tracking-wide">
+                {pill}
+              </span>
+            )}
+            {heading && (
+              <h3 className="text-[2rem] md:text-[2.75rem] lg:text-5xl font-bold text-heading leading-[1.05] tracking-tight">
+                {heading}
+              </h3>
+            )}
+            {subheading && (
+              <p className="text-[#3A3A3A]/70 text-base md:text-xl font-semibold mt-3 md:mt-4 leading-relaxed">
+                {subheading}
+              </p>
+            )}
+            <div className={heading ? 'mt-7 md:mt-9' : ''}>
+              <FeatureCard {...card} />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Row 2: Retain More Customers — narrower, 3-up row (slots for future cards) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mt-8 lg:mt-10 items-stretch">
+        {painPointCards.slice(2).map(({ pill, heading, subheading, ...card }, i) => (
+          <motion.div
+            key={i}
+            className="h-full"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
+          >
+            {pill && (
+              <span className="inline-flex items-center px-4 py-1.5 mb-5 rounded-full bg-[#111111] text-white text-sm font-semibold tracking-wide">
+                {pill}
+              </span>
+            )}
+            {heading && (
+              <h3 className="text-[2rem] md:text-[2.75rem] lg:text-5xl font-bold text-heading leading-[1.05] tracking-tight">
+                {heading}
+              </h3>
+            )}
+            {subheading && (
+              <p className="text-[#3A3A3A]/70 text-base md:text-xl font-semibold mt-3 md:mt-4 leading-relaxed">
+                {subheading}
+              </p>
+            )}
+            <div className={`h-full ${heading ? 'mt-7 md:mt-9' : ''}`}>
+              <FeatureCard {...card} />
+            </div>
           </motion.div>
         ))}
       </div>
@@ -1278,7 +1623,7 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => voi
 
 const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => void, zIndex?: string }) => (
   <section className={`bg-black py-20 md:py-48 overflow-hidden relative ${zIndex} rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20`}>
-    <div className="max-w-[85rem] mx-auto px-6">
+    <div className="max-w-[85rem] mx-auto px-6 md:px-[108px] lg:px-[140px]">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
         {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
         <motion.div
@@ -1289,9 +1634,9 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
           className="lg:order-last"
         >
           <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group">
-            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
+            <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
               <motion.img
-                src={aryan_portrait}
+                src={aryan_avatar}
                 alt="Aryan - Founder"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.05 }}
@@ -1327,26 +1672,63 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
             <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
           </h2>
 
-          <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
-            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-              An engineer with a dual background in Mechanical Engineering and Computer Science, built with experience at Jaguar Land Rover. Proactively engaged with JLR's senior AI leadership; including the Chief of Data & AI and Head of AI, on enterprise agentic AI adoption, with a dedicated AI team placement in progress.
-            </p>
-            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-              Early commercial perspective from internships spanning engineering, software, and venture capital.
-            </p>
-            <p className="text-[#9CA3AF] text-base md:text-xl max-w-lg leading-relaxed">
-              Founded LeapLayer after seeing a widening gap: large enterprises are investing heavily in AI, while the businesses that stand to benefit most are being left behind. LeapLayer exists to close that gap.
-            </p>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-xl md:text-2xl font-bold text-white">Aryan</span>
+            <a
+              href="https://www.linkedin.com/in/aryan-parekh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Aryan's LinkedIn profile"
+              className="w-9 h-9 rounded-full bg-white/10 text-white/60 flex items-center justify-center flex-shrink-0 transition-colors duration-300 hover:bg-white/20 hover:text-white"
+            >
+              <Linkedin size={18} />
+            </a>
           </div>
 
-          <div className="flex justify-start">
-            <Button
-              variant="secondary"
-              className="!px-10 !py-4 text-lg border border-white/20"
-              onClick={onBookCall}
+          <p className="text-[#9CA3AF] text-base md:text-xl font-medium max-w-xl leading-relaxed mb-8 md:mb-10">
+            Aryan has a background at <span className="relative inline-block text-white whitespace-nowrap">
+              Jaguar Land Rover
+              <svg
+                className="absolute pointer-events-none"
+                style={{ left: '-12%', right: '-12%', top: '-28%', bottom: '-22%', width: '124%', height: '150%' }}
+                viewBox="0 0 220 80"
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <path
+                  d="M14,42 C11,17 46,6 111,5 C176,4 209,15 211,39 C213,63 179,74 111,75 C43,76 9,65 13,43 C15,31 31,21 56,17"
+                  stroke="#2DAC65"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span> as an <span className="text-white">Engineer</span>, working across <span className="text-white">AI teams</span>, <span className="text-white">Investment teams</span>, and <span className="text-white">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-start gap-4">
+            <a
+              href="https://www.linkedin.com/in/aryan-parekh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(45,172,101,0.4)] active:scale-[0.98]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
-              Book Strategy Call
-            </Button>
+              <span className="text-base md:text-[1.2rem] font-semibold">See LinkedIn Profile</span>
+              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                <ArrowRight size={20} />
+              </span>
+            </a>
+
+            <button
+              onClick={onBookCall}
+              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-white/10 border border-white/25 backdrop-blur-sm text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20 active:scale-[0.98]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              <span className="text-base md:text-[1.2rem] font-semibold">Let's Talk</span>
+              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                <ArrowRight size={20} />
+              </span>
+            </button>
           </div>
         </motion.div>
       </div>
@@ -1359,37 +1741,6 @@ const AboutPage = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => 
     <main>
       {/* Section 1: Founder Hero */}
       <FounderSection onBookCall={goToBooking} />
-
-      {/* Section 2: Strategy Layer CTA (Merged) */}
-      <section className="py-20 md:py-48 bg-page-bg relative z-[50] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
-        {/* Subtle grid background */}
-        <div
-          className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, #000 1px, transparent 1px),
-              linear-gradient(to bottom, #000 1px, transparent 1px)
-            `,
-            backgroundSize: '4rem 4rem',
-            maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 40%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 40%, transparent 100%)'
-          }}
-        />
-
-        <div className="max-w-[85rem] mx-auto px-6 relative z-10 text-center">
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-heading max-w-5xl mx-auto leading-[1.1]"
-          >
-            Ready to Build Your <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">AI</span> <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.1em] -m-[0.1em] text-[1.1em]">Layer?</span>
-          </motion.h2>
-          <p className="text-lg md:text-3xl lg:text-4xl text-heading/50 mt-2 font-bold tracking-tighter leading-[1.1]">
-            Save Time and Pain across Your Business Today
-          </p>
-        </div>
-      </section>
     </main>
   );
 };
@@ -1460,6 +1811,7 @@ export default function App() {
           <HomeFounderIntro />
           <PainPoints />
           <WantToLearn />
+          <Discovery />
         </main>
       ) : view === 'about' ? (
         <AboutPage setView={setView} />
