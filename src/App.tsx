@@ -1330,7 +1330,7 @@ const painPointCards: {
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: [
       { title: "Tap. Review. Done.", text: "Customers tap their phone on your NFC review card and your Google review page opens instantly — no app, no typing, no searching." },
-      { title: "Automated review texts.", text: "When a customer isn't there on the job, a personalised review request goes out by text and follows up automatically." },
+      { title: "Automated review system.", text: "When a customer isn't there on the job, a personalised review request goes out by text and follows up automatically." },
     ],
     learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
   },
