@@ -11,8 +11,7 @@ import {
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
   Linkedin, MessageSquareText, Smartphone,
-  ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
-  Wrench, Home, Sprout, TreePine, PaintRoller
+  ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -1369,15 +1368,6 @@ const painPointCards: {
   },
 ];
 
-const tradePills: { icon: React.ElementType, label: string }[] = [
-  { icon: Zap, label: 'Electricians' },
-  { icon: Wrench, label: 'General Tradesmen' },
-  { icon: Home, label: 'Roofers' },
-  { icon: Sprout, label: 'Landscaping' },
-  { icon: TreePine, label: 'Tree Service' },
-  { icon: PaintRoller, label: 'Painters' },
-];
-
 const PainPoints = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
@@ -1405,7 +1395,7 @@ const PainPoints = () => {
       />
     </motion.div>
     {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
-    <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-10 pb-16 md:pt-20 md:pb-24 2xl:pb-20 overflow-hidden">
+    <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px] overflow-hidden">
       {/* Subtle off-centre glow — soft brightness low in the panel, echoing the reference screenshot */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -1426,7 +1416,7 @@ const PainPoints = () => {
       <div className="relative">
         <div className="max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
           <div className="flex justify-center">
-            <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md text-[#67CB53] text-sm font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
               Local Business Package
             </span>
           </div>
@@ -1434,17 +1424,6 @@ const PainPoints = () => {
           <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#9CA3AF] text-center max-w-4xl mx-auto leading-[1.55] px-1">
             There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 max-w-2xl mx-auto mt-8 md:mt-12">
-            {tradePills.map(({ icon: Icon, label }) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-sm md:text-[0.95rem] font-semibold shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]"
-              >
-                <Icon className="w-4 h-4 md:w-[18px] md:h-[18px]" strokeWidth={2} />
-                {label}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </div>
