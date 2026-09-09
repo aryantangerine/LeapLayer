@@ -456,7 +456,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-[#1a1a1a] text-base md:text-xl max-w-2xl mx-auto text-center mb-7 md:mb-9 leading-[1.55] font-semibold px-1"
           >
-            Done-for-you systems that get you more Google reviews, a smart website with lead capture and AI automations that attract and convert viewers into customers. Designed for your business to grow.
+            Done-for-you systems that get you more Google reviews, a smart website with lead capture and automations that attract and convert viewers into customers. Designed for your business to grow.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
