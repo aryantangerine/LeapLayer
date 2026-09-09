@@ -10,7 +10,7 @@ import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
-  Linkedin, Play, MessageSquareText, Smartphone,
+  Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check
 } from 'lucide-react';
 
@@ -1271,16 +1271,23 @@ const HomeFounderIntro = () => {
           </div>
         </motion.div>
 
-        {/* Right: rounded video container — embed goes here once video is sent */}
+        {/* Right: photo card, styled like the pain-points feature cards — swap for a video embed once one is sent */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <div className="relative aspect-video w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#1A1A1A] to-[#0A0A0A] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] flex items-center justify-center">
-            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-              <Play className="text-white/70 ml-1" size={28} fill="currentColor" />
+          <div className="relative overflow-hidden bg-white rounded-[2rem] md:rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white">
+            <FluidCardBg momentum={9} detail={1.2} />
+            <div className="relative z-10 p-5 md:p-7">
+              <div className="relative aspect-square md:aspect-[4/5] rounded-[1.5rem] md:rounded-[1.8rem] overflow-hidden">
+                <img
+                  src={aryan_avatar}
+                  alt="Aryan - Founder"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -1330,7 +1337,7 @@ const painPointCards: {
   {
     badge: "Convert More Leads",
     title: <>A <span style={{ color: '#2F6FED' }}>Smart Website</span> With Lead Capture</>,
-    description: "A smart website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
+    description: "A website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: [
       { title: "Automated website replies.", text: "Customers get texted straight from your website while you're busy, so you can pick the conversation up later." },
       { title: "Built to rank.", text: "Fast, clean, SEO-ready pages so local customers actually find you when they search." },
@@ -1349,20 +1356,44 @@ const painPointCards: {
   },
   {
     title: "Local SEO",
-    description: "Get found first when local customers search on Google.",
+    description: "SEO takes time — don't let anyone tell you otherwise. But the earlier the right process is put in place, the sooner you're the one local customers find first when they search Google.",
     accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
     learnMore: true, momentum: 22, detail: 2.8, mountDelay: 0.45,
   },
   {
     title: "Business Phone",
-    description: "A dedicated business number that keeps work calls separate from your personal phone.",
+    description: "A dedicated business number that keeps work calls separate, with an all-in-one inbox where your Instagram, Facebook and website leads all land in one place.",
     accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
     learnMore: true, momentum: 26, detail: 3.2, mountDelay: 0.6,
   },
 ];
 
-const PainPoints = () => (
-  <section className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+const PainPoints = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
+  const bubbleY = useTransform(scrollYProgress, [0, 1], [-160, 160]);
+
+  return (
+  <section ref={sectionRef} className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+    {/* Floating pastel bubble — bleeds off the right edge, drifts as the section scrolls into/out of view */}
+    <motion.div
+      className="absolute -right-[10%] top-[42%] w-[320px] h-[320px] md:w-[520px] md:h-[520px] pointer-events-none"
+      style={{ y: bubbleY }}
+    >
+      <motion.div
+        className="w-full h-full bg-[#2DAC65]/12"
+        animate={{
+          x: [0, -14, 10, 0],
+          y: [0, 12, -16, 0],
+          borderRadius: [
+            '58% 42% 39% 61% / 55% 40% 60% 45%',
+            '40% 60% 55% 45% / 45% 55% 45% 55%',
+            '58% 42% 39% 61% / 55% 40% 60% 45%',
+          ],
+        }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </motion.div>
     {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
     <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px]">
       <svg
@@ -1391,7 +1422,7 @@ const PainPoints = () => (
       </div>
     </div>
 
-    <div className="max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
+    <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
       {/* Row 1: Attract New Customers + Convert More Leads, side by side */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
         {painPointCards.slice(0, 2).map(({ pill, heading, subheading, ...card }, i) => (
@@ -1459,7 +1490,8 @@ const PainPoints = () => (
 
     </div>
   </section>
-);
+  );
+};
 
 
 
