@@ -169,7 +169,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
-          {['Products', 'About Us', 'Why Now', 'AI For Business Leaders'].map((item) => (
+          {['Products', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
             item === 'Products' ? (
               <button
                 key={item}
@@ -290,7 +290,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
             className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
           >
             <div className="p-8 flex flex-col gap-6">
-              {['Products', 'About Us', 'Why Now', 'AI For Business Leaders'].map((item) => (
+              {['Products', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
                 <button
                   key={item}
                   className="text-xl font-bold text-heading tracking-tight text-left"
@@ -1532,7 +1532,7 @@ const WantToLearn = () => (
 
         <div className="relative z-10">
           <h3 className="text-white font-extrabold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 max-w-3xl mx-auto">
-            We teach business leaders practical AI to grow sales, marketing and operations.
+            We teach business leaders practical skills to grow sales, marketing and operations.
           </h3>
           <p className="font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10">
             <span className="text-white">Stay </span>
