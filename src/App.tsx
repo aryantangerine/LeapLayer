@@ -1610,6 +1610,7 @@ const pricingPlans: {
   includesFoundation?: boolean,
   features: string[],
   mostPopular?: boolean,
+  checkoutUrl?: string,
 }[] = [
   {
     name: 'Foundation',
@@ -1623,6 +1624,7 @@ const pricingPlans: {
       'Maintenance',
       'Security',
     ],
+    checkoutUrl: 'https://buy.stripe.com/8x228r39I4gj1CS2mh48002',
   },
   {
     name: 'Local Business Package',
@@ -1712,7 +1714,7 @@ const PricingPage = () => (
               </div>
 
               <Button
-                onClick={goToBooking}
+                onClick={() => plan.checkoutUrl ? window.location.assign(plan.checkoutUrl) : goToBooking()}
                 variant={plan.mostPopular ? 'primary' : 'secondary'}
                 className={`w-full !rounded-2xl mt-8 text-center ${plan.mostPopular ? '' : '!bg-[#F0F0EC] !text-black border border-[#E5E5E0] hover:!bg-[#E8E8E2]'}`}
               >
