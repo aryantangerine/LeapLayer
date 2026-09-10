@@ -1655,8 +1655,8 @@ const PricingPage = () => (
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <SectionHeading
           centered
-          title={<>Simple & <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>transparent</motion.span> pricing for local businesses</>}
-          subtitle="No hidden fees, no long contracts — just done-for-you systems that grow your business."
+          title={<>Simple Pricing, No setup fees, No contracts, Cancel Anytime</>}
+          subtitle="30 day money back guarantee"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-8 items-start mt-4">
