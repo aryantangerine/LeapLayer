@@ -1655,7 +1655,7 @@ const PricingPage = () => (
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <SectionHeading
           centered
-          title={<>Simple Pricing, No setup fees, No contracts, Cancel Anytime</>}
+          title={<>Simple Pricing, No Setup Fees, No Contracts, Cancel Anytime</>}
           subtitle="30 day money back guarantee"
         />
 
