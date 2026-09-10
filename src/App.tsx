@@ -106,7 +106,7 @@ const productsMenu = [
   { icon: PhoneMissed, title: "Missed Call Text Back", description: "Automatically text back missed calls so you never lose a customer." },
 ];
 
-const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'booking') => void, currentView: string }) => {
+const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 20);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
@@ -141,11 +141,11 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className="pointer-events-auto relative flex items-center justify-between w-full max-w-5xl md:max-w-[73.6rem] px-6 py-3 md:py-4 rounded-2xl md:rounded-full overflow-hidden transition-[box-shadow] duration-500"
         style={{
-          background: currentView === 'about' ? 'rgba(255,255,255,0.85)' : (isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)'),
+          background: (currentView === 'about' || currentView === 'pricing') ? 'rgba(255,255,255,0.85)' : (isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)'),
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           border: '1px solid rgba(255,255,255,0.3)',
-          boxShadow: currentView === 'about'
+          boxShadow: (currentView === 'about' || currentView === 'pricing')
             ? 'inset 0 1.5px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2), 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1)'
             : isScrolled
             ? 'inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1px 0 rgba(255,255,255,0.12), inset 1px 0 0 rgba(255,255,255,0.12), inset -1px 0 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)'
@@ -169,7 +169,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
-          {['Products', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
+          {['Products', 'Pricing', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
             item === 'Products' ? (
               <button
                 key={item}
@@ -194,6 +194,9 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
                 onClick={() => {
                   if (item === 'About Us') {
                     setView('about');
+                    window.scrollTo(0, 0);
+                  } else if (item === 'Pricing') {
+                    setView('pricing');
                     window.scrollTo(0, 0);
                   } else {
                     setView('home');
@@ -290,7 +293,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
             className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
           >
             <div className="p-8 flex flex-col gap-6">
-              {['Products', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
+              {['Products', 'Pricing', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
                 <button
                   key={item}
                   className="text-xl font-bold text-heading tracking-tight text-left"
@@ -298,6 +301,9 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
                     setIsMobileMenuOpen(false);
                     if (item === 'About Us') {
                       setView('about');
+                      window.scrollTo(0, 0);
+                    } else if (item === 'Pricing') {
+                      setView('pricing');
                       window.scrollTo(0, 0);
                     } else {
                       setView('home');
@@ -1597,7 +1603,130 @@ const BookingPage = () => (
   </main>
 );
 
-const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => void }) => {
+const pricingPlans: {
+  name: string,
+  price: number,
+  intro?: string,
+  includesFoundation?: boolean,
+  features: string[],
+  mostPopular?: boolean,
+}[] = [
+  {
+    name: 'Foundation',
+    price: 97,
+    intro: 'Your online foundation, done for you.',
+    features: [
+      'Full website',
+      '5 service pages',
+      'Smart Website with lead capture',
+      'Hosting',
+      'Maintenance',
+      'Security',
+    ],
+  },
+  {
+    name: 'Local Business Package',
+    price: 197,
+    includesFoundation: true,
+    features: [
+      'Automated Google review collection',
+      'Automated follow-up & customer reactivation',
+      'Local SEO',
+      'Dedicated business phone number & unified inbox',
+    ],
+    mostPopular: true,
+  },
+  {
+    name: 'Trades Package',
+    price: 197,
+    includesFoundation: true,
+    features: [
+      'Automated Google review collection',
+      'Automated follow-up & customer reactivation',
+      'Local SEO',
+      'Dedicated business phone number & unified inbox',
+    ],
+  },
+];
+
+const PricingPage = () => (
+  <main>
+    <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-page-bg relative min-h-screen">
+      <div className="max-w-6xl mx-auto px-6 md:px-10">
+        <SectionHeading
+          centered
+          title={<>Simple & <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>transparent</motion.span> pricing for local businesses</>}
+          subtitle="No hidden fees, no long contracts — just done-for-you systems that grow your business."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-8 items-start mt-4">
+          {pricingPlans.map((plan, i) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className={`relative flex flex-col h-full bg-white rounded-[2rem] p-8 md:p-9 ${
+                plan.mostPopular
+                  ? 'border-2 border-black shadow-[0_30px_60px_-15px_rgba(0,0,0,0.18)] md:-mt-4'
+                  : 'border-[1.5px] border-[#E5E5E0] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.08)]'
+              }`}
+            >
+              {plan.mostPopular && (
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center px-4 py-1.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider shadow-lg">
+                  Most popular
+                </span>
+              )}
+
+              <h3 className="text-xl font-bold text-heading tracking-tight mb-4">{plan.name}</h3>
+
+              <div className="flex items-baseline gap-1.5 mb-8">
+                <span className="text-5xl font-extrabold tracking-tight text-heading">£{plan.price}</span>
+                <span className="text-body text-base font-semibold">per month</span>
+              </div>
+
+              <div className="flex-1 pt-6 border-t border-[#E5E5E0]">
+                <p className="text-xs font-bold uppercase tracking-wider text-heading mb-1">Features</p>
+                {plan.intro && <p className="text-sm text-body mb-5">{plan.intro}</p>}
+                <ul className={`space-y-3 ${plan.intro ? '' : 'mt-4'}`}>
+                  {plan.includesFoundation && (
+                    <li className="flex items-start gap-3">
+                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-black flex-shrink-0 mt-0.5">
+                        <Check size={12} strokeWidth={3} className="text-white" />
+                      </span>
+                      <span className="text-[0.95rem] font-extrabold text-heading">
+                        Everything in the Foundation package
+                      </span>
+                    </li>
+                  )}
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-black flex-shrink-0 mt-0.5">
+                        <Check size={12} strokeWidth={3} className="text-white" />
+                      </span>
+                      <span className="text-[0.95rem] text-body font-medium">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Button
+                onClick={goToBooking}
+                variant={plan.mostPopular ? 'primary' : 'secondary'}
+                className={`w-full !rounded-2xl mt-8 text-center ${plan.mostPopular ? '' : '!bg-[#F0F0EC] !text-black border border-[#E5E5E0] hover:!bg-[#E8E8E2]'}`}
+              >
+                Get started
+              </Button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+);
+
+const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void }) => {
   return (
     <footer className="bg-dark-bg pt-20 pb-10 md:pt-48 md:pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
       <div className="max-w-[85rem] mx-auto px-6">
@@ -1774,7 +1903,7 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
   </section>
 );
 
-const AboutPage = ({ setView }: { setView: (v: 'home' | 'about' | 'booking') => void }) => {
+const AboutPage = ({ setView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void }) => {
   return (
     <main>
       {/* Section 1: Founder Hero */}
@@ -1805,12 +1934,14 @@ const HomePage = () => (
 // --- Main App ---
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'about' | 'booking'>('home');
+  const [view, setView] = useState<'home' | 'about' | 'booking' | 'pricing'>('home');
 
   useEffect(() => {
     // Basic path routing for SEO/Sitemap support
     if (window.location.pathname === '/about' || window.location.pathname === '/about/') {
       setView('about');
+    } else if (window.location.pathname === '/pricing' || window.location.pathname === '/pricing/') {
+      setView('pricing');
     }
   }, []);
 
@@ -1853,6 +1984,8 @@ export default function App() {
         </main>
       ) : view === 'about' ? (
         <AboutPage setView={setView} />
+      ) : view === 'pricing' ? (
+        <PricingPage />
       ) : (
         <BookingPage />
       )}
