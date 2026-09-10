@@ -1657,7 +1657,7 @@ const PricingPage = () => (
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <SectionHeading
           centered
-          title={<>Simple Pricing, No Setup Fees, No Contracts, Cancel Anytime</>}
+          title={<>Simple Pricing, No Setup Fees, No Contracts, <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Cancel Anytime</motion.span></>}
           subtitle="30 day money back guarantee"
         />
 
