@@ -1607,7 +1607,7 @@ const pricingPlans: {
   name: string,
   price: number,
   intro?: string,
-  includesFoundation?: boolean,
+  inheritsLabel?: string,
   features: string[],
   mostPopular?: boolean,
   checkoutUrl?: string,
@@ -1627,27 +1627,26 @@ const pricingPlans: {
     checkoutUrl: 'https://buy.stripe.com/8x228r39I4gj1CS2mh48002',
   },
   {
+    name: 'Review System Package',
+    price: 197,
+    inheritsLabel: 'the Foundation package',
+    features: [
+      'NFC tap-to-review card for instant Google reviews',
+      'Automated review request texts sent after every job',
+      'Automatic follow-up reminders for customers who haven’t left a review',
+      'New 5-star reviews auto-posted to your social media',
+    ],
+  },
+  {
     name: 'Local Business Package',
     price: 197,
-    includesFoundation: true,
+    inheritsLabel: 'the Review System Package',
     features: [
-      'Automated Google review collection',
       'Automated follow-up & customer reactivation',
       'Local SEO',
       'Dedicated business phone number & unified inbox',
     ],
     mostPopular: true,
-  },
-  {
-    name: 'Trades Package',
-    price: 197,
-    includesFoundation: true,
-    features: [
-      'Automated Google review collection',
-      'Automated follow-up & customer reactivation',
-      'Local SEO',
-      'Dedicated business phone number & unified inbox',
-    ],
   },
 ];
 
@@ -1692,13 +1691,13 @@ const PricingPage = () => (
                 <p className="text-xs font-bold uppercase tracking-wider text-heading mb-1">Features</p>
                 {plan.intro && <p className="text-sm text-body mb-5">{plan.intro}</p>}
                 <ul className={`space-y-3 ${plan.intro ? '' : 'mt-4'}`}>
-                  {plan.includesFoundation && (
+                  {plan.inheritsLabel && (
                     <li className="flex items-start gap-3">
                       <span className="flex items-center justify-center w-5 h-5 rounded-full bg-black flex-shrink-0 mt-0.5">
                         <Check size={12} strokeWidth={3} className="text-white" />
                       </span>
                       <span className="text-[0.95rem] font-extrabold text-heading">
-                        Everything in the Foundation package
+                        Everything in {plan.inheritsLabel}
                       </span>
                     </li>
                   )}
