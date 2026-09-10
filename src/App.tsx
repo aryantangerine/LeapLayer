@@ -1933,16 +1933,34 @@ const HomePage = () => (
 
 // --- Main App ---
 
+type View = 'home' | 'about' | 'booking' | 'pricing';
+
+const pathForView = (v: View) => v === 'home' ? '/' : v === 'about' ? '/about' : v === 'pricing' ? '/pricing' : '/book';
+
+const viewForPath = (pathname: string): View => {
+  const path = pathname.replace(/\/$/, '') || '/';
+  if (path === '/about') return 'about';
+  if (path === '/pricing') return 'pricing';
+  if (path === '/book') return 'booking';
+  return 'home';
+};
+
 export default function App() {
-  const [view, setView] = useState<'home' | 'about' | 'booking' | 'pricing'>('home');
+  const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
 
   useEffect(() => {
-    // Basic path routing for SEO/Sitemap support
-    if (window.location.pathname === '/about' || window.location.pathname === '/about/') {
-      setView('about');
-    } else if (window.location.pathname === '/pricing' || window.location.pathname === '/pricing/') {
-      setView('pricing');
+    // Keep the URL in sync with the current view, so pages like /book, /pricing and
+    // /about are real, linkable, bookmarkable URLs rather than just in-app state.
+    const path = pathForView(view);
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
     }
+  }, [view]);
+
+  useEffect(() => {
+    const handlePopState = () => setView(viewForPath(window.location.pathname));
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   useEffect(() => {
