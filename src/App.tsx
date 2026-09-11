@@ -1628,7 +1628,7 @@ const pricingPlans: {
   },
   {
     name: 'Review System Package',
-    price: 197,
+    price: 97,
     inheritsLabel: 'the Foundation package',
     features: [
       'NFC tap-to-review card for instant Google reviews',
