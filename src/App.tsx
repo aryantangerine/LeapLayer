@@ -1644,7 +1644,7 @@ const pricingPlans: {
       'Automated follow-up & customer reactivation',
       'Local SEO',
       'Dedicated business phone number & unified inbox',
-      'Optional appointment booking system and tracking',
+      'Optional appointment booking system',
     ],
     mostPopular: true,
   },
