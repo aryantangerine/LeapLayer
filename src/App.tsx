@@ -1629,7 +1629,6 @@ const pricingPlans: {
   {
     name: 'Review System Package',
     price: 97,
-    inheritsLabel: 'the Foundation package',
     features: [
       'NFC tap-to-review card for instant Google reviews',
       'Automated review request texts sent after every job',
@@ -1645,6 +1644,7 @@ const pricingPlans: {
       'Automated follow-up & customer reactivation',
       'Local SEO',
       'Dedicated business phone number & unified inbox',
+      'Optional appointment booking system and tracking',
     ],
     mostPopular: true,
   },
