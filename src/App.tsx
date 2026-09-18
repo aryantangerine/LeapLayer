@@ -1615,21 +1615,16 @@ const WantToLearn = () => (
         </svg>
 
         <div className="relative z-10">
-          <h3 className="text-white font-extrabold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 max-w-3xl mx-auto">
-            We teach business leaders practical skills to grow sales, marketing and operations.
+          <h3 className="text-white font-bold tracking-tight leading-[1.4] text-lg sm:text-xl md:text-2xl mb-8 md:mb-10 max-w-2xl mx-auto">
+            Google recently reweighted its local business search algorithm, just a couple of months ago. There is now a wide range of factors that can hide your business from Google, some of which you can fix yourself, without needing us involved.
           </h3>
-          <p className="font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10">
-            <span className="text-white">Stay </span>
-            <span style={{ color: '#A7F3D0' }}>Tuned</span>
-            <span style={{ color: '#5EEAD4' }}>!</span>
-          </p>
 
           <button
             onClick={goToBooking}
             className="group inline-flex items-center gap-3 md:gap-4 pl-6 md:pl-7 pr-1.5 py-1.5 rounded-full bg-white/15 border border-white/40 backdrop-blur-sm text-white shadow-lg transition-all duration-300 hover:bg-white/25 hover:-translate-y-0.5 active:scale-[0.98]"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            <span className="text-sm md:text-base font-semibold">Join The Waitlist</span>
+            <span className="text-sm md:text-base font-semibold">Book A Free Call To Learn</span>
             <span className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/25 text-white flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
               <ArrowRight size={18} />
             </span>
