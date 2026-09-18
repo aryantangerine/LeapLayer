@@ -1628,13 +1628,15 @@ const pricingPlans: {
   },
   {
     name: 'Growth Package',
-    price: 97,
+    price: 197,
+    inheritsLabel: 'the Minimum Package',
     features: [
       'NFC tap-to-review card for instant Google reviews',
       'Automated review request texts sent after every job',
       'Automatic follow-up reminders for customers who haven’t left a review',
       'New 5-star reviews auto-posted to your social media',
     ],
+    mostPopular: true,
   },
   {
     name: 'Scaling Package',
@@ -1647,7 +1649,6 @@ const pricingPlans: {
       'Dedicated business phone number & unified inbox',
       'Optional appointment booking system',
     ],
-    mostPopular: true,
   },
 ];
 
