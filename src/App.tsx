@@ -1613,7 +1613,7 @@ const pricingPlans: {
   checkoutUrl?: string,
 }[] = [
   {
-    name: 'Foundation',
+    name: 'Minimum Package',
     price: 97,
     intro: 'Your online foundation, done for you.',
     features: [
@@ -1627,7 +1627,7 @@ const pricingPlans: {
     checkoutUrl: 'https://buy.stripe.com/8x228r39I4gj1CS2mh48002',
   },
   {
-    name: 'Review System Package',
+    name: 'Growth Package',
     price: 97,
     features: [
       'NFC tap-to-review card for instant Google reviews',
@@ -1637,12 +1637,13 @@ const pricingPlans: {
     ],
   },
   {
-    name: 'Local Business Package',
-    price: 197,
-    inheritsLabel: 'the Review System Package',
+    name: 'Scaling Package',
+    price: 599,
+    inheritsLabel: 'the Growth Package',
     features: [
       'Automated follow-up & customer reactivation',
       'Local SEO',
+      'Google Business Profile Optimization',
       'Dedicated business phone number & unified inbox',
       'Optional appointment booking system',
     ],
