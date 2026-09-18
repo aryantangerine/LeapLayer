@@ -1362,7 +1362,7 @@ const painPointCards: {
     learnMore: true, momentum: 18, detail: 2.4, mountDelay: 0.3,
   },
   {
-    title: "Local SEO",
+    title: "Google Business Profile Optimization and Local SEO",
     description: "SEO takes time — don't let anyone tell you otherwise. But the earlier the right process is put in place, the sooner you're the one local customers find first when they search Google.",
     accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
     learnMore: true, momentum: 22, detail: 2.8, mountDelay: 0.45,
@@ -1506,7 +1506,7 @@ const PainPoints = () => {
           </div>
           <SectionHeading dark centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> Affordable, No Effort.</>} />
           <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#9CA3AF] text-center max-w-4xl mx-auto leading-[1.55] px-1">
-            There is no reason to use marketing systems, automations, AI or a smart website if they don't have clear return on investment. That's why everything below exists for one core outcome, making your business more money.
+            Everything below exists for one core outcome, bringing you more business and not being hidden on Google.
           </p>
         </div>
       </div>
