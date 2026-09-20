@@ -1390,7 +1390,7 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-[#EDE0C8] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
+  <section id="why-now" className="bg-[#E9E5DA] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
     <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
       <div className="flex justify-center">
         <span
@@ -1488,7 +1488,7 @@ const PainPoints = () => {
         />
       </svg>
       <div className="relative">
-        <div className="max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
+        <div className="max-w-[85rem] mx-auto px-6">
           <div className="flex justify-center">
             <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
               Local Business Package
@@ -1502,7 +1502,7 @@ const PainPoints = () => {
       </div>
     </div>
 
-    <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
+    <div className="relative z-10 max-w-[85rem] mx-auto px-6 pt-14 md:pt-20">
       {/* Four products, one row */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-6 items-stretch">
         {painPointCards.map((card, i) => (
