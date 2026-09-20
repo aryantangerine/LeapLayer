@@ -1390,21 +1390,17 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-[#333333] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.4)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
-    {/* Subtle off-centre glow */}
-    <div
-      className="absolute inset-0 pointer-events-none"
-      style={{ background: 'radial-gradient(ellipse 900px 550px at 42% 60%, rgba(255,255,255,0.05), transparent 70%)' }}
-      aria-hidden="true"
-    />
+  <section id="why-now" className="bg-[#EDE0C8] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
     <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
       <div className="flex justify-center">
-        <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
+        <span
+          className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full backdrop-blur-md text-[#0D6B45] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.15)]"
+          style={{ background: 'rgba(255,255,255,0.7)' }}
+        >
           Why Now
         </span>
       </div>
       <SectionHeading
-        dark
         centered
         className="!mb-10 md:!mb-14"
         titleClassName="text-4xl md:text-5xl lg:text-6xl"
@@ -1419,13 +1415,13 @@ const WhyNow = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="bg-white/[0.04] border border-white/10 backdrop-blur-sm rounded-3xl p-6 md:p-7"
+            className="bg-white border border-black/5 shadow-[0_15px_35px_-15px_rgba(0,0,0,0.15)] rounded-3xl p-6 md:p-7"
           >
-            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
-              <Icon size={20} className="text-[#67CB53]" />
+            <div className="w-11 h-11 rounded-2xl bg-[#2DAC65]/10 flex items-center justify-center mb-4">
+              <Icon size={20} className="text-[#2DAC65]" />
             </div>
-            <h3 className="text-white font-bold text-lg md:text-xl mb-2 tracking-tight">{title}</h3>
-            <p className="text-[#9CA3AF] text-sm md:text-base leading-relaxed">{text}</p>
+            <h3 className="text-heading font-bold text-lg md:text-xl mb-2 tracking-tight">{title}</h3>
+            <p className="text-body text-sm md:text-base leading-relaxed">{text}</p>
           </motion.div>
         ))}
       </div>
@@ -1433,7 +1429,7 @@ const WhyNow = () => (
       <div className="flex justify-center mt-10 md:mt-14">
         <button
           onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
-          className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-white/10 border border-white/25 backdrop-blur-sm text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20 active:scale-[0.98]"
+          className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           <span className="text-base md:text-[1.2rem] font-semibold">See How We Help</span>
