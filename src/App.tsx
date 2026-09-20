@@ -1396,70 +1396,57 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-page-bg relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
-    <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-16 pb-[170px] md:pt-24 md:pb-[230px] 2xl:pb-[190px] overflow-hidden">
-      {/* Subtle off-centre glow — matches the "Built for You" panel below it */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 900px 550px at 42% 60%, rgba(255,255,255,0.05), transparent 70%)' }}
-        aria-hidden="true"
+  <section id="why-now" className="bg-[#141414] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
+    {/* Subtle off-centre glow */}
+    <div
+      className="absolute inset-0 pointer-events-none"
+      style={{ background: 'radial-gradient(ellipse 900px 550px at 42% 60%, rgba(255,255,255,0.05), transparent 70%)' }}
+      aria-hidden="true"
+    />
+    <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
+      <div className="flex justify-center">
+        <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
+          Why Now
+        </span>
+      </div>
+      <SectionHeading
+        dark
+        centered
+        className="!mb-10 md:!mb-14"
+        titleClassName="text-4xl md:text-5xl lg:text-6xl"
+        title={<>Google Changed the Rules in <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Mid 2026</motion.span>.</>}
       />
-      <svg
-        className="absolute inset-x-0 bottom-0 w-full h-[90px] md:h-[150px] 2xl:h-[270px]"
-        viewBox="0 0 1440 240"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,0 L600,218 Q720,262 840,218 L1440,0 L1440,240 L0,240 Z"
-          fill="var(--color-page-bg, #F5F5F0)"
-        />
-      </svg>
-      <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
-        <div className="flex justify-center">
-          <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
-            Why Now
-          </span>
-        </div>
-        <SectionHeading
-          dark
-          centered
-          className="!mb-10 md:!mb-14"
-          titleClassName="text-4xl md:text-5xl lg:text-6xl"
-          title={<>Google Changed the Rules in <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Mid 2026</motion.span>.</>}
-        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
-          {whyNowPoints.map(({ icon: Icon, title, text }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="bg-white/[0.04] border border-white/10 backdrop-blur-sm rounded-3xl p-6 md:p-7"
-            >
-              <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
-                <Icon size={20} className="text-[#67CB53]" />
-              </div>
-              <h3 className="text-white font-bold text-lg md:text-xl mb-2 tracking-tight">{title}</h3>
-              <p className="text-[#9CA3AF] text-sm md:text-base leading-relaxed">{text}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-10 md:mt-14">
-          <button
-            onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-white/10 border border-white/25 backdrop-blur-sm text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20 active:scale-[0.98]"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
+        {whyNowPoints.map(({ icon: Icon, title, text }, i) => (
+          <motion.div
+            key={title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
+            className="bg-white/[0.04] border border-white/10 backdrop-blur-sm rounded-3xl p-6 md:p-7"
           >
-            <span className="text-base md:text-[1.2rem] font-semibold">See How We Help</span>
-            <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-y-0.5">
-              <ArrowDown size={20} />
-            </span>
-          </button>
-        </div>
+            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
+              <Icon size={20} className="text-[#67CB53]" />
+            </div>
+            <h3 className="text-white font-bold text-lg md:text-xl mb-2 tracking-tight">{title}</h3>
+            <p className="text-[#9CA3AF] text-sm md:text-base leading-relaxed">{text}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="flex justify-center mt-10 md:mt-14">
+        <button
+          onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
+          className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-white/10 border border-white/25 backdrop-blur-sm text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20 active:scale-[0.98]"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+        >
+          <span className="text-base md:text-[1.2rem] font-semibold">See How We Help</span>
+          <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-y-0.5">
+            <ArrowDown size={20} />
+          </span>
+        </button>
       </div>
     </div>
   </section>
@@ -1526,8 +1513,8 @@ const PainPoints = () => {
     </div>
 
     <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
-      {/* Four products, one row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-8 items-stretch">
+      {/* Four products, two per row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
         {painPointCards.map((card, i) => (
           <motion.div
             key={i}
