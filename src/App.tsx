@@ -9,10 +9,10 @@ import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
-  ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
+  ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users,
   Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
-  CalendarX, Bot, LayoutDashboard
+  CalendarX, Bot
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -896,7 +896,7 @@ const FeatureCard = ({
   badge?: string,
   title: React.ReactNode,
   description?: string,
-  bullets?: { title: string, text: string }[],
+  bullets?: { title: string, text?: string }[],
   accentColor?: string,
   swirlA?: string,
   swirlB?: string,
@@ -954,7 +954,7 @@ const FeatureCard = ({
                 <Check size={14} style={{ color: accentColor }} strokeWidth={3} />
               </span>
               <p className="text-[#2A2A2A] text-base md:text-[1.05rem] leading-relaxed">
-                <span className="font-bold text-heading">{bullet.title}</span>{' '}{bullet.text}
+                <span className="font-bold text-heading">{bullet.title}</span>{bullet.text ? <>{' '}{bullet.text}</> : null}
               </p>
             </li>
           ))}
@@ -1323,7 +1323,7 @@ const painPointCards: {
   icon?: React.ElementType,
   title: React.ReactNode,
   description?: string,
-  bullets?: { title: string, text: string }[],
+  bullets?: { title: string, text?: string }[],
   accentColor?: string,
   swirlA?: string,
   swirlB?: string,
@@ -1334,56 +1334,50 @@ const painPointCards: {
 }[] = [
   {
     badge: "Never Miss A Call",
-    icon: Phone,
     title: "AI Receptionist",
-    description: "A 24/7 AI-powered receptionist that answers every call, qualifies the caller and books the appointment, so your business never misses an opportunity.",
+    description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
     bullets: [
-      { title: "Always answers.", text: "Calls get picked up instantly, day or night, so no enquiry ever goes to voicemail." },
-      { title: "Books it in.", text: "It qualifies the caller and slots them straight into your calendar, no back and forth required." },
+      { title: "24/7 Availability" },
+      { title: "Instant Call Answering" },
+      { title: "Appointment Booking" },
+      { title: "Lead Capture" },
     ],
-    accentColor: "#8B5CF6",
-    swirlA: "#f5f0fd",
-    swirlB: "#ded0f7",
     learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
   },
   {
     badge: "Attract New Customers",
-    icon: Star,
-    title: <>Get More <GoogleWord /> Reviews with Automated Review Collection</>,
+    title: <>Get More <GoogleWord /> Reviews</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: [
-      { title: "Tap. Review. Done.", text: "Customers tap their phone on your NFC review card and your Google review page opens instantly — no app, no typing, no searching." },
-      { title: "Automated review system.", text: "When a customer isn't there on the job, a personalised review request goes out by text and follows up automatically." },
+      { title: "NFC Tap-To-Review Card" },
+      { title: "Automated Review Requests" },
+      { title: "Follow-Up Reminders" },
+      { title: "Auto-Posted To Social" },
     ],
     learnMore: true, momentum: 13, detail: 1.7, mountDelay: 0.15,
   },
   {
     badge: "Convert More Leads",
-    icon: Globe,
     title: <>A <span style={{ color: '#2F6FED' }}>Smart Website</span> With Lead Capture</>,
     description: "A website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: [
-      { title: "Automated website replies.", text: "Customers get texted straight from your website while you're busy, so you can pick the conversation up later." },
-      { title: "Built to rank.", text: "Fast, clean, SEO-ready pages so local customers actually find you when they search." },
-      { title: "Capture every enquiry.", text: "Forms, click-to-call and instant lead capture on every page, so interest never slips through." },
+      { title: "Automated Website Replies" },
+      { title: "Built To Rank" },
+      { title: "Capture Every Enquiry" },
+      { title: "Mobile Optimized" },
     ],
-    accentColor: "#2F6FED",
-    swirlA: "#f0f5fd",
-    swirlB: "#c8d8f5",
     learnMore: true, momentum: 18, detail: 2.2, mountDelay: 0.3,
   },
   {
     badge: "See Your Results",
-    icon: LayoutDashboard,
-    title: "Track Everything In One App",
-    description: "See every opportunity coming through your website, every appointment booked and the revenue these systems generate, all from a single dashboard.",
+    title: "Track Everything",
+    description: "See every opportunity, appointment and the revenue these systems generate, all in one dashboard.",
     bullets: [
-      { title: "Every opportunity, tracked.", text: "Watch leads and enquiries land in real time as they come through your website." },
-      { title: "Revenue, made visible.", text: "See exactly how many appointments and how much revenue these systems are generating for your business." },
+      { title: "Live Opportunity Tracking" },
+      { title: "Appointment Tracking" },
+      { title: "Revenue Reporting" },
+      { title: "One Dashboard" },
     ],
-    accentColor: "#B08D57",
-    swirlA: "#faf6ee",
-    swirlB: "#e6d9bd",
     learnMore: true, momentum: 22, detail: 2.6, mountDelay: 0.45,
   },
 ];
@@ -1396,7 +1390,7 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-[#141414] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
+  <section id="why-now" className="bg-[#333333] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.4)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
     {/* Subtle off-centre glow */}
     <div
       className="absolute inset-0 pointer-events-none"
@@ -1458,7 +1452,7 @@ const PainPoints = () => {
   const bubbleY = useTransform(scrollYProgress, [0, 1], [-160, 160]);
 
   return (
-  <section id="built-for-you" ref={sectionRef} className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+  <section id="built-for-you" ref={sectionRef} className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.35)] -mt-20 overflow-hidden">
     {/* Floating pastel bubble — bleeds off the right edge, drifts as the section scrolls into/out of view */}
     <motion.div
       className="absolute -right-[10%] top-[42%] w-[320px] h-[320px] md:w-[520px] md:h-[520px] pointer-events-none"
@@ -1479,7 +1473,7 @@ const PainPoints = () => {
       />
     </motion.div>
     {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
-    <div className="relative bg-[#141414] rounded-t-[40px] md:rounded-t-[80px] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px] overflow-hidden">
+    <div className="relative bg-[#141414] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px] overflow-hidden">
       {/* Subtle off-centre glow — soft brightness low in the panel, echoing the reference screenshot */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -1513,8 +1507,8 @@ const PainPoints = () => {
     </div>
 
     <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
-      {/* Four products, two per row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+      {/* Four products, one row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-6 items-stretch">
         {painPointCards.map((card, i) => (
           <motion.div
             key={i}
