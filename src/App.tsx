@@ -12,7 +12,7 @@ import {
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users, Phone,
   Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
-  CalendarX, Bot
+  CalendarX, Bot, LayoutDashboard
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -1320,6 +1320,7 @@ const painPointCards: {
   heading?: string,
   subheading?: string,
   badge?: string,
+  icon?: React.ElementType,
   title: React.ReactNode,
   description?: string,
   bullets?: { title: string, text: string }[],
@@ -1332,17 +1333,33 @@ const painPointCards: {
   mountDelay?: number,
 }[] = [
   {
+    badge: "Never Miss A Call",
+    icon: Phone,
+    title: "AI Receptionist",
+    description: "A 24/7 AI-powered receptionist that answers every call, qualifies the caller and books the appointment, so your business never misses an opportunity.",
+    bullets: [
+      { title: "Always answers.", text: "Calls get picked up instantly, day or night, so no enquiry ever goes to voicemail." },
+      { title: "Books it in.", text: "It qualifies the caller and slots them straight into your calendar, no back and forth required." },
+    ],
+    accentColor: "#8B5CF6",
+    swirlA: "#f5f0fd",
+    swirlB: "#ded0f7",
+    learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
+  },
+  {
     badge: "Attract New Customers",
+    icon: Star,
     title: <>Get More <GoogleWord /> Reviews with Automated Review Collection</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: [
       { title: "Tap. Review. Done.", text: "Customers tap their phone on your NFC review card and your Google review page opens instantly — no app, no typing, no searching." },
       { title: "Automated review system.", text: "When a customer isn't there on the job, a personalised review request goes out by text and follows up automatically." },
     ],
-    learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
+    learnMore: true, momentum: 13, detail: 1.7, mountDelay: 0.15,
   },
   {
     badge: "Convert More Leads",
+    icon: Globe,
     title: <>A <span style={{ color: '#2F6FED' }}>Smart Website</span> With Lead Capture</>,
     description: "A website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: [
@@ -1353,25 +1370,21 @@ const painPointCards: {
     accentColor: "#2F6FED",
     swirlA: "#f0f5fd",
     swirlB: "#c8d8f5",
-    learnMore: true, momentum: 13, detail: 1.7, mountDelay: 0.15,
+    learnMore: true, momentum: 18, detail: 2.2, mountDelay: 0.3,
   },
   {
-    title: "Retain More Customers",
-    description: "Automated follow-up sequences and database reactivation, bringing back past customers automatically.",
-    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
-    learnMore: true, momentum: 18, detail: 2.4, mountDelay: 0.3,
-  },
-  {
-    title: "Google Business Profile Optimization and Local SEO",
-    description: "SEO takes time — don't let anyone tell you otherwise. But the earlier the right process is put in place, the sooner you're the one local customers find first when they search Google.",
-    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
-    learnMore: true, momentum: 22, detail: 2.8, mountDelay: 0.45,
-  },
-  {
-    title: "Business Phone",
-    description: "A dedicated business number that keeps work calls separate, with an all-in-one inbox where your Instagram, Facebook and website leads all land in one place.",
-    accentColor: "#B08D57", swirlA: "#faf6ee", swirlB: "#e6d9bd",
-    learnMore: true, momentum: 26, detail: 3.2, mountDelay: 0.6,
+    badge: "See Your Results",
+    icon: LayoutDashboard,
+    title: "Track Everything In One App",
+    description: "See every opportunity coming through your website, every appointment booked and the revenue these systems generate, all from a single dashboard.",
+    bullets: [
+      { title: "Every opportunity, tracked.", text: "Watch leads and enquiries land in real time as they come through your website." },
+      { title: "Revenue, made visible.", text: "See exactly how many appointments and how much revenue these systems are generating for your business." },
+    ],
+    accentColor: "#B08D57",
+    swirlA: "#faf6ee",
+    swirlB: "#e6d9bd",
+    learnMore: true, momentum: 22, detail: 2.6, mountDelay: 0.45,
   },
 ];
 
@@ -1513,41 +1526,9 @@ const PainPoints = () => {
     </div>
 
     <div className="relative z-10 max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20 pt-14 md:pt-20">
-      {/* Row 1: Attract New Customers + Convert More Leads, side by side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-        {painPointCards.slice(0, 2).map(({ pill, heading, subheading, ...card }, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
-          >
-            {pill && (
-              <span className="inline-flex items-center px-4 py-1.5 mb-5 rounded-full bg-[#111111] text-white text-sm font-semibold tracking-wide">
-                {pill}
-              </span>
-            )}
-            {heading && (
-              <h3 className="text-[2rem] md:text-[2.75rem] lg:text-5xl font-bold text-heading leading-[1.05] tracking-tight">
-                {heading}
-              </h3>
-            )}
-            {subheading && (
-              <p className="text-[#3A3A3A]/70 text-base md:text-xl font-semibold mt-3 md:mt-4 leading-relaxed">
-                {subheading}
-              </p>
-            )}
-            <div className={heading ? 'mt-7 md:mt-9' : ''}>
-              <FeatureCard {...card} />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Row 2: Retain More Customers — narrower, 3-up row (slots for future cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mt-8 lg:mt-10 items-stretch">
-        {painPointCards.slice(2).map(({ pill, heading, subheading, ...card }, i) => (
+      {/* Four products, one row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-8 items-stretch">
+        {painPointCards.map((card, i) => (
           <motion.div
             key={i}
             className="h-full"
@@ -1556,24 +1537,7 @@ const PainPoints = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
           >
-            {pill && (
-              <span className="inline-flex items-center px-4 py-1.5 mb-5 rounded-full bg-[#111111] text-white text-sm font-semibold tracking-wide">
-                {pill}
-              </span>
-            )}
-            {heading && (
-              <h3 className="text-[2rem] md:text-[2.75rem] lg:text-5xl font-bold text-heading leading-[1.05] tracking-tight">
-                {heading}
-              </h3>
-            )}
-            {subheading && (
-              <p className="text-[#3A3A3A]/70 text-base md:text-xl font-semibold mt-3 md:mt-4 leading-relaxed">
-                {subheading}
-              </p>
-            )}
-            <div className={`h-full ${heading ? 'mt-7 md:mt-9' : ''}`}>
-              <FeatureCard {...card} />
-            </div>
+            <FeatureCard {...card} />
           </motion.div>
         ))}
       </div>
