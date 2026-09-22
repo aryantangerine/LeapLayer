@@ -332,6 +332,16 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 const Hero = () => {
   const lines = ["More Reviews.", "Better Visibility.", "More Customers."];
 
+  // The shader library accumulates an ever-growing time uniform with no wraparound. Left running
+  // for a long session, float32 precision breaks down and the animation drifts toward black. A
+  // periodic full remount (fresh key) resets that internal accumulator before it degrades, without
+  // altering how the animation or colors look at any given moment.
+  const [shaderCycle, setShaderCycle] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setShaderCycle((c) => c + 1), 10 * 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
+
   const handleSeeHow = () => {
     const el = document.getElementById('solutions');
     if (el) {
@@ -342,7 +352,7 @@ const Hero = () => {
   return (
     <section className="bg-page-bg flex items-center pt-40 pb-32 md:pt-48 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background (mobile: static, unchanged) */}
-      <Shader className="absolute inset-0 z-0 pointer-events-none md:hidden">
+      <Shader key={`mobile-${shaderCycle}`} className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
         <ChromaFlow
           baseColor="#ffffff"
@@ -369,7 +379,7 @@ const Hero = () => {
       </Shader>
 
       {/* WebGL shader background (desktop: aberration/highlight track cursor x-position — strong baseline on the right at rest, intensifies further on hover) */}
-      <Shader className="absolute inset-0 z-0 pointer-events-none hidden md:block">
+      <Shader key={`desktop-${shaderCycle}`} className="absolute inset-0 z-0 pointer-events-none hidden md:block">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
         <ChromaFlow
           baseColor="#ffffff"
