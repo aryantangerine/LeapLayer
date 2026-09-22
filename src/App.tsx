@@ -1391,10 +1391,10 @@ const painPointCards: {
 ];
 
 const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] = [
-  { icon: MousePointer2, title: "It's clicks, not history.", text: "It's not history that ranks you now — it's clicks. On your website. On your profile." },
-  { icon: Star, title: 'Fresh reviews win.', text: "Old reviews don't count like they used to. New ones do — and how fast you get them." },
+  { icon: MousePointer2, title: "It's clicks, not history.", text: "It's not history that ranks you now, it's clicks. On your website. On your profile." },
+  { icon: Star, title: 'Fresh reviews win.', text: "Old reviews don't count like they used to. New ones do, and how fast you get them." },
   { icon: CalendarX, title: '30 days of silence costs you.', text: "Miss 30 days of activity on your profile? Google's already moved you down." },
-  { icon: Bot, title: 'AI answers for you now.', text: "Google's AI now answers customers straight from your profile — get it wrong, and you get skipped entirely." },
+  { icon: Bot, title: 'AI answers for you now.', text: "Google's AI now answers customers straight from your profile, get it wrong, and you get skipped entirely." },
 ];
 
 const WhyNow = () => (
@@ -1565,7 +1565,7 @@ const WantToLearn = () => (
 
         <div className="relative z-10">
           <h3 className="text-white font-bold tracking-tight leading-[1.4] text-lg sm:text-xl md:text-2xl mb-8 md:mb-10 max-w-2xl mx-auto">
-            Google recently reweighted its local business search algorithm, just a couple of months ago. There is now a wide range of factors that can hide your business from Google, some of which you can fix yourself, without needing us involved.
+            Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
           </h3>
 
           <button
