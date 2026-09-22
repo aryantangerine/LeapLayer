@@ -423,7 +423,7 @@ const Hero = () => {
               className="inline-flex items-center px-5 py-2.5 rounded-full backdrop-blur-md text-[#0D6B45] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]"
               style={{ background: 'rgba(255,255,255,0.7)' }}
             >
-              The Local Business Growth Engine
+              Your AI Business Growth Engine
             </span>
           </motion.div>
           <h1 className="text-heading text-[2.75rem] sm:text-6xl md:text-7xl leading-[1.05] font-bold tracking-tighter mb-6 md:mb-7">
@@ -913,7 +913,7 @@ const FeatureCard = ({
     viewport={{ once: true }}
     transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
     whileHover={{ y: -10, scale: 1.01, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-    className="relative overflow-hidden bg-white rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
+    className="relative overflow-hidden bg-white rounded-[2rem] p-3 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[6px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
   >
     <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} accent={accentColor} swirlA={swirlA} swirlB={swirlB} />
     {/* Floating decorative shape */}
@@ -921,39 +921,31 @@ const FeatureCard = ({
       className="absolute -top-16 -right-16 w-64 h-64 rounded-full blur-3xl pointer-events-none"
       style={{ backgroundColor: `${accentColor}26` }}
     />
-    <div className="relative z-10 p-7 md:p-9 flex flex-col h-full">
+    <div className="relative z-10 px-5 md:px-6 pt-7 md:pt-9 pb-5 md:pb-6 flex flex-col h-full">
       {Icon && (
-        <div className="w-11 h-11 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center mb-4">
-          <Icon style={{ color: accentColor }} size={20} />
+        <div className="w-10 h-10 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center mb-3.5">
+          <Icon style={{ color: accentColor }} size={18} />
         </div>
       )}
-      {badge && (
-        <span
-          className="inline-flex items-center self-start px-5 py-2 mb-5 rounded-full text-base md:text-lg font-bold tracking-wide"
-          style={{ backgroundColor: `${accentColor}26`, color: accentColor }}
-        >
-          {badge}
-        </span>
-      )}
-      <h3 className="text-[1.5rem] md:text-[2.2rem] font-bold text-heading mb-3 md:mb-4 leading-[1.15] tracking-tight transition-colors">
+      <h3 className="text-2xl md:text-3xl font-bold text-heading mb-2.5 md:mb-3 leading-[1.15] tracking-tight transition-colors">
         {title}
       </h3>
       {description && (
-        <p className="text-[#2A2A2A] text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+        <p className="text-[#2A2A2A] text-sm md:text-base leading-relaxed mb-5 md:mb-6">
           {description}
         </p>
       )}
       {bullets && (
-        <ul className="space-y-4 md:space-y-5 mb-7 md:mb-9">
+        <ul className="space-y-3 md:space-y-3.5 mb-6 md:mb-7">
           {bullets.map((bullet) => (
-            <li key={bullet.title} className="flex items-start gap-3.5">
+            <li key={bullet.title} className="flex items-start gap-2.5">
               <span
-                className="mt-1 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: `${accentColor}26` }}
               >
-                <Check size={14} style={{ color: accentColor }} strokeWidth={3} />
+                <Check size={12} style={{ color: accentColor }} strokeWidth={3} />
               </span>
-              <p className="text-[#2A2A2A] text-base md:text-[1.05rem] leading-relaxed">
+              <p className="text-[#2A2A2A] text-sm md:text-[0.95rem] leading-relaxed">
                 <span className="font-bold text-heading">{bullet.title}</span>{bullet.text ? <>{' '}{bullet.text}</> : null}
               </p>
             </li>
@@ -964,11 +956,11 @@ const FeatureCard = ({
         <div className="mt-auto pt-2">
           <button
             onClick={goToBooking}
-            className="group/btn inline-flex items-center gap-3 md:gap-4 pl-6 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98]"
+            className="group/btn inline-flex items-center gap-2.5 md:gap-3 pl-5 pr-2 py-2 rounded-full bg-[#111111] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98] max-w-full"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            <span className="text-sm md:text-base font-semibold">Learn More</span>
-            <span className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover/btn:translate-x-0.5">
+            <span className="text-sm font-semibold">{badge || "Learn More"}</span>
+            <span className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover/btn:translate-x-0.5">
               <ArrowRight size={16} />
             </span>
           </button>
@@ -1315,6 +1307,22 @@ const GoogleWord = () => (
   </span>
 );
 
+// Same animated green gradient as "More Customers." in the hero — no yellow shimmer, plain (non-italic) weight
+const GradientText = ({ children }: { children: React.ReactNode }) => (
+  <motion.span
+    className="inline-block bg-clip-text text-transparent"
+    style={{
+      backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)',
+      backgroundSize: '250% 100%',
+      backgroundPosition: '100% center',
+    }}
+    animate={{ backgroundPosition: ['100% center', '0% center'] }}
+    transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+  >
+    {children}
+  </motion.span>
+);
+
 const painPointCards: {
   pill?: string,
   heading?: string,
@@ -1334,7 +1342,7 @@ const painPointCards: {
 }[] = [
   {
     badge: "Never Miss A Call",
-    title: "AI Receptionist",
+    title: <><GradientText>AI</GradientText> Receptionist</>,
     description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
     bullets: [
       { title: "24/7 Availability" },
@@ -1346,7 +1354,7 @@ const painPointCards: {
   },
   {
     badge: "Attract New Customers",
-    title: <>Get More <GoogleWord /> Reviews</>,
+    title: <>Get More <GoogleWord /> <GradientText>Reviews</GradientText> with Our AI System</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: [
       { title: "NFC Tap-To-Review Card" },
@@ -1358,8 +1366,8 @@ const painPointCards: {
   },
   {
     badge: "Convert More Leads",
-    title: <>A <span style={{ color: '#2F6FED' }}>Smart Website</span> With Lead Capture</>,
-    description: "A website that turns every qualified lead instantly into a text conversation DIRECTLY to your phone.",
+    title: <>A <GradientText>Smart Website</GradientText> With Lead Capture</>,
+    description: "A website that uses AI to turn every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: [
       { title: "Automated Website Replies" },
       { title: "Built To Rank" },
@@ -1370,7 +1378,7 @@ const painPointCards: {
   },
   {
     badge: "See Your Results",
-    title: "Track Everything",
+    title: <><GradientText>Track</GradientText> Everything</>,
     description: "See every opportunity, appointment and the revenue these systems generate, all in one dashboard.",
     bullets: [
       { title: "Live Opportunity Tracking" },
@@ -1390,7 +1398,7 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-[#E9E5DA] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
+  <section id="why-now" className="bg-page-bg relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
     <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
       <div className="flex justify-center">
         <span
@@ -1502,9 +1510,9 @@ const PainPoints = () => {
       </div>
     </div>
 
-    <div className="relative z-10 max-w-[85rem] mx-auto px-6 pt-14 md:pt-20">
+    <div className="relative z-10 max-w-[100rem] mx-auto px-4 md:px-8 pt-14 md:pt-20">
       {/* Four products, one row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
         {painPointCards.map((card, i) => (
           <motion.div
             key={i}
