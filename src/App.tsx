@@ -223,7 +223,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
               onClick={goToBooking}
               className="!py-3.5 !px-8 text-base !text-white shadow-lg"
             >
-              Book A Call
+              Free AI Audit
             </Button>
           </div>
 
@@ -319,7 +319,7 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
                   {item}
                 </button>
               ))}
-              <Button className="w-full py-4 text-lg rounded-2xl" onClick={goToBooking}>Book A Call</Button>
+              <Button className="w-full py-4 text-lg rounded-2xl" onClick={goToBooking}>Free AI Audit</Button>
             </div>
           </motion.div>
         )}
@@ -500,7 +500,7 @@ const Hero = () => {
                 className="group inline-flex items-center justify-between gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                <span className="text-base md:text-[1.2rem] font-semibold">Book A Call</span>
+                <span className="text-base md:text-[1.2rem] font-semibold">Free 15-Min AI Audit</span>
                 <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
                   <ArrowRight size={20} />
                 </span>
@@ -2043,7 +2043,6 @@ export default function App() {
           <WhyNow />
           <PainPoints />
           <WantToLearn />
-          <Discovery />
         </main>
       ) : view === 'about' ? (
         <AboutPage setView={setView} />
