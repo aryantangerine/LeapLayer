@@ -1631,22 +1631,37 @@ const Discovery = ({ standalone = false }: { standalone?: boolean } = {}) => (
 
 const BookingPage = () => (
   <main>
-    <Discovery standalone />
+    <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-page-bg relative min-h-screen flex items-center">
+      <div className="max-w-2xl mx-auto px-6 text-center">
+        <span className="inline-flex items-center px-5 py-2.5 mb-6 rounded-full bg-[#2DAC65]/10 border border-[#2DAC65]/30 text-[#0D6B45] text-sm font-bold uppercase tracking-wider">
+          Fully Booked
+        </span>
+        <h1 className="text-4xl md:text-6xl font-bold text-heading tracking-tight leading-[1.05] mb-6">
+          Bookings for this month are full.
+        </h1>
+        <p className="text-body text-lg md:text-xl leading-relaxed">
+          We're at capacity for new strategy calls right now. Check back soon, or reach out and we'll let you know the moment a slot opens up.
+        </p>
+      </div>
+    </section>
   </main>
 );
 
 const pricingPlans: {
   name: string,
   price: number,
+  wasPrice?: number,
   intro?: string,
   inheritsLabel?: string,
   features: string[],
   mostPopular?: boolean,
   checkoutUrl?: string,
+  ctaLabel?: string,
 }[] = [
   {
     name: 'Minimum Package',
     price: 97,
+    wasPrice: 750,
     intro: 'Your online foundation, done for you.',
     features: [
       'Full website',
@@ -1661,12 +1676,11 @@ const pricingPlans: {
   {
     name: 'Growth Package',
     price: 197,
-    inheritsLabel: 'the Minimum Package',
+    wasPrice: 2000,
     features: [
-      'NFC tap-to-review card for instant Google reviews',
-      'Automated review request texts sent after every job',
-      'Automatic follow-up reminders for customers who haven’t left a review',
-      'New 5-star reviews auto-posted to your social media',
+      'Smart Website',
+      'Review System',
+      'Missed Call Text Back',
     ],
     mostPopular: true,
   },
@@ -1675,12 +1689,11 @@ const pricingPlans: {
     price: 599,
     inheritsLabel: 'the Growth Package',
     features: [
-      'Automated follow-up & customer reactivation',
-      'Local SEO',
-      'Google Business Profile Optimization',
-      'Dedicated business phone number & unified inbox',
-      'Optional appointment booking system',
+      '24/7 Voice AI Receptionist',
+      'Answers every call and books appointments',
+      'Saves you time and captures more leads',
     ],
+    ctaLabel: 'See More',
   },
 ];
 
@@ -1725,10 +1738,17 @@ const PricingPage = () => (
 
               <h3 className="text-xl font-bold text-heading tracking-tight mb-4">{plan.name}</h3>
 
-              <div className="flex items-baseline gap-1.5 mb-8">
-                <span className="text-5xl font-extrabold tracking-tight text-heading">£{plan.price}</span>
-                <span className="text-body text-base font-semibold">per month</span>
-              </div>
+              {plan.wasPrice ? (
+                <div className="flex items-baseline gap-3 mb-8">
+                  <span className="text-2xl font-bold text-body/40 line-through">£{plan.wasPrice.toLocaleString()}</span>
+                  <span className="text-5xl font-extrabold tracking-tight text-heading">£0</span>
+                </div>
+              ) : (
+                <div className="flex items-baseline gap-1.5 mb-8">
+                  <span className="text-5xl font-extrabold tracking-tight text-heading">£{plan.price}</span>
+                  <span className="text-body text-base font-semibold">per month</span>
+                </div>
+              )}
 
               <div className="flex-1 pt-6 border-t border-[#E5E5E0]">
                 <p className="text-xs font-bold uppercase tracking-wider text-heading mb-1">Features</p>
@@ -1755,13 +1775,16 @@ const PricingPage = () => (
                 </ul>
               </div>
 
-              <Button
+              <button
                 onClick={() => plan.checkoutUrl ? window.location.assign(plan.checkoutUrl) : goToBooking()}
-                variant={plan.mostPopular ? 'primary' : 'secondary'}
-                className={`w-full !rounded-2xl mt-8 text-center ${plan.mostPopular ? '' : '!bg-[#F0F0EC] !text-black border border-[#E5E5E0] hover:!bg-[#E8E8E2]'}`}
+                className="group w-full inline-flex items-center justify-between gap-4 pl-6 pr-1.5 py-1.5 mt-8 rounded-full bg-[#111111] text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98]"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                Get started
-              </Button>
+                <span className="text-base font-semibold">{plan.ctaLabel ?? `£${plan.price} per month`}</span>
+                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+                  <ArrowRight size={18} />
+                </span>
+              </button>
             </motion.div>
           ))}
         </div>
