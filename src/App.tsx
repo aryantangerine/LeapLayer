@@ -526,8 +526,10 @@ const Hero = () => {
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 <span className="text-base md:text-[1.2rem] font-semibold">Free 15-Min AI Audit</span>
-                <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                  <ArrowRight size={20} />
+                {/* Same hover DNA as the product cards: a fill grows from the centre and the arrow turns to point right */}
+                <span className="relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 overflow-hidden">
+                  <span className="absolute inset-0 rounded-full bg-[#2DAC65] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" aria-hidden="true" />
+                  <ArrowUpRight size={20} className="relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
                 </span>
               </button>
             </div>
