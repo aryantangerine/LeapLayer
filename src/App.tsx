@@ -62,14 +62,23 @@ const CircleArrowButton = ({
   onClick,
   href,
   icon: Icon = ArrowRight,
+  fillHover = false,
   className = '',
-}: { children: React.ReactNode, onClick?: () => void, href?: string, icon?: React.ElementType, className?: string }) => {
+}: { children: React.ReactNode, onClick?: () => void, href?: string, icon?: React.ElementType, fillHover?: boolean, className?: string }) => {
   const inner = (
     <>
       <span className="text-base md:text-[1.2rem] font-semibold">{children}</span>
-      <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-        <Icon size={20} />
-      </span>
+      {fillHover ? (
+        // Same hover DNA as the product cards: a black fill grows from the centre and the arrow turns to point right
+        <span className="relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 overflow-hidden">
+          <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" aria-hidden="true" />
+          <Icon size={20} className="relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
+        </span>
+      ) : (
+        <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+          <Icon size={20} />
+        </span>
+      )}
     </>
   );
   const style = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
@@ -1066,8 +1075,8 @@ const HomeFounderIntro = () => (
           </p>
 
           <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
-            <CircleArrowButton onClick={goToBooking}>Let's Talk</CircleArrowButton>
-            <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/">See LinkedIn Profile</CircleArrowButton>
+            <CircleArrowButton onClick={goToBooking} icon={ArrowUpRight} fillHover>Let's Talk</CircleArrowButton>
+            <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/" icon={ArrowUpRight} fillHover>See LinkedIn Profile</CircleArrowButton>
           </div>
         </motion.div>
 
@@ -1790,8 +1799,8 @@ const AboutPage = () => (
             </p>
 
             <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
-              <CircleArrowButton onClick={goToBooking}>Let's Talk</CircleArrowButton>
-              <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/">See LinkedIn Profile</CircleArrowButton>
+              <CircleArrowButton onClick={goToBooking} icon={ArrowUpRight} fillHover>Let's Talk</CircleArrowButton>
+              <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/" icon={ArrowUpRight} fillHover>See LinkedIn Profile</CircleArrowButton>
             </div>
           </motion.div>
 
