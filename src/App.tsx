@@ -1073,7 +1073,7 @@ const HomeFounderIntro = () => (
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" aria-hidden="true" />
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
               <p className="text-white text-[19px] md:text-[21px] font-semibold tracking-[-0.02em] leading-tight">Aryan Parekh</p>
-              <p className="text-white/75 text-[14px] md:text-[15px] mt-1">Founder of LeapLayer, former engineer at Jaguar Land Rover</p>
+              <p className="text-white/75 text-[14px] md:text-[15px] mt-1">Founder of LeapLayer, engineer at Jaguar Land Rover</p>
             </div>
           </div>
         </motion.div>
