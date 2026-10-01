@@ -12,7 +12,7 @@ import {
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users,
   Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
-  CalendarX, Bot, PhoneCall
+  CalendarX, Bot, ArrowUpRight
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -1097,63 +1097,57 @@ const GoogleWord = () => (
 );
 
 type ProductCardProps = {
-  icon: React.ElementType,
   title: React.ReactNode,
   description: string,
   bullets: string[],
   cta: string,
 };
 
-const ProductCard = ({ icon: Icon, title, description, bullets, cta }: ProductCardProps) => (
-  <div className="flex flex-col h-full bg-white border border-line rounded-[24px] p-6 lg:p-7 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft">
-    <span className="grid place-items-center w-11 h-11 rounded-[14px] bg-tint text-brand">
-      <Icon size={22} />
+const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => (
+  <button
+    type="button"
+    onClick={goToBooking}
+    className="group relative flex flex-col h-full w-full text-left bg-[#EAEAE3] rounded-[32px] p-7 md:p-10 transition-colors duration-300 hover:bg-[#E3E3DB]"
+  >
+    <span
+      className="absolute top-7 right-7 md:top-10 md:right-10 grid place-items-center w-10 h-10 rounded-full bg-white text-heading transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+      aria-hidden="true"
+    >
+      <ArrowUpRight size={18} />
     </span>
-    <h3 className="h-calm text-heading text-[22px] mt-5">{title}</h3>
-    <p className="text-muted text-[15px] leading-relaxed mt-2">{description}</p>
-    <ul className="mt-5 border-t border-line">
+    <span className="eyebrow pr-14">{cta}</span>
+    <h3 className="h-calm text-heading text-[30px] md:text-[38px] mt-3 pr-14">{title}</h3>
+    <p className="text-muted text-[16px] md:text-[17px] leading-relaxed mt-4 max-w-[34rem]">{description}</p>
+    <span className="flex flex-wrap gap-2 mt-auto pt-8">
       {bullets.map((bullet) => (
-        <li key={bullet} className="flex items-center gap-2.5 py-2.5 border-b border-line text-[14.5px] font-medium text-heading">
-          <Check size={16} strokeWidth={2.5} className="text-brand flex-shrink-0" />
+        <span key={bullet} className="rounded-full bg-white px-3.5 py-1.5 text-[13.5px] font-medium text-heading/75">
           {bullet}
-        </li>
+        </span>
       ))}
-    </ul>
-    <div className="mt-auto pt-6">
-      <button
-        onClick={goToBooking}
-        className="inline-flex items-center gap-2 rounded-full bg-[#111111] text-white px-[18px] py-2.5 text-[15px] font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
-      >
-        {cta} <ArrowRight size={16} className="flex-shrink-0" />
-      </button>
-    </div>
-  </div>
+    </span>
+  </button>
 );
 
 const painPointCards: ProductCardProps[] = [
   {
-    icon: PhoneCall,
     cta: "Never Miss A Call",
     title: "AI Receptionist",
     description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
     bullets: ["24/7 Availability", "Instant Call Answering", "Appointment Booking", "Lead Capture"],
   },
   {
-    icon: Star,
     cta: "Attract New Customers",
     title: <>Get More <GoogleWord /> Reviews with Our AI System</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: ["NFC Tap-To-Review Card", "Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social"],
   },
   {
-    icon: Globe,
     cta: "Convert More Leads",
     title: "A Smart Website With Lead Capture",
     description: "A website that uses AI to turn every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: ["Automated Website Replies", "Built To Rank", "Capture Every Enquiry", "Mobile Optimized"],
   },
   {
-    icon: TrendingUp,
     cta: "See Your Results",
     title: "Track Everything",
     description: "See every opportunity, appointment and the revenue these systems generate, all in one dashboard.",
@@ -1256,9 +1250,9 @@ const PainPoints = () => (
       </div>
     </div>
 
-    <div className="relative z-10 max-w-[85rem] mx-auto px-5 lg:px-8 pt-14 md:pt-20">
-      {/* Four products, one row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
+    <div className="relative z-10 max-w-[75rem] mx-auto px-5 lg:px-8 pt-14 md:pt-20">
+      {/* Four products, two by two */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
         {painPointCards.map((card, i) => (
           <motion.div
             key={card.cta}
