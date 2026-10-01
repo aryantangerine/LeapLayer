@@ -1130,22 +1130,22 @@ const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => 
 
 const painPointCards: ProductCardProps[] = [
   {
-    cta: "Never Miss A Call",
-    title: "AI Receptionist",
-    description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
-    bullets: ["24/7 Availability", "Instant Call Answering", "Appointment Booking", "Lead Capture"],
-  },
-  {
     cta: "Attract New Customers",
     title: <>Get More <GoogleWord /> Reviews with Our AI System</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
-    bullets: ["NFC Tap-To-Review Card", "Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social"],
+    bullets: ["Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social", "NFC Tap-To-Review Card"],
   },
   {
     cta: "Convert More Leads",
     title: "A Smart Website With Lead Capture",
     description: "A website that uses AI to turn every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: ["Automated Website Replies", "Built To Rank", "Capture Every Enquiry", "Mobile Optimized"],
+  },
+  {
+    cta: "Never Miss A Call",
+    title: "AI Receptionist",
+    description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
+    bullets: ["24/7 Availability", "Instant Call Answering", "Appointment Booking", "Lead Capture"],
   },
   {
     cta: "See Your Results",
@@ -1280,22 +1280,29 @@ const WantToLearn = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="relative overflow-hidden rounded-[32px] bg-tint px-6 py-12 sm:px-10 lg:px-16 lg:py-16"
+        className="relative overflow-hidden rounded-[32px] px-6 py-12 sm:px-10 lg:px-16 lg:py-16 shadow-[0_30px_60px_-20px_rgba(11,90,52,0.45)]"
+        style={{ background: 'linear-gradient(120deg, #053B26 0%, #0A6339 38%, #1A8F4F 72%, #2DAC65 100%)' }}
       >
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/20 blur-3xl" aria-hidden="true" />
+        {/* Faint line texture carried over from the previous banner */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40" viewBox="0 0 1500 460" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <path d="M-50,380 C250,280 450,480 750,360 C1050,240 1250,420 1550,300" stroke="white" strokeOpacity="0.16" strokeWidth="1.5" />
+          <path d="M-50,320 C250,220 450,420 750,300 C1050,180 1250,360 1550,240" stroke="white" strokeOpacity="0.12" strokeWidth="1.5" />
+          <path d="M-50,60 C250,140 450,-20 750,60 C1050,140 1250,-20 1550,60" stroke="white" strokeOpacity="0.1" strokeWidth="1.5" />
+        </svg>
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#67CB53]/25 blur-3xl" aria-hidden="true" />
         <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[640px]">
-            <p className="eyebrow">Free guidance</p>
-            <h2 className="h-calm two-tone text-heading text-[34px] lg:text-[48px] mt-3">
-              Want to learn <span className="tone">it yourself?</span>
+            <p className="eyebrow !text-[#A7F3C4]">Free guidance</p>
+            <h2 className="h-calm text-white text-[34px] lg:text-[48px] mt-3">
+              Want to learn <span className="text-white/55">it yourself?</span>
             </h2>
-            <p className="text-muted text-[17px] lg:text-[19px] leading-relaxed mt-4">
+            <p className="text-white/80 text-[17px] lg:text-[19px] leading-relaxed mt-4">
               Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
             </p>
           </div>
           <button
             onClick={goToBooking}
-            className="self-start lg:self-auto flex-shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[#111111] text-white px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
+            className="self-start lg:self-auto flex-shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#0A4D2E] px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-[#F0FAF4] hover:shadow-soft active:scale-[0.97]"
           >
             Book A Free Call To Learn <ArrowRight size={18} />
           </button>
