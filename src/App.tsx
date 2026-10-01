@@ -9,7 +9,7 @@ import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
-  ChevronLeft, ChevronRight, Building2, ShieldCheck, Users,
+  ChevronLeft, ChevronRight, Building2, ShieldCheck,
   Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Star, Check,
   CalendarX, Bot, ArrowUpRight
@@ -1739,129 +1739,68 @@ const Footer = () => {
   );
 };
 
-const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => void, zIndex?: string }) => (
-  <section className={`bg-black py-20 md:py-48 overflow-hidden relative ${zIndex} rounded-t-[60px] md:rounded-t-[120px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.2)] -mt-20`}>
-    <div className="max-w-[85rem] mx-auto px-6 md:px-[108px] lg:px-[140px]">
-      <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-        {/* Right side (Desktop) / TOP (Mobile) - Photo Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="lg:order-last"
-        >
-          <div className="bg-[#151515] rounded-[2.5rem] p-8 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white/5 max-w-md mx-auto relative overflow-hidden group">
-            <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-[#1E1E1E] mb-8 border border-white/5 flex items-center justify-center group">
-              <motion.img
+const AboutPage = () => (
+  <main>
+    <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-white relative min-h-screen">
+      <div className="max-w-[85rem] mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+          {/* Left: eyebrow, heading, name + LinkedIn, bio, buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            <p className="eyebrow">About LeapLayer</p>
+            <h1 className="h-calm text-heading text-[38px] md:text-[56px] lg:text-[64px] mt-3">Meet the founder.</h1>
+
+            <div className="flex items-center gap-3 mt-6">
+              <span className="text-xl md:text-2xl font-semibold tracking-[-0.02em] text-heading">Aryan</span>
+              <a
+                href="https://www.linkedin.com/in/aryan-parekh/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Aryan's LinkedIn profile"
+                className="grid place-items-center w-9 h-9 rounded-[12px] bg-tint text-brand flex-shrink-0 transition-colors duration-200 hover:bg-brand hover:text-white"
+              >
+                <Linkedin size={17} />
+              </a>
+            </div>
+
+            <p className="text-muted text-[17px] lg:text-[19px] leading-relaxed mt-4">
+              Aryan has a background at <span className="text-heading font-medium underline decoration-brand decoration-2 underline-offset-4">Jaguar Land Rover</span> as an <span className="text-heading font-medium">Engineer</span>, working across <span className="text-heading font-medium">AI teams</span>, <span className="text-heading font-medium">Investment teams</span>, and <span className="text-heading font-medium">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
+              <CircleArrowButton onClick={goToBooking}>Let's Talk</CircleArrowButton>
+              <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/">See LinkedIn Profile</CircleArrowButton>
+            </div>
+          </motion.div>
+
+          {/* Right: photo with an editorial caption, matching the home page founder intro */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+            className="relative"
+          >
+            <div className="relative aspect-[4/3] lg:aspect-square overflow-hidden rounded-[32px] bg-[#EDEDE8]">
+              <img
                 src={aryan_avatar}
-                alt="Aryan - Founder"
+                alt="Aryan Parekh, founder of LeapLayer"
                 className="w-full h-full object-cover"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6 }}
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement?.querySelector('.placeholder-icon')?.classList.remove('hidden');
-                }}
               />
-              <div className="placeholder-icon hidden absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#111111]">
-                <Users className="text-white/5 w-32 h-32" />
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" aria-hidden="true" />
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                <p className="text-white text-[19px] md:text-[21px] font-semibold tracking-[-0.02em] leading-tight">Aryan Parekh</p>
+                <p className="text-white/75 text-[14px] md:text-[15px] mt-1">Founder of LeapLayer, engineer at Jaguar Land Rover</p>
               </div>
             </div>
-            <div className="space-y-1">
-              <h3 className="text-white text-2xl font-bold">Aryan</h3>
-              <p className="text-secondary font-medium">Founder, LeapLayer</p>
-            </div>
-
-            {/* Decorative glow */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 blur-[120px] rounded-full -z-10 group-hover:bg-white/10 transition-colors duration-500" />
-          </div>
-        </motion.div>
-
-        {/* Left side (Desktop) / Bottom (Mobile) - Text Content */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
-            Meet the <br />
-            <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
-          </h1>
-
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xl md:text-2xl font-bold text-white">Aryan</span>
-            <a
-              href="https://www.linkedin.com/in/aryan-parekh/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Aryan's LinkedIn profile"
-              className="w-9 h-9 rounded-full bg-white/10 text-white/60 flex items-center justify-center flex-shrink-0 transition-colors duration-300 hover:bg-white/20 hover:text-white"
-            >
-              <Linkedin size={18} />
-            </a>
-          </div>
-
-          <p className="text-[#9CA3AF] text-base md:text-xl font-medium max-w-xl leading-relaxed mb-8 md:mb-10">
-            Aryan has a background at <span className="relative inline-block text-white whitespace-nowrap">
-              Jaguar Land Rover
-              <svg
-                className="absolute pointer-events-none"
-                style={{ left: '-12%', right: '-12%', top: '-28%', bottom: '-22%', width: '124%', height: '150%' }}
-                viewBox="0 0 220 80"
-                preserveAspectRatio="none"
-                fill="none"
-              >
-                <path
-                  d="M14,42 C11,17 46,6 111,5 C176,4 209,15 211,39 C213,63 179,74 111,75 C43,76 9,65 13,43 C15,31 31,21 56,17"
-                  stroke="#2DAC65"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span> as an <span className="text-white">Engineer</span>, working across <span className="text-white">AI teams</span>, <span className="text-white">Investment teams</span>, and <span className="text-white">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <a
-              href="https://www.linkedin.com/in/aryan-parekh/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(45,172,101,0.4)] active:scale-[0.98]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              <span className="text-base md:text-[1.2rem] font-semibold">See LinkedIn Profile</span>
-              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={20} />
-              </span>
-            </a>
-
-            <button
-              onClick={onBookCall}
-              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-white/10 border border-white/25 backdrop-blur-sm text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20 active:scale-[0.98]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              <span className="text-base md:text-[1.2rem] font-semibold">Let's Talk</span>
-              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={20} />
-              </span>
-            </button>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 );
-
-const AboutPage = () => {
-  return (
-    <main>
-      {/* Section 1: Founder Hero */}
-      <FounderSection onBookCall={goToBooking} />
-    </main>
-  );
-};
 
 const HomePage = () => (
   <main>
