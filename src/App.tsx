@@ -69,10 +69,10 @@ const CircleArrowButton = ({
     <>
       <span className="text-base md:text-[1.2rem] font-semibold">{children}</span>
       {fillHover ? (
-        // Same hover DNA as the product cards: a black fill grows from the centre and the arrow turns to point right
-        <span className="relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 overflow-hidden">
-          <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" aria-hidden="true" />
-          <Icon size={20} className="relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
+        // The circle turns solid black as one piece (no separate growing layer, so there's never a
+        // half-filled ring mid-transition) while the arrow turns to point right and goes white
+        <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[#111111]">
+          <Icon size={20} className="transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
         </span>
       ) : (
         <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -539,7 +539,7 @@ const Hero = () => {
                 <span className="text-base md:text-[1.2rem] font-semibold">Free 15-Min AI Audit</span>
                 {/* Same hover DNA as the product cards: a fill grows from the centre and the arrow turns to point right */}
                 <span className="relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 overflow-hidden">
-                  <span className="absolute inset-0 rounded-full bg-[#2DAC65] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" aria-hidden="true" />
+                  <span className="absolute -inset-px rounded-full bg-[#2DAC65] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" aria-hidden="true" />
                   <ArrowUpRight size={20} className="relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
                 </span>
               </button>
@@ -1136,7 +1136,7 @@ const ProductCard = ({ to, title, description, bullets, cta }: ProductCardProps)
       className="absolute top-7 right-7 md:top-10 md:right-10 grid place-items-center w-10 h-10 rounded-full bg-white overflow-hidden transition-shadow duration-500 group-hover:shadow-[0_6px_16px_rgba(0,0,0,0.18)]"
       aria-hidden="true"
     >
-      <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+      <span className="absolute -inset-px rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
       <ArrowUpRight size={18} className="relative text-heading transition-all duration-500 group-hover:text-white group-hover:rotate-45" />
     </span>
     <span className="self-start rounded-full bg-tint px-3.5 py-1.5 text-[13.5px] font-semibold text-[#0D6B45] mr-14">{cta}</span>
@@ -1480,7 +1480,7 @@ const PricingPage = () => (
                 >
                   <span className="text-base font-semibold">{plan.ctaLabel ?? `£${plan.price} per month`}</span>
                   <span className="relative grid place-items-center w-11 h-11 rounded-full bg-[#F3F4F6] overflow-hidden flex-shrink-0" aria-hidden="true">
-                    <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+                    <span className="absolute -inset-px rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
                     <ArrowUpRight size={18} className="relative text-heading transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
                   </span>
                 </button>
