@@ -9,9 +9,9 @@ import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
   CheckCircle2, Clock, Zap, Target, Lock, ArrowDown,
-  ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users,
+  ChevronLeft, ChevronRight, Building2, ShieldCheck, Users,
   Linkedin, MessageSquareText, Smartphone,
-  ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
+  ChevronDown, Star, Check,
   CalendarX, Bot, ArrowUpRight
 } from 'lucide-react';
 
@@ -24,6 +24,8 @@ import salesforce_icon from './assets/salesforce.png';
 import jira_icon from './assets/jira.png';
 import googledrive_icon from './assets/googledrive.png';
 import aryan_avatar from './assets/aryan_picture.jpg';
+import { products, productPath, getProduct, pricingPlans, type Product } from './products';
+import { getPageMeta, absolute, type PageMeta } from './seo';
 import logo_black from './assets/logoblack.png';
 
 // --- Components ---
@@ -121,24 +123,54 @@ const SectionHeading = ({
 );
 
 
+// --- Navigation ---
+
+// In-app navigation: SiteLink and navigateTo dispatch this; App listens, updates the URL and renders the page.
+const NAVIGATE_EVENT = 'leaplayer:navigate';
+const navigateTo = (to: string) => window.dispatchEvent(new CustomEvent(NAVIGATE_EVENT, { detail: to }));
+const goToBooking = () => navigateTo('/book');
+
+// A real <a href> so crawlers can follow it, with an instant in-app navigation on a plain left click.
+const SiteLink = ({
+  to,
+  onNavigate,
+  children,
+  ...rest
+}: { to: string, onNavigate?: () => void } & Omit<React.ComponentPropsWithRef<'a'>, 'href'>) => (
+  <a
+    href={to}
+    {...rest}
+    onClick={(e) => {
+      rest.onClick?.(e);
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      onNavigate?.();
+      navigateTo(to);
+    }}
+  >
+    {children}
+  </a>
+);
+
 // --- Sections ---
 
-const productsMenu = [
-  { icon: Globe, title: "Smart Website", description: "A lead-generating website built and launched in days." },
-  { icon: Star, title: "Review System", description: "Automated follow-ups that get you more 5-star Google reviews." },
-  { icon: RefreshCw, title: "Automated Lead Follow Up", description: "Never lose a lead with automatic follow-up sequences." },
-  { icon: Search, title: "Local SEO", description: "Get found first when local customers search on Google." },
-  { icon: Inbox, title: "All-In-One Inbox", description: "Every customer message, in one place." },
-  { icon: PhoneMissed, title: "Missed Call Text Back", description: "Automatically text back missed calls so you never lose a customer." },
+const navLinks = [
+  { label: 'Pricing', to: '/pricing' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Why Now', to: '/#why-now' },
+  { label: 'For Business Leaders', to: '/#for-business-leaders' },
 ];
 
-const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void, currentView: string }) => {
-  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 20);
+const Navbar = ({ currentPath }: { currentPath: string }) => {
+  // Starts false on the server and the first client render; the scroll effect sets the real value.
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [productsMenuPos, setProductsMenuPos] = useState({ left: 0, top: 0 });
-  const productsBtnRef = useRef<HTMLButtonElement>(null);
+  const productsBtnRef = useRef<HTMLAnchorElement>(null);
   const productsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Every page except the home hero sits on a plain background, so the nav needs its solid frosted look there.
+  const solidNav = currentPath !== '/';
 
   const openProductsMenu = () => {
     if (productsCloseTimer.current) clearTimeout(productsCloseTimer.current);
@@ -155,23 +187,24 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-6 pointer-events-none">
+    <nav className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-6 pointer-events-none" aria-label="Main">
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className="pointer-events-auto relative flex items-center justify-between w-full max-w-5xl md:max-w-[73.6rem] px-6 py-3 md:py-4 rounded-2xl md:rounded-full overflow-hidden transition-[box-shadow] duration-500"
         style={{
-          background: (currentView === 'about' || currentView === 'pricing') ? 'rgba(255,255,255,0.85)' : (isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)'),
+          background: solidNav ? 'rgba(255,255,255,0.85)' : (isScrolled ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)'),
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           border: '1px solid rgba(255,255,255,0.3)',
-          boxShadow: (currentView === 'about' || currentView === 'pricing')
+          boxShadow: solidNav
             ? 'inset 0 1.5px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.2), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2), 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1)'
             : isScrolled
             ? 'inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1px 0 rgba(255,255,255,0.12), inset 1px 0 0 rgba(255,255,255,0.12), inset -1px 0 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)'
@@ -182,62 +215,31 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.06) 100%)', borderRadius: 'inherit' }} />
         {/* Logo (Left) */}
         <div className="flex-1 flex justify-start">
-          <button
-            onClick={() => {
-              setView('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="flex items-center ml-2 md:ml-4 -translate-y-0.5"
-          >
+          <SiteLink to="/" aria-label="LeapLayer home" className="flex items-center ml-2 md:ml-4 -translate-y-0.5">
             <img src={logo_black} alt="LeapLayer" className="h-7 md:h-9 w-auto" />
-          </button>
+          </SiteLink>
         </div>
 
         {/* Nav Links (Center) */}
         <div className="hidden md:flex items-center justify-center gap-6 flex-none whitespace-nowrap">
-          {['Products', 'Pricing', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
-            item === 'Products' ? (
-              <button
-                key={item}
-                ref={productsBtnRef}
-                onMouseEnter={openProductsMenu}
-                onMouseLeave={closeProductsMenu}
-                onClick={() => {
-                  setView('home');
-                  setTimeout(() => {
-                    const el = document.getElementById('products');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }}
-                className="flex items-center gap-1 text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
-              >
-                {item}
-                <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
-              </button>
-            ) : (
-              <button
-                key={item}
-                onClick={() => {
-                  if (item === 'About Us') {
-                    setView('about');
-                    window.scrollTo(0, 0);
-                  } else if (item === 'Pricing') {
-                    setView('pricing');
-                    window.scrollTo(0, 0);
-                  } else {
-                    setView('home');
-                    const id = item.toLowerCase().replace(/\s+/g, '-');
-                    setTimeout(() => {
-                      const el = document.getElementById(id);
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }
-                }}
-                className="text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
-              >
-                {item}
-              </button>
-            )
+          <SiteLink
+            to="/#built-for-you"
+            ref={productsBtnRef}
+            onMouseEnter={openProductsMenu}
+            onMouseLeave={closeProductsMenu}
+            className="flex items-center gap-1 text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
+          >
+            Products
+            <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
+          </SiteLink>
+          {navLinks.map((item) => (
+            <SiteLink
+              key={item.label}
+              to={item.to}
+              className="text-[15px] font-semibold text-heading/70 hover:text-heading transition-all duration-300 hover:scale-105"
+            >
+              {item.label}
+            </SiteLink>
           ))}
         </div>
 
@@ -255,6 +257,8 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
           <button
             className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-heading"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -282,27 +286,21 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
           >
             <div className="text-xs font-bold uppercase tracking-wider text-heading/40 mb-5 px-2">Systems &amp; Features</div>
             <div className="grid grid-cols-2 gap-2">
-              {productsMenu.map((feat) => (
-                <div
-                  key={feat.title}
-                  className="group flex items-start gap-4 p-4 rounded-2xl bg-transparent hover:bg-[#111111] transition-colors duration-300 cursor-pointer"
-                  onClick={() => {
-                    setIsProductsOpen(false);
-                    setView('home');
-                    setTimeout(() => {
-                      const el = document.getElementById('products');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }}
+              {products.map((p) => (
+                <SiteLink
+                  key={p.slug}
+                  to={productPath(p.slug)}
+                  onNavigate={() => setIsProductsOpen(false)}
+                  className="group flex items-start gap-4 p-4 rounded-2xl bg-transparent hover:bg-[#111111] transition-colors duration-300"
                 >
                   <div className="w-11 h-11 rounded-xl bg-white/60 border border-white/60 group-hover:bg-white/10 group-hover:border-white/20 flex items-center justify-center flex-shrink-0 transition-colors duration-300">
-                    <feat.icon size={20} className="text-heading group-hover:text-white transition-colors duration-300" />
+                    <p.icon size={20} className="text-heading group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div>
-                    <div className="text-base font-bold text-heading group-hover:text-white leading-snug transition-colors duration-300">{feat.title}</div>
-                    <div className="text-sm text-heading/50 group-hover:text-white/60 leading-snug mt-0.5 transition-colors duration-300">{feat.description}</div>
+                    <div className="text-base font-bold text-heading group-hover:text-white leading-snug transition-colors duration-300">{p.name}</div>
+                    <div className="text-sm text-heading/50 group-hover:text-white/60 leading-snug mt-0.5 transition-colors duration-300">{p.short}</div>
                   </div>
-                </div>
+                </SiteLink>
               ))}
             </div>
           </motion.div>
@@ -316,35 +314,37 @@ const Navbar = ({ setView, currentView }: { setView: (v: 'home' | 'about' | 'boo
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
+            className="absolute top-20 left-6 right-6 md:hidden bg-white/80 backdrop-blur-3xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto max-h-[calc(100dvh-7rem)] overflow-y-auto"
           >
             <div className="p-8 flex flex-col gap-6">
-              {['Products', 'Pricing', 'About Us', 'Why Now', 'For Business Leaders'].map((item) => (
-                <button
-                  key={item}
+              <div>
+                <p className="text-xl font-bold text-heading tracking-tight">Products</p>
+                <ul className="mt-3 grid gap-1">
+                  {products.map((p) => (
+                    <li key={p.slug}>
+                      <SiteLink
+                        to={productPath(p.slug)}
+                        onNavigate={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 py-1.5 text-[16px] font-medium text-heading/75"
+                      >
+                        <p.icon size={18} className="text-brand flex-shrink-0" />
+                        {p.name}
+                      </SiteLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {navLinks.map((item) => (
+                <SiteLink
+                  key={item.label}
+                  to={item.to}
+                  onNavigate={() => setIsMobileMenuOpen(false)}
                   className="text-xl font-bold text-heading tracking-tight text-left"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    if (item === 'About Us') {
-                      setView('about');
-                      window.scrollTo(0, 0);
-                    } else if (item === 'Pricing') {
-                      setView('pricing');
-                      window.scrollTo(0, 0);
-                    } else {
-                      setView('home');
-                      const id = item.toLowerCase().replace(/\s+/g, '-');
-                      setTimeout(() => {
-                        const el = document.getElementById(id);
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    }
-                  }}
                 >
-                  {item}
-                </button>
+                  {item.label}
+                </SiteLink>
               ))}
-              <Button className="w-full py-4 text-lg rounded-2xl" onClick={goToBooking}>Free AI Audit</Button>
+              <Button className="w-full py-4 text-lg rounded-2xl" onClick={() => { setIsMobileMenuOpen(false); goToBooking(); }}>Free AI Audit</Button>
             </div>
           </motion.div>
         )}
@@ -488,6 +488,8 @@ const Hero = () => {
                   ) : (
                     line
                   )}
+                  {/* Keeps the lines as separate words in the page text that search engines read */}
+                  {' '}
                 </motion.span>
               );
             })}
@@ -851,7 +853,6 @@ const PropTechGraphic = () => {
   );
 };
 
-const goToBooking = () => window.dispatchEvent(new CustomEvent('navigate-to-booking'));
 
 // --- Graphic Components ---
 
@@ -1109,16 +1110,16 @@ const GoogleWord = () => (
 );
 
 type ProductCardProps = {
+  to: string,
   title: React.ReactNode,
   description: string,
   bullets: string[],
   cta: string,
 };
 
-const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => (
-  <button
-    type="button"
-    onClick={goToBooking}
+const ProductCard = ({ to, title, description, bullets, cta }: ProductCardProps) => (
+  <SiteLink
+    to={to}
     className="group relative flex flex-col h-full w-full text-left bg-[#F3F4F6] rounded-[32px] p-7 md:p-10 ring-1 ring-transparent transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:bg-white hover:ring-black/[0.06] hover:shadow-[0_2px_4px_rgba(0,0,0,0.03),0_12px_28px_-8px_rgba(0,0,0,0.10),0_32px_64px_-24px_rgba(0,0,0,0.14)]"
   >
     {/* Arrow circle: a dark fill grows from the centre on hover */}
@@ -1139,29 +1140,33 @@ const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => 
         </span>
       ))}
     </span>
-  </button>
+  </SiteLink>
 );
 
 const painPointCards: ProductCardProps[] = [
   {
+    to: productPath("google-review-automation"),
     cta: "Attract New Customers",
     title: <>Get More <GoogleWord /> Reviews with Our AI System</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
     bullets: ["Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social", "NFC Tap-To-Review Card"],
   },
   {
+    to: productPath("smart-website"),
     cta: "Convert More Leads",
     title: "A Smart Website With Lead Capture",
     description: "A website that uses AI to turn every qualified lead instantly into a text conversation DIRECTLY to your phone.",
     bullets: ["Automated Website Replies", "Built To Rank", "Capture Every Enquiry", "Mobile Optimized"],
   },
   {
+    to: productPath("ai-receptionist"),
     cta: "Never Miss A Call",
     title: "AI Receptionist",
     description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
     bullets: ["24/7 Availability", "Instant Call Answering", "Appointment Booking", "Lead Capture"],
   },
   {
+    to: productPath("lead-tracking-dashboard"),
     cta: "See Your Results",
     title: "Track Everything",
     description: "See every opportunity, appointment and the revenue these systems generate, all in one dashboard.",
@@ -1287,39 +1292,50 @@ const PainPoints = () => (
 
 
 
+// Green gradient call-to-action panel, shared by the home page and the product pages.
+const CtaPanel = ({
+  eyebrow,
+  heading,
+  text,
+  button,
+}: { eyebrow: string, heading: React.ReactNode, text: string, button: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, ease: 'easeOut' }}
+    className="relative overflow-hidden rounded-[32px] px-6 py-12 sm:px-10 lg:px-16 lg:py-16 shadow-[0_30px_60px_-20px_rgba(11,90,52,0.45)]"
+    style={{ background: 'linear-gradient(120deg, #053B26 0%, #0A6339 38%, #1A8F4F 72%, #2DAC65 100%)' }}
+  >
+    {/* Faint line texture carried over from the previous banner */}
+    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40" viewBox="0 0 1500 460" preserveAspectRatio="none" fill="none" aria-hidden="true">
+      <path d="M-50,380 C250,280 450,480 750,360 C1050,240 1250,420 1550,300" stroke="white" strokeOpacity="0.16" strokeWidth="1.5" />
+      <path d="M-50,320 C250,220 450,420 750,300 C1050,180 1250,360 1550,240" stroke="white" strokeOpacity="0.12" strokeWidth="1.5" />
+      <path d="M-50,60 C250,140 450,-20 750,60 C1050,140 1250,-20 1550,60" stroke="white" strokeOpacity="0.1" strokeWidth="1.5" />
+    </svg>
+    <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#67CB53]/25 blur-3xl" aria-hidden="true" />
+    <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div className="max-w-[640px]">
+        <p className="eyebrow !text-[#A7F3C4]">{eyebrow}</p>
+        <h2 className="h-calm text-white text-[34px] lg:text-[48px] mt-3">{heading}</h2>
+        <p className="text-white/80 text-[17px] lg:text-[19px] leading-relaxed mt-4">{text}</p>
+      </div>
+      <CircleArrowButton onClick={goToBooking} className="self-start lg:self-auto flex-shrink-0">
+        {button}
+      </CircleArrowButton>
+    </div>
+  </motion.div>
+);
+
 const WantToLearn = () => (
   <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-white relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
     <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="relative overflow-hidden rounded-[32px] px-6 py-12 sm:px-10 lg:px-16 lg:py-16 shadow-[0_30px_60px_-20px_rgba(11,90,52,0.45)]"
-        style={{ background: 'linear-gradient(120deg, #053B26 0%, #0A6339 38%, #1A8F4F 72%, #2DAC65 100%)' }}
-      >
-        {/* Faint line texture carried over from the previous banner */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40" viewBox="0 0 1500 460" preserveAspectRatio="none" fill="none" aria-hidden="true">
-          <path d="M-50,380 C250,280 450,480 750,360 C1050,240 1250,420 1550,300" stroke="white" strokeOpacity="0.16" strokeWidth="1.5" />
-          <path d="M-50,320 C250,220 450,420 750,300 C1050,180 1250,360 1550,240" stroke="white" strokeOpacity="0.12" strokeWidth="1.5" />
-          <path d="M-50,60 C250,140 450,-20 750,60 C1050,140 1250,-20 1550,60" stroke="white" strokeOpacity="0.1" strokeWidth="1.5" />
-        </svg>
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#67CB53]/25 blur-3xl" aria-hidden="true" />
-        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-[640px]">
-            <p className="eyebrow !text-[#A7F3C4]">Free guidance</p>
-            <h2 className="h-calm text-white text-[34px] lg:text-[48px] mt-3">
-              Want to learn <span className="text-white/55">it yourself?</span>
-            </h2>
-            <p className="text-white/80 text-[17px] lg:text-[19px] leading-relaxed mt-4">
-              Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
-            </p>
-          </div>
-          <CircleArrowButton onClick={goToBooking} className="self-start lg:self-auto flex-shrink-0">
-            Book A Free Call To Learn
-          </CircleArrowButton>
-        </div>
-      </motion.div>
+      <CtaPanel
+        eyebrow="Free guidance"
+        heading={<>Want to learn <span className="text-white/55">it yourself?</span></>}
+        text="Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required."
+        button="Book A Free Call To Learn"
+      />
     </div>
   </section>
 );
@@ -1377,56 +1393,6 @@ const BookingPage = () => (
   </main>
 );
 
-const pricingPlans: {
-  name: string,
-  price: number,
-  wasPrice?: number,
-  intro?: string,
-  inheritsLabel?: string,
-  features: string[],
-  mostPopular?: boolean,
-  checkoutUrl?: string,
-  ctaLabel?: string,
-}[] = [
-  {
-    name: 'Minimum Package',
-    price: 97,
-    wasPrice: 750,
-    intro: 'Your online foundation, done for you.',
-    features: [
-      'Full website',
-      '5 service pages',
-      'Smart Website with lead capture',
-      'Hosting',
-      'Maintenance',
-      'Security',
-    ],
-    checkoutUrl: 'https://buy.stripe.com/8x228r39I4gj1CS2mh48002',
-  },
-  {
-    name: 'Growth Package',
-    price: 197,
-    wasPrice: 2000,
-    features: [
-      'Smart Website',
-      'Review System',
-      'Missed Call Text Back',
-    ],
-    mostPopular: true,
-  },
-  {
-    name: 'Scaling Package',
-    price: 599,
-    inheritsLabel: 'the Growth Package',
-    features: [
-      '24/7 Voice AI Receptionist',
-      'Answers every call and books appointments',
-      'Saves you time and captures more leads',
-    ],
-    ctaLabel: 'See More',
-  },
-];
-
 const PricingPage = () => (
   <main>
     <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-white relative min-h-screen">
@@ -1439,8 +1405,8 @@ const PricingPage = () => (
         >
           <p className="eyebrow">Pricing</p>
           <h1 className="h-calm text-heading text-[38px] md:text-[56px] lg:text-[64px] mt-3">
-            <span className="block">No Setup Fees</span>
-            <span className="block">No Contracts</span>
+            <span className="block">No Setup Fees </span>
+            <span className="block">No Contracts </span>
             <span className="block text-[#B5B5B5]">Cancel Anytime</span>
           </h1>
           <p className="text-muted text-[17px] lg:text-[19px] mt-5">30 day money back guarantee</p>
@@ -1517,13 +1483,216 @@ const PricingPage = () => (
   </main>
 );
 
-const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void }) => {
+const reveal = {
+  initial: { opacity: 0, y: 12 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, ease: 'easeOut' },
+} as const;
+
+const GreenTick = ({ onWhite = false }: { onWhite?: boolean }) => (
+  <span className={`grid place-items-center w-6 h-6 rounded-full flex-shrink-0 ${onWhite ? 'bg-tint' : 'bg-white'}`}>
+    <Check size={13} strokeWidth={3} className="text-brand" />
+  </span>
+);
+
+const ProductPage = ({ product }: { product: Product }) => {
+  const Icon = product.icon;
+  const related = product.related.map(getProduct).filter((p): p is Product => Boolean(p));
+
+  return (
+    <main>
+      {/* Hero */}
+      <section className="bg-white pt-32 pb-16 md:pt-44 md:pb-24">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
+            <nav aria-label="Breadcrumb">
+              <ol className="flex flex-wrap items-center gap-1.5 text-[14px] text-muted">
+                <li><SiteLink to="/" className="hover:text-heading transition-colors">Home</SiteLink></li>
+                <li aria-hidden="true">/</li>
+                <li><SiteLink to="/#built-for-you" className="hover:text-heading transition-colors">Products</SiteLink></li>
+                <li aria-hidden="true">/</li>
+                <li aria-current="page" className="text-heading font-medium">{product.name}</li>
+              </ol>
+            </nav>
+            <p className="eyebrow mt-6">{product.eyebrow}</p>
+            <h1 className="h-calm text-heading text-[38px] md:text-[52px] lg:text-[58px] mt-3">{product.h1}</h1>
+            <p className="text-muted text-[17px] lg:text-[19px] leading-relaxed mt-5 max-w-[56ch]">{product.lead}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-5 mt-8">
+              <CircleArrowButton onClick={goToBooking} className="self-start">Free 15-Min AI Audit</CircleArrowButton>
+              <SiteLink to="/pricing" className="inline-flex items-center gap-1.5 text-[16px] font-semibold text-heading hover:text-brand transition-colors">
+                See pricing <ArrowRight size={16} />
+              </SiteLink>
+            </div>
+          </motion.div>
+
+          {/* Summary panel in the product card style */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+            className="rounded-[32px] bg-[#F3F4F6] p-7 md:p-9"
+          >
+            <span className="grid place-items-center w-12 h-12 rounded-[14px] bg-white text-brand">
+              <Icon size={24} />
+            </span>
+            <p className="h-calm text-heading text-[24px] mt-5">{product.name}</p>
+            <p className="text-muted text-[15px] leading-relaxed mt-2">{product.short}</p>
+            <ul className="mt-6 grid gap-3">
+              {product.included.slice(0, 4).map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[15px] font-medium text-heading/80">
+                  <GreenTick />
+                  <span className="pt-0.5">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 pt-6 border-t border-black/[0.07]">
+              {product.pricing ? (
+                <div className="flex items-end justify-between gap-4">
+                  <span className="text-muted text-[14px] leading-snug">Included in the<br />{product.pricing.tier}</span>
+                  <span className="whitespace-nowrap">
+                    <span className="h-calm text-heading text-[36px]">£{product.pricing.price}</span>
+                    <span className="text-muted text-[14px] ml-1">per month</span>
+                  </span>
+                </div>
+              ) : (
+                <p className="text-muted text-[14px] leading-relaxed">Pricing depends on your area and goals. We'll go through it in your free 15-minute AI audit.</p>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Introduction */}
+      <section className="bg-white pb-16 md:pb-24">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-20">
+          <motion.div {...reveal}>
+            <p className="eyebrow">Introduction</p>
+            <h2 className="h-calm text-heading text-[34px] lg:text-[44px] mt-3">How {product.name} works for you.</h2>
+          </motion.div>
+          <motion.div {...reveal} className="grid gap-5 text-muted text-[17px] lg:text-[18px] leading-relaxed">
+            {product.intro.map((p) => <p key={p}>{p}</p>)}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="bg-[#F6F7F9] py-16 md:py-24">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
+          <motion.div {...reveal} className="max-w-[640px]">
+            <p className="eyebrow">How it works</p>
+            <h2 className="h-calm two-tone text-heading text-[34px] lg:text-[44px] mt-3">Four steps. <span className="tone">Done for you.</span></h2>
+          </motion.div>
+          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mt-10 lg:mt-14">
+            {product.steps.map((step, i) => (
+              <motion.li key={step.title} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }} className="bg-white rounded-[24px] p-6 lg:p-7">
+                <span className="h-calm text-brand text-[34px]">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="h-calm text-heading text-[20px] mt-4">{step.title}</h3>
+                <p className="text-muted text-[15.5px] leading-relaxed mt-2">{step.text}</p>
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* What's included + who it's for */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          <motion.div {...reveal}>
+            <p className="eyebrow">What's included</p>
+            <h2 className="h-calm text-heading text-[34px] lg:text-[44px] mt-3">Everything set up for you.</h2>
+            <ul className="grid gap-3 mt-8">
+              {product.included.map((item) => (
+                <li key={item} className="flex items-start gap-3 rounded-[18px] bg-[#F3F4F6] p-4 text-[16px] font-medium text-heading">
+                  <GreenTick />
+                  <span className="pt-0.5">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          <motion.div {...reveal}>
+            <p className="eyebrow">Who it's for</p>
+            <h2 className="h-calm text-heading text-[34px] lg:text-[44px] mt-3">Built for businesses like yours.</h2>
+            <ul className="mt-8 border-y border-black/[0.08] divide-y divide-black/[0.08]">
+              {product.whoFor.map((item) => (
+                <li key={item} className="flex items-start gap-3 py-4 text-[16px] text-heading/85">
+                  <ArrowRight size={18} className="mt-0.5 text-brand flex-shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQs: every answer is in the page HTML, so search engines and AI tools can read them */}
+      <section className="bg-[#F6F7F9] py-16 md:py-24">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-16">
+          <motion.div {...reveal}>
+            <p className="eyebrow">FAQs</p>
+            <h2 className="h-calm text-heading text-[34px] lg:text-[44px] mt-3">{product.name} questions.</h2>
+          </motion.div>
+          <motion.div {...reveal} className="grid gap-3">
+            {product.faqs.map((faq) => (
+              <details key={faq.q} className="group rounded-[20px] bg-white px-6 open:pb-1">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[17px] font-semibold text-heading [&::-webkit-details-marker]:hidden">
+                  {faq.q}
+                  <ChevronDown size={18} className="flex-shrink-0 text-muted transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="pb-5 text-muted text-[16px] leading-relaxed">{faq.a}</p>
+              </details>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Related products */}
+      {related.length > 0 && (
+        <section className="bg-white py-16 md:py-24">
+          <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
+            <motion.div {...reveal} className="max-w-[640px]">
+              <p className="eyebrow">Related products</p>
+              <h2 className="h-calm text-heading text-[34px] lg:text-[44px] mt-3">Works well alongside.</h2>
+            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 lg:mt-14">
+              {related.map((r) => (
+                <motion.div key={r.slug} {...reveal} className="h-full">
+                  <ProductCard
+                    to={productPath(r.slug)}
+                    cta={r.benefit}
+                    title={r.name}
+                    description={r.short}
+                    bullets={r.included.slice(0, 3)}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Call to action */}
+      <section className="bg-white pb-28 md:pb-36">
+        <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
+          <CtaPanel
+            eyebrow="Free 15-minute AI audit"
+            heading={<>Ready to get started? <span className="text-white/55">Book your free audit.</span></>}
+            text={`In 15 minutes we'll look at how your business shows up on Google today and where ${product.name} could bring in more customers. No obligation.`}
+            button="Free 15-Min AI Audit"
+          />
+        </div>
+      </section>
+    </main>
+  );
+};
+
+const Footer = () => {
   return (
     <footer className="bg-dark-bg pt-20 pb-10 md:pt-48 md:pb-12 border-t border-white/5 relative z-[70] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.3)] -mt-20">
       <div className="max-w-[85rem] mx-auto px-6">
         <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-8 md:gap-12 mb-12 md:mb-20">
           <div>
-            <a href="#" className="text-3xl font-bold tracking-tighter text-white mb-6 block">LeapLayer</a>
+            <SiteLink to="/" className="text-3xl font-bold tracking-tighter text-white mb-6 block">LeapLayer</SiteLink>
             <p className="text-secondary max-w-sm mb-8">
               Done-for-you systems that get you more Google reviews, a smart website with lead capture and AI automations that attract and convert viewers into customers. Designed for your business to grow.
             </p>
@@ -1539,29 +1708,19 @@ const Footer = ({ setView }: { setView: (v: 'home' | 'about' | 'booking' | 'pric
           <div>
             <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-sm">Products</h4>
             <ul className="space-y-4 text-secondary text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Smart Websites</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Magic Review Collection Automations</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Re-Marketing Systems</a></li>
+              {products.map((p) => (
+                <li key={p.slug}><SiteLink to={productPath(p.slug)} className="hover:text-white transition-colors">{p.name}</SiteLink></li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-sm">Company</h4>
             <ul className="space-y-4 text-secondary text-sm">
-              <li>
-                <button
-                  onClick={() => {
-                    setView('about');
-                    window.scrollTo(0, 0);
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  About Us
-                </button>
-              </li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
+              <li><SiteLink to="/about" className="hover:text-white transition-colors">About Us</SiteLink></li>
+              <li><SiteLink to="/pricing" className="hover:text-white transition-colors">Pricing</SiteLink></li>
+              <li><SiteLink to="/book" className="hover:text-white transition-colors">Book a Free AI Audit</SiteLink></li>
+              <li><a href="https://www.linkedin.com/in/aryan-parekh/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
             </ul>
           </div>
         </div>
@@ -1625,10 +1784,10 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-5 md:mb-8 leading-[1.05] tracking-tight text-left">
             Meet the <br />
             <span className="inline-block font-serif italic font-normal bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]">Founder</span>
-          </h2>
+          </h1>
 
           <div className="flex items-center gap-3 mb-6">
             <span className="text-xl md:text-2xl font-bold text-white">Aryan</span>
@@ -1694,7 +1853,7 @@ const FounderSection = ({ onBookCall, zIndex = 'z-[60]' }: { onBookCall: () => v
   </section>
 );
 
-const AboutPage = ({ setView }: { setView: (v: 'home' | 'about' | 'booking' | 'pricing') => void }) => {
+const AboutPage = () => {
   return (
     <main>
       {/* Section 1: Founder Hero */}
@@ -1724,44 +1883,62 @@ const HomePage = () => (
 
 // --- Main App ---
 
-type View = 'home' | 'about' | 'booking' | 'pricing';
+const normalisePath = (pathname: string) => pathname.replace(/\/+$/, '') || '/';
 
-const pathForView = (v: View) => v === 'home' ? '/' : v === 'about' ? '/about' : v === 'pricing' ? '/pricing' : '/book';
-
-const viewForPath = (pathname: string): View => {
-  const path = pathname.replace(/\/$/, '') || '/';
-  if (path === '/about') return 'about';
-  if (path === '/pricing') return 'pricing';
-  if (path === '/book') return 'booking';
-  return 'home';
+// Keeps the head tags in step with the page during in-app navigation. The prerendered HTML already
+// has the right tags for the first page load; this covers clicking between pages afterwards.
+const applyPageMeta = (meta: PageMeta) => {
+  document.title = meta.title;
+  const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
+    let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+    }
+    el.content = value;
+  };
+  setMeta('name', 'description', meta.description);
+  setMeta('property', 'og:title', meta.title);
+  setMeta('property', 'og:description', meta.description);
+  setMeta('property', 'og:url', absolute(meta.path));
+  let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.appendChild(canonical);
+  }
+  canonical.href = absolute(meta.path);
 };
 
-export default function App() {
-  const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
+export default function App({ initialPath }: { initialPath?: string }) {
+  const [path, setPath] = useState(() => normalisePath(initialPath ?? window.location.pathname));
 
   useEffect(() => {
-    // Keep the URL in sync with the current view, so pages like /book, /pricing and
-    // /about are real, linkable, bookmarkable URLs rather than just in-app state.
-    const path = pathForView(view);
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, '', path);
-    }
-  }, [view]);
-
-  useEffect(() => {
-    const handlePopState = () => setView(viewForPath(window.location.pathname));
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  useEffect(() => {
-    const handleNavigateToBooking = () => {
-      setView('booking');
-      window.scrollTo(0, 0);
+    const handleNavigate = (e: Event) => {
+      const url = new URL((e as CustomEvent<string>).detail, window.location.origin);
+      if (url.pathname + url.hash !== window.location.pathname + window.location.hash) {
+        window.history.pushState({}, '', url.pathname + url.hash);
+      }
+      setPath(normalisePath(url.pathname));
+      if (url.hash) {
+        setTimeout(() => document.getElementById(url.hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 100);
+      } else {
+        window.scrollTo(0, 0);
+      }
     };
-    window.addEventListener('navigate-to-booking', handleNavigateToBooking);
-    return () => window.removeEventListener('navigate-to-booking', handleNavigateToBooking);
+    const handlePopState = () => setPath(normalisePath(window.location.pathname));
+    window.addEventListener(NAVIGATE_EVENT, handleNavigate);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener(NAVIGATE_EVENT, handleNavigate);
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
+
+  useEffect(() => {
+    applyPageMeta(getPageMeta(path));
+  }, [path]);
 
   useEffect(() => {
     // Cal.com initialization
@@ -1780,26 +1957,34 @@ export default function App() {
     });
   }, []);
 
+  const product = path.startsWith('/products/') ? getProduct(path.slice('/products/'.length)) : undefined;
+
+  let page: React.ReactNode;
+  if (path === '/about') page = <AboutPage />;
+  else if (path === '/pricing') page = <PricingPage />;
+  else if (path === '/book') page = <BookingPage />;
+  else if (product) page = <ProductPage product={product} />;
+  else {
+    page = (
+      <main>
+        <Hero />
+        <HomeFounderIntro />
+        <WhyNow />
+        <PainPoints />
+        <WantToLearn />
+      </main>
+    );
+  }
+
+  const isHome = !product && !['/about', '/pricing', '/book'].includes(path);
+  const footerBackdrop = isHome ? 'bg-black' : (path === '/pricing' || product) ? 'bg-white' : 'bg-page-bg';
+
   return (
     <div className="selection:bg-accent selection:text-white">
-      <Navbar setView={setView} currentView={view} />
-      {view === 'home' ? (
-        <main>
-          <Hero />
-          <HomeFounderIntro />
-          <WhyNow />
-          <PainPoints />
-          <WantToLearn />
-        </main>
-      ) : view === 'about' ? (
-        <AboutPage setView={setView} />
-      ) : view === 'pricing' ? (
-        <PricingPage />
-      ) : (
-        <BookingPage />
-      )}
-      <div className={view === 'home' ? "bg-black" : view === 'pricing' ? "bg-white" : "bg-page-bg"}>
-        <Footer setView={setView} />
+      <Navbar currentPath={isHome ? '/' : path} />
+      {page}
+      <div className={footerBackdrop}>
+        <Footer />
       </div>
     </div>
   );
