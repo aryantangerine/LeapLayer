@@ -1063,21 +1063,18 @@ const HomeFounderIntro = () => (
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
           className="relative"
         >
-          <div className="aspect-[4/3] lg:aspect-square overflow-hidden rounded-[32px] bg-[#EDEDE8]">
+          <div className="relative aspect-[4/3] lg:aspect-square overflow-hidden rounded-[32px] bg-[#EDEDE8]">
             <img
               src={aryan_avatar}
-              alt="Aryan, founder of LeapLayer"
+              alt="Aryan Parekh, founder of LeapLayer"
               className="w-full h-full object-cover"
             />
-          </div>
-          <div className="glass absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-[320px] flex items-center gap-3 p-4">
-            <span className="grid place-items-center w-10 h-10 rounded-[12px] bg-brand text-white flex-shrink-0">
-              <Building2 size={20} />
-            </span>
-            <span className="text-[15px] font-semibold leading-snug text-heading">
-              Engineer, Jaguar Land Rover
-              <span className="block text-[13.5px] font-normal text-muted">Mechanical Engineering & Computer Science</span>
-            </span>
+            {/* Editorial caption: soft bottom fade with the name set directly on the photo */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" aria-hidden="true" />
+            <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+              <p className="text-white text-[19px] md:text-[21px] font-semibold tracking-[-0.02em] leading-tight">Aryan Parekh</p>
+              <p className="text-white/75 text-[14px] md:text-[15px] mt-1">Founder of LeapLayer, former engineer at Jaguar Land Rover</p>
+            </div>
           </div>
         </motion.div>
       </div>
