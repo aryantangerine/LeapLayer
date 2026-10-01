@@ -1548,7 +1548,26 @@ const ProductPage = ({ product }: { product: Product }) => {
               ))}
             </ul>
             <div className="mt-7 pt-6 border-t border-black/[0.07]">
-              {product.pricing ? (
+              {product.standalonePrice ? (
+                <div className="flex flex-col gap-3">
+                  <div className="rounded-2xl bg-white p-4 flex items-end justify-between gap-4">
+                    <span className="text-muted text-[14px] leading-snug">{product.name}<br />on its own</span>
+                    <span className="whitespace-nowrap">
+                      <span className="h-calm text-heading text-[28px]">£{product.standalonePrice}</span>
+                      <span className="text-muted text-[13px] ml-1">per month</span>
+                    </span>
+                  </div>
+                  {product.pricing && (
+                    <div className="rounded-2xl bg-white p-4 flex items-end justify-between gap-4">
+                      <span className="text-muted text-[14px] leading-snug">Included in the<br />{product.pricing.tier}</span>
+                      <span className="whitespace-nowrap">
+                        <span className="h-calm text-heading text-[28px]">£{product.pricing.price}</span>
+                        <span className="text-muted text-[13px] ml-1">per month</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : product.pricing ? (
                 <div className="flex items-end justify-between gap-4">
                   <span className="text-muted text-[14px] leading-snug">Included in the<br />{product.pricing.tier}</span>
                   <span className="whitespace-nowrap">

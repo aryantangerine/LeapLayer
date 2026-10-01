@@ -23,6 +23,8 @@ export type Product = {
   faqs: Faq[];
   /** Only set where the product is part of a published pricing tier. */
   pricing?: { tier: string; price: number };
+  /** Only set where the product can also be bought on its own, outside a package. */
+  standalonePrice?: number;
   related: string[];
 };
 
@@ -68,14 +70,15 @@ export const products: Product[] = [
       'Owners who know they should ask for reviews but never have the time',
     ],
     faqs: [
-      { q: 'Is it allowed to automate Google review requests?', a: 'Yes. Google allows businesses to ask customers for reviews. What it doesn\'t allow is offering rewards for reviews, or only asking the customers you expect to be happy. Our system sends the same request to every customer, which keeps you within Google\'s guidelines.' },
+      { q: 'Is it allowed to automate Google review requests?', a: 'Yes. Google allows businesses to ask customers for reviews, in an automated fashion.' },
+      { q: 'What happens if someone leaves a bad review?', a: 'A bad actor can leave a bad review, and it can tank your business\'s performance overnight. That\'s why having a Google review system that brings in five-star reviews from your best customers matters: when a bad review does land, it carries much less weight and doesn\'t ruin your business overnight.' },
       { q: 'Do the reviews go to my Google Business Profile?', a: 'Yes. The link in every text, and on the NFC card, opens your Google review page directly, so customers can leave a star rating and a comment in a few seconds.' },
       { q: 'How does the NFC tap-to-review card work?', a: 'The card has a small chip inside. A customer taps it with their phone and your Google review page opens, with no app to download. It works with most modern smartphones.' },
       { q: 'How many reminders do customers get?', a: 'One or two at most, spaced a few days apart. Once a customer has left a review, or after the last reminder, they won\'t be messaged again.' },
-      { q: 'What happens if someone leaves a bad review?', a: 'It goes to Google like any other review. A calm, professional reply to a bad review is often what new customers notice most, and a steady flow of genuine reviews means one bad one carries far less weight.' },
-      { q: 'How much does the review system cost?', a: 'It\'s part of our Growth Package at £197 per month, which also includes a smart website and missed call text back. There are no setup fees and no contracts.' },
+      { q: 'How much does the review system cost?', a: 'On its own, it\'s £97 per month. It\'s also included in our Growth Package at £197 per month, which adds a smart website and missed call text back. There are no setup fees and no contracts either way.' },
     ],
     pricing: { tier: 'Growth Package', price: 197 },
+    standalonePrice: 97,
     related: ['smart-website', 'missed-call-text-back'],
   },
   {

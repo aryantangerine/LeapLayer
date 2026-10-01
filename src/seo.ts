@@ -87,6 +87,11 @@ const monthlyOffer = (name: string, price: number, url: string): JsonLd => ({
   },
 });
 
+const productOffers = (p: Product): JsonLd[] => [
+  ...(p.standalonePrice ? [monthlyOffer(p.name, p.standalonePrice, absolute(productPath(p.slug)))] : []),
+  ...(p.pricing ? [monthlyOffer(p.pricing.tier, p.pricing.price, `${SITE_URL}/pricing`)] : []),
+];
+
 const productService = (p: Product): JsonLd => ({
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -97,7 +102,7 @@ const productService = (p: Product): JsonLd => ({
   url: absolute(productPath(p.slug)),
   provider: { '@id': ORG_ID },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },
-  ...(p.pricing ? { offers: monthlyOffer(p.pricing.tier, p.pricing.price, `${SITE_URL}/pricing`) } : {}),
+  ...(productOffers(p).length ? { offers: productOffers(p) } : {}),
 });
 
 const sitewide = [organization, website];

@@ -146,7 +146,7 @@ ${p.whoFor.map((w) => `- ${w}`).join('\n')}
 ### FAQs
 
 ${p.faqs.map((f) => `**${f.q}**\n${f.a}`).join('\n\n')}
-${p.pricing ? `\nPrice: included in the ${p.pricing.tier}, £${p.pricing.price} per month.\n` : ''}`;
+${p.standalonePrice ? `\nPrice: £${p.standalonePrice} per month on its own${p.pricing ? `, or included in the ${p.pricing.tier} at £${p.pricing.price} per month` : ''}.\n` : p.pricing ? `\nPrice: included in the ${p.pricing.tier}, £${p.pricing.price} per month.\n` : ''}`;
 
 const llmsFull = `# LeapLayer: full site content
 
