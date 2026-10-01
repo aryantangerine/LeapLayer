@@ -345,7 +345,7 @@ export const pricingPlans: {
     inheritsLabel: 'the Minimum Package',
     features: [
       'Smart Website',
-      'Review System',
+      'Google Review Automation',
       'Missed Call Text Back',
     ],
     mostPopular: true,
