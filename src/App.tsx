@@ -1429,92 +1429,86 @@ const pricingPlans: {
 
 const PricingPage = () => (
   <main>
-    <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-page-bg relative min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 md:px-10">
-        <SectionHeading
-          centered
-          titleClassName="text-3xl md:text-5xl lg:text-6xl leading-[1.05]"
-          title={
-            <>
-              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0 }} className="block">No Setup Fees</motion.span>
-              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="block">No Contracts</motion.span>
-              <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="block">
-                <motion.span className="inline-block bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Cancel Anytime</motion.span>
-              </motion.span>
-            </>
-          }
-          subtitle="30 day money back guarantee"
-        />
+    <section className="pt-32 pb-24 md:pt-44 md:pb-32 bg-white relative min-h-screen">
+      <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-center"
+        >
+          <p className="eyebrow">Pricing</p>
+          <h1 className="h-calm text-heading text-[38px] md:text-[56px] lg:text-[64px] mt-3">
+            <span className="block">No Setup Fees</span>
+            <span className="block">No Contracts</span>
+            <span className="block text-[#B5B5B5]">Cancel Anytime</span>
+          </h1>
+          <p className="text-muted text-[17px] lg:text-[19px] mt-5">30 day money back guarantee</p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-8 items-start mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch mt-12 md:mt-16">
           {pricingPlans.map((plan, i) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`relative flex flex-col h-full bg-white rounded-[2rem] p-8 md:p-9 ${
-                plan.mostPopular
-                  ? 'border-2 border-black shadow-[0_30px_60px_-15px_rgba(0,0,0,0.18)] md:-mt-4'
-                  : 'border-[1.5px] border-[#E5E5E0] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.08)]'
-              }`}
+              transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
+              className="h-full"
             >
-              {plan.mostPopular && (
-                <span className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center px-4 py-1.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider shadow-lg">
-                  Most popular
-                </span>
-              )}
+              <div className="group relative flex flex-col h-full bg-[#F3F4F6] rounded-[32px] p-7 md:p-9 ring-1 ring-transparent transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:bg-white hover:ring-black/[0.06] hover:shadow-[0_2px_4px_rgba(0,0,0,0.03),0_12px_28px_-8px_rgba(0,0,0,0.10),0_32px_64px_-24px_rgba(0,0,0,0.14)]">
+                {plan.mostPopular && (
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-tint px-3.5 py-1.5 text-[13.5px] font-semibold text-[#0D6B45] ring-4 ring-white">Most Popular</span>
+                )}
+                <h3 className="h-calm text-heading text-[26px] md:text-[28px]">{plan.name}</h3>
 
-              <h3 className="text-xl font-bold text-heading tracking-tight mb-4">{plan.name}</h3>
+                {plan.wasPrice ? (
+                  <div className="flex items-baseline gap-3 mt-5">
+                    <span className="text-2xl font-semibold text-[#B5B5B5] line-through">£{plan.wasPrice.toLocaleString()}</span>
+                    <span className="h-calm text-[52px] text-heading">£0</span>
+                  </div>
+                ) : (
+                  <div className="flex items-baseline gap-2 mt-5">
+                    <span className="h-calm text-[52px] text-heading">£{plan.price}</span>
+                    <span className="text-muted text-base font-medium">per month</span>
+                  </div>
+                )}
 
-              {plan.wasPrice ? (
-                <div className="flex items-baseline gap-3 mb-8">
-                  <span className="text-2xl font-bold text-body/40 line-through">£{plan.wasPrice.toLocaleString()}</span>
-                  <span className="text-5xl font-extrabold tracking-tight text-heading">£0</span>
+                <div className="flex-1 mt-6 pt-6 border-t border-black/[0.07]">
+                  {plan.intro && <p className="text-muted text-[15px] leading-relaxed mb-5">{plan.intro}</p>}
+                  <ul className="space-y-3">
+                    {plan.inheritsLabel && (
+                      <li className="flex items-start gap-3">
+                        <span className="grid place-items-center w-5 h-5 rounded-full bg-white flex-shrink-0 mt-0.5 transition-colors duration-500 group-hover:bg-[#F3F4F6]">
+                          <Check size={12} strokeWidth={3} className="text-brand" />
+                        </span>
+                        <span className="text-[15px] font-semibold text-heading">Everything in {plan.inheritsLabel}</span>
+                      </li>
+                    )}
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <span className="grid place-items-center w-5 h-5 rounded-full bg-white flex-shrink-0 mt-0.5 transition-colors duration-500 group-hover:bg-[#F3F4F6]">
+                          <Check size={12} strokeWidth={3} className="text-brand" />
+                        </span>
+                        <span className="text-[15px] text-heading/80 font-medium">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ) : (
-                <div className="flex items-baseline gap-1.5 mb-8">
-                  <span className="text-5xl font-extrabold tracking-tight text-heading">£{plan.price}</span>
-                  <span className="text-body text-base font-semibold">per month</span>
-                </div>
-              )}
 
-              <div className="flex-1 pt-6 border-t border-[#E5E5E0]">
-                <p className="text-xs font-bold uppercase tracking-wider text-heading mb-1">Features</p>
-                {plan.intro && <p className="text-sm text-body mb-5">{plan.intro}</p>}
-                <ul className={`space-y-3 ${plan.intro ? '' : 'mt-4'}`}>
-                  {plan.inheritsLabel && (
-                    <li className="flex items-start gap-3">
-                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-black flex-shrink-0 mt-0.5">
-                        <Check size={12} strokeWidth={3} className="text-white" />
-                      </span>
-                      <span className="text-[0.95rem] font-extrabold text-heading">
-                        Everything in {plan.inheritsLabel}
-                      </span>
-                    </li>
-                  )}
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-black flex-shrink-0 mt-0.5">
-                        <Check size={12} strokeWidth={3} className="text-white" />
-                      </span>
-                      <span className="text-[0.95rem] text-body font-medium">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Long pill with the product-card arrow: the circle fills black from the centre on hover */}
+                <button
+                  type="button"
+                  onClick={() => plan.checkoutUrl ? window.location.assign(plan.checkoutUrl) : goToBooking()}
+                  className="mt-8 w-full flex items-center justify-between gap-4 pl-6 pr-1.5 py-1.5 rounded-full bg-white ring-1 ring-black/[0.06] text-heading transition-shadow duration-500 group-hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:scale-[0.99]"
+                >
+                  <span className="text-base font-semibold">{plan.ctaLabel ?? `£${plan.price} per month`}</span>
+                  <span className="relative grid place-items-center w-11 h-11 rounded-full bg-[#F3F4F6] overflow-hidden flex-shrink-0" aria-hidden="true">
+                    <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+                    <ArrowUpRight size={18} className="relative text-heading transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-white group-hover:rotate-45" />
+                  </span>
+                </button>
               </div>
-
-              <button
-                onClick={() => plan.checkoutUrl ? window.location.assign(plan.checkoutUrl) : goToBooking()}
-                className="group w-full inline-flex items-center justify-between gap-4 pl-6 pr-1.5 py-1.5 mt-8 rounded-full bg-[#111111] text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98]"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-              >
-                <span className="text-base font-semibold">{plan.ctaLabel ?? `£${plan.price} per month`}</span>
-                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                  <ArrowRight size={18} />
-                </span>
-              </button>
             </motion.div>
           ))}
         </div>
@@ -1804,7 +1798,7 @@ export default function App() {
       ) : (
         <BookingPage />
       )}
-      <div className={view === 'home' ? "bg-black" : "bg-page-bg"}>
+      <div className={view === 'home' ? "bg-black" : view === 'pricing' ? "bg-white" : "bg-page-bg"}>
         <Footer setView={setView} />
       </div>
     </div>
