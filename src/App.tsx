@@ -53,6 +53,31 @@ const Button = ({
   );
 };
 
+const circleArrowClass = "group inline-flex items-center justify-between gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]";
+
+const CircleArrowButton = ({
+  children,
+  onClick,
+  href,
+  icon: Icon = ArrowRight,
+  className = '',
+}: { children: React.ReactNode, onClick?: () => void, href?: string, icon?: React.ElementType, className?: string }) => {
+  const inner = (
+    <>
+      <span className="text-base md:text-[1.2rem] font-semibold">{children}</span>
+      <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+        <Icon size={20} />
+      </span>
+    </>
+  );
+  const style = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`${circleArrowClass} ${className}`} style={style}>{inner}</a>
+  ) : (
+    <button type="button" onClick={onClick} className={`${circleArrowClass} ${className}`} style={style}>{inner}</button>
+  );
+};
+
 const Card = ({ children, className = '', delay = 0 }: { children: React.ReactNode, className?: string, delay?: number, key?: React.Key }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -1037,21 +1062,9 @@ const HomeFounderIntro = () => (
             Aryan has a background at <span className="text-heading font-medium underline decoration-brand decoration-2 underline-offset-4">Jaguar Land Rover</span> as an <span className="text-heading font-medium">Engineer</span>, working across <span className="text-heading font-medium">AI teams</span>, <span className="text-heading font-medium">Investment teams</span>, and <span className="text-heading font-medium">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 mt-8">
-            <button
-              onClick={goToBooking}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#111111] text-white px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
-            >
-              Let's Talk <ArrowRight size={18} />
-            </button>
-            <a
-              href="https://www.linkedin.com/in/aryan-parekh/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-heading border border-line px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:border-heading active:scale-[0.97]"
-            >
-              <Linkedin size={18} className="text-[#0A66C2]" /> See LinkedIn Profile
-            </a>
+          <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
+            <CircleArrowButton onClick={goToBooking}>Let's Talk</CircleArrowButton>
+            <CircleArrowButton href="https://www.linkedin.com/in/aryan-parekh/">See LinkedIn Profile</CircleArrowButton>
           </div>
         </motion.div>
 
@@ -1104,20 +1117,22 @@ const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => 
   <button
     type="button"
     onClick={goToBooking}
-    className="group relative flex flex-col h-full w-full text-left bg-[#F3F4F6] rounded-[32px] p-7 md:p-10 transition-colors duration-300 hover:bg-[#ECEEF1]"
+    className="group relative flex flex-col h-full w-full text-left bg-[#F3F4F6] rounded-[32px] p-7 md:p-10 ring-1 ring-transparent transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:bg-white hover:ring-black/[0.06] hover:shadow-[0_2px_4px_rgba(0,0,0,0.03),0_12px_28px_-8px_rgba(0,0,0,0.10),0_32px_64px_-24px_rgba(0,0,0,0.14)]"
   >
+    {/* Arrow circle: a dark fill grows from the centre on hover */}
     <span
-      className="absolute top-7 right-7 md:top-10 md:right-10 grid place-items-center w-10 h-10 rounded-full bg-white text-heading transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+      className="absolute top-7 right-7 md:top-10 md:right-10 grid place-items-center w-10 h-10 rounded-full bg-white overflow-hidden transition-shadow duration-500 group-hover:shadow-[0_6px_16px_rgba(0,0,0,0.18)]"
       aria-hidden="true"
     >
-      <ArrowUpRight size={18} />
+      <span className="absolute inset-0 rounded-full bg-[#111111] scale-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100" />
+      <ArrowUpRight size={18} className="relative text-heading transition-all duration-500 group-hover:text-white group-hover:rotate-45" />
     </span>
-    <span className="eyebrow pr-14">{cta}</span>
-    <h3 className="h-calm text-heading text-[30px] md:text-[38px] mt-3 pr-14">{title}</h3>
+    <span className="self-start rounded-full bg-tint px-3.5 py-1.5 text-[13.5px] font-semibold text-[#0D6B45] mr-14">{cta}</span>
+    <h3 className="h-calm text-heading text-[30px] md:text-[38px] mt-4 pr-14">{title}</h3>
     <p className="text-muted text-[16px] md:text-[17px] leading-relaxed mt-4 max-w-[34rem]">{description}</p>
     <span className="flex flex-wrap gap-2 mt-auto pt-8">
       {bullets.map((bullet) => (
-        <span key={bullet} className="rounded-full bg-white px-3.5 py-1.5 text-[13.5px] font-medium text-heading/75">
+        <span key={bullet} className="rounded-full bg-white px-3.5 py-1.5 text-[13.5px] font-medium text-heading/75 transition-colors duration-500 group-hover:bg-[#F3F4F6]">
           {bullet}
         </span>
       ))}
@@ -1175,12 +1190,13 @@ const WhyNow = () => (
             Google changed the rules <br className="hidden sm:block" /><span className="tone">in mid 2026.</span>
           </h2>
         </div>
-        <button
+        <CircleArrowButton
+          icon={ArrowDown}
           onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
-          className="self-start lg:self-auto inline-flex items-center justify-center gap-2 rounded-full bg-white text-heading border border-line px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:border-heading active:scale-[0.97]"
+          className="self-start lg:self-auto"
         >
-          See how we help <ArrowDown size={18} />
-        </button>
+          See How We Help
+        </CircleArrowButton>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mt-10 lg:mt-14">
@@ -1297,12 +1313,9 @@ const WantToLearn = () => (
               Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
             </p>
           </div>
-          <button
-            onClick={goToBooking}
-            className="self-start lg:self-auto flex-shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#0A4D2E] px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-[#F0FAF4] hover:shadow-soft active:scale-[0.97]"
-          >
-            Book A Free Call To Learn <ArrowRight size={18} />
-          </button>
+          <CircleArrowButton onClick={goToBooking} className="self-start lg:self-auto flex-shrink-0">
+            Book A Free Call To Learn
+          </CircleArrowButton>
         </div>
       </motion.div>
     </div>
