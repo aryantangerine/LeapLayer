@@ -1432,11 +1432,12 @@ const PricingPage = () => (
                   <div className="flex items-baseline gap-3 mt-5">
                     <span className="text-2xl font-semibold text-[#B5B5B5] line-through">£{plan.wasPrice.toLocaleString()}</span>
                     <span className="h-calm text-[52px] text-heading">£0</span>
+                    <span className="text-muted text-xl font-medium">setup fee</span>
                   </div>
                 ) : (
                   <div className="flex items-baseline gap-2 mt-5">
                     <span className="h-calm text-[52px] text-heading">£{plan.price}</span>
-                    <span className="text-muted text-base font-medium">per month</span>
+                    <span className="text-muted text-lg font-medium">per month</span>
                   </div>
                 )}
 
