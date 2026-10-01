@@ -12,6 +12,37 @@
   --color-secondary: #86868B;
   --color-accent: #000000;
   --color-dark-bg: #000000;
+
+  /* Calm section system (adapted from the Gayle Electrical design language) */
+  --color-brand: #2DAC65;
+  --color-tint: #E8F5EE;
+  --color-muted: #6A6A6A;
+  --color-line: #EBEBEB;
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+@layer components {
+  .eyebrow {
+    color: var(--color-brand);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .h-calm {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .two-tone .tone { color: #B5B5B5; }
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+  }
 }
 
 @layer base {

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Shader, ChromaFlow, FilmGrain, FlutedGlass, Swirl } from 'shaders/react';
 import {
   Menu, X, ArrowRight, Shield, MousePointer2, LayoutGrid,
@@ -12,7 +12,7 @@ import {
   ChevronLeft, ChevronRight, TrendingUp, Building2, ShieldCheck, Users,
   Linkedin, MessageSquareText, Smartphone,
   ChevronDown, Globe, Star, RefreshCw, Search, Inbox, PhoneMissed, Check,
-  CalendarX, Bot
+  CalendarX, Bot, PhoneCall
 } from 'lucide-react';
 
 import outlook_icon from './assets/outlook.png';
@@ -413,21 +413,21 @@ const Hero = () => {
         }}
       />
 
-      {/* Desktop: dense/white behind the centered text, fading out toward the edges to let the animation read stronger there */}
+      {/* Desktop: dense/white behind the left-aligned text, fading out to the right to let the animation read stronger there */}
       <div
         className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
         style={{
-          background: 'radial-gradient(ellipse 60% 75% at 50% 45%, rgba(245,245,240,0.97) 35%, rgba(245,245,240,0.7) 60%, transparent 100%)',
+          background: 'radial-gradient(ellipse 60% 80% at 28% 50%, rgba(245,245,240,0.97) 35%, rgba(245,245,240,0.7) 60%, transparent 100%)',
         }}
       />
 
-      <div className="max-w-[85rem] mx-auto px-6 text-center relative z-10 w-full min-w-0">
-        <div className="z-10 max-w-3xl mx-auto">
+      <div className="max-w-[85rem] mx-auto px-6 text-left relative z-10 w-full min-w-0">
+        <div className="z-10 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex justify-center mb-5 md:mb-6"
+            className="flex justify-start mb-5 md:mb-6"
           >
             <span
               className="inline-flex items-center px-5 py-2.5 rounded-full backdrop-blur-md text-[#0D6B45] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(45,172,101,0.25)]"
@@ -471,7 +471,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-[#1a1a1a] text-base md:text-xl max-w-2xl mx-auto text-center mb-7 md:mb-9 leading-[1.55] font-semibold px-1"
+            className="text-[#1a1a1a] text-base md:text-xl max-w-2xl mb-7 md:mb-9 leading-[1.55] font-semibold"
           >
             Done-for-you systems that get you more Google reviews, a smart website with lead capture and automations that attract and convert viewers into customers. Designed for your business to grow.
           </motion.p>
@@ -479,7 +479,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4"
           >
             <Button
               variant="secondary"
@@ -824,161 +824,7 @@ const PropTechGraphic = () => {
   );
 };
 
-const FluidCardBg = ({
-  momentum = 13,
-  detail = 1.7,
-  mountDelay = 0,
-  swirlA = '#f0faf5',
-  swirlB = '#c2e8d4',
-  accent = '#2DAC65',
-  overlayStart = '58%',
-  intensity = 1,
-}: {
-  momentum?: number;
-  detail?: number;
-  mountDelay?: number;
-  swirlA?: string;
-  swirlB?: string;
-  accent?: string;
-  overlayStart?: string;
-  intensity?: number;
-}) => {
-  const [ready, setReady] = useState(mountDelay === 0);
-
-  useEffect(() => {
-    if (mountDelay > 0) {
-      const t = setTimeout(() => setReady(true), mountDelay * 1000);
-      return () => clearTimeout(t);
-    }
-  }, [mountDelay]);
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[1.8rem]">
-      {ready && (
-        <motion.div
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: intensity }}
-          transition={{ duration: 1.2 }}
-        >
-          <Shader className="absolute inset-0">
-            <Swirl colorA={swirlA} colorB={swirlB} detail={detail} />
-            <ChromaFlow
-              baseColor="#ffffff"
-              downColor={accent}
-              leftColor={accent}
-              momentum={momentum}
-              radius={0}
-              rightColor={accent}
-              upColor={accent}
-            />
-            <FilmGrain strength={0.05} />
-          </Shader>
-        </motion.div>
-      )}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to bottom, white ${overlayStart}, rgba(255,255,255,0.82) calc(${overlayStart} + 12%), rgba(255,255,255,0.32) calc(${overlayStart} + 25%), rgba(255,255,255,0.0) calc(${overlayStart} + 36%), transparent 100%)`,
-        }}
-      />
-    </div>
-  );
-};
-
 const goToBooking = () => window.dispatchEvent(new CustomEvent('navigate-to-booking'));
-
-const FeatureCard = ({
-  badge,
-  title,
-  description,
-  bullets,
-  accentColor = '#2DAC65',
-  swirlA,
-  swirlB,
-  learnMore,
-  delay = 0,
-  momentum,
-  detail,
-  mountDelay,
-  icon: Icon,
-}: {
-  badge?: string,
-  title: React.ReactNode,
-  description?: string,
-  bullets?: { title: string, text?: string }[],
-  accentColor?: string,
-  swirlA?: string,
-  swirlB?: string,
-  learnMore?: boolean,
-  delay?: number,
-  momentum?: number,
-  detail?: number,
-  mountDelay?: number,
-  icon?: React.ElementType,
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
-    whileHover={{ y: -10, scale: 1.01, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-    className="relative overflow-hidden bg-white rounded-[2rem] p-3 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[6px] border-white flex flex-col h-full cursor-pointer group transition-shadow duration-500 hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)]"
-  >
-    <FluidCardBg momentum={momentum} detail={detail} mountDelay={mountDelay} accent={accentColor} swirlA={swirlA} swirlB={swirlB} />
-    {/* Floating decorative shape */}
-    <div
-      className="absolute -top-16 -right-16 w-64 h-64 rounded-full blur-3xl pointer-events-none"
-      style={{ backgroundColor: `${accentColor}26` }}
-    />
-    <div className="relative z-10 px-5 md:px-6 pt-7 md:pt-9 pb-5 md:pb-6 flex flex-col h-full">
-      {Icon && (
-        <div className="w-10 h-10 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center mb-3.5">
-          <Icon style={{ color: accentColor }} size={18} />
-        </div>
-      )}
-      <h3 className="text-2xl md:text-3xl font-bold text-heading mb-2.5 md:mb-3 leading-[1.15] tracking-tight transition-colors">
-        {title}
-      </h3>
-      {description && (
-        <p className="text-[#2A2A2A] text-sm md:text-base leading-relaxed mb-5 md:mb-6">
-          {description}
-        </p>
-      )}
-      {bullets && (
-        <ul className="space-y-3 md:space-y-3.5 mb-6 md:mb-7">
-          {bullets.map((bullet) => (
-            <li key={bullet.title} className="flex items-start gap-2.5">
-              <span
-                className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: `${accentColor}26` }}
-              >
-                <Check size={12} style={{ color: accentColor }} strokeWidth={3} />
-              </span>
-              <p className="text-[#2A2A2A] text-sm md:text-[0.95rem] leading-relaxed">
-                <span className="font-bold text-heading">{bullet.title}</span>{bullet.text ? <>{' '}{bullet.text}</> : null}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
-      {learnMore && (
-        <div className="mt-auto pt-2">
-          <button
-            onClick={goToBooking}
-            className="group/btn inline-flex items-center gap-2.5 md:gap-3 pl-5 pr-2 py-2 rounded-full bg-[#111111] text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] active:scale-[0.98] max-w-full"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-          >
-            <span className="text-sm font-semibold">{badge || "Learn More"}</span>
-            <span className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover/btn:translate-x-0.5">
-              <ArrowRight size={16} />
-            </span>
-          </button>
-        </div>
-      )}
-    </div>
-  </motion.div>
-);
 
 // --- Graphic Components ---
 
@@ -1160,151 +1006,84 @@ const FolderGraphic = () => (
   </div>
 );
 
-const HomeFounderIntro = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
-  const bubbleYSlow = useTransform(scrollYProgress, [0, 1], [-140, 140]);
-  const bubbleYFast = useTransform(scrollYProgress, [0, 1], [180, -180]);
-
-  return (
-  <section ref={sectionRef} className="pt-16 pb-24 md:pt-28 md:pb-40 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
-    {/* Floating pastel bubbles — bleed off the left/right edges, drift as the section scrolls into/out of view */}
-    <motion.div
-      className="absolute -left-[6%] top-[20%] w-[160px] h-[160px] md:w-[220px] md:h-[220px] pointer-events-none"
-      style={{ y: bubbleYSlow }}
-    >
-      <motion.div
-        className="w-full h-full bg-[#2DAC65]/12"
-        animate={{
-          x: [0, 10, -8, 0],
-          y: [0, -14, 8, 0],
-          borderRadius: [
-            '63% 37% 54% 46% / 55% 45% 55% 45%',
-            '42% 58% 61% 39% / 47% 60% 40% 53%',
-            '63% 37% 54% 46% / 55% 45% 55% 45%',
-          ],
-        }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </motion.div>
-    <motion.div
-      className="absolute -right-[8%] top-[62%] w-[240px] h-[240px] md:w-[340px] md:h-[340px] pointer-events-none"
-      style={{ y: bubbleYFast }}
-    >
-      <motion.div
-        className="w-full h-full bg-[#2DAC65]/12"
-        animate={{
-          x: [0, -12, 8, 0],
-          y: [0, 10, -12, 0],
-          borderRadius: [
-            '40% 60% 55% 45% / 45% 55% 45% 55%',
-            '58% 42% 39% 61% / 55% 40% 60% 45%',
-            '40% 60% 55% 45% / 45% 55% 45% 55%',
-          ],
-        }}
-        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-      />
-    </motion.div>
-
-    <div className="max-w-[85rem] mx-auto px-6 relative z-10">
+const HomeFounderIntro = () => (
+  <section className="pt-16 pb-24 md:pt-28 md:pb-36 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+    <div className="max-w-[85rem] mx-auto px-6 lg:px-8 relative">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-        {/* Left: heading, name + LinkedIn, bio */}
+        {/* Left: eyebrow, heading, name + LinkedIn, bio, buttons */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center sm:text-left"
+          transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-6 md:mb-8 leading-[1.05] tracking-tight">
-            Meet the Founder
-          </h2>
+          <p className="eyebrow">About LeapLayer</p>
+          <h2 className="h-calm text-heading text-[34px] lg:text-[48px] mt-3">Meet the founder.</h2>
 
-          <div className="flex items-center justify-center sm:justify-start gap-3 mb-6">
-            <span className="text-xl md:text-2xl font-bold text-heading">Aryan</span>
+          <div className="flex items-center gap-3 mt-6">
+            <span className="text-xl md:text-2xl font-semibold tracking-[-0.02em] text-heading">Aryan</span>
             <a
               href="https://www.linkedin.com/in/aryan-parekh/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Aryan's LinkedIn profile"
-              className="w-9 h-9 rounded-full bg-[#1a1a1a]/10 text-[#1a1a1a]/60 flex items-center justify-center flex-shrink-0 transition-colors duration-300 hover:bg-[#1a1a1a]/20 hover:text-[#1a1a1a]"
+              className="grid place-items-center w-9 h-9 rounded-[12px] bg-tint text-brand flex-shrink-0 transition-colors duration-200 hover:bg-brand hover:text-white"
             >
-              <Linkedin size={18} />
+              <Linkedin size={17} />
             </a>
           </div>
 
-          <p className="text-[#3A3A3A]/80 text-base md:text-xl font-medium max-w-xl sm:max-w-none mx-auto sm:mx-0 leading-relaxed mb-8 md:mb-10">
-            Aryan has a background at <span className="relative inline-block text-[#1a1a1a] whitespace-nowrap">
-              Jaguar Land Rover
-              <svg
-                className="absolute pointer-events-none"
-                style={{ left: '-12%', right: '-12%', top: '-28%', bottom: '-22%', width: '124%', height: '150%' }}
-                viewBox="0 0 220 80"
-                preserveAspectRatio="none"
-                fill="none"
-              >
-                <path
-                  d="M14,42 C11,17 46,6 111,5 C176,4 209,15 211,39 C213,63 179,74 111,75 C43,76 9,65 13,43 C15,31 31,21 56,17"
-                  stroke="#2DAC65"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span> as an <span className="text-[#1a1a1a]">Engineer</span>, working across <span className="text-[#1a1a1a]">AI teams</span>, <span className="text-[#1a1a1a]">Investment teams</span>, and <span className="text-[#1a1a1a]">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
+          <p className="text-muted text-[17px] lg:text-[19px] leading-relaxed mt-4">
+            Aryan has a background at <span className="text-heading font-medium underline decoration-brand decoration-2 underline-offset-4">Jaguar Land Rover</span> as an <span className="text-heading font-medium">Engineer</span>, working across <span className="text-heading font-medium">AI teams</span>, <span className="text-heading font-medium">Investment teams</span>, and <span className="text-heading font-medium">Marketing teams</span>. Graduated from a top Russell Group university in Mechanical Engineering with Computer Science, and regularly works with entrepreneurs and businesses on their technology adoption.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 mt-8">
+            <button
+              onClick={goToBooking}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#111111] text-white px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
+            >
+              Let's Talk <ArrowRight size={18} />
+            </button>
             <a
               href="https://www.linkedin.com/in/aryan-parekh/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-gradient-to-br from-[#2DAC65] via-[#34B36C] to-[#67CB53] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(45,172,101,0.4)] active:scale-[0.98]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-heading border border-line px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:border-heading active:scale-[0.97]"
             >
-              <span className="text-base md:text-[1.2rem] font-semibold">See LinkedIn Profile</span>
-              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={20} />
-              </span>
+              <Linkedin size={18} className="text-[#0A66C2]" /> See LinkedIn Profile
             </a>
-
-            <button
-              onClick={goToBooking}
-              className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              <span className="text-base md:text-[1.2rem] font-semibold">Let's Talk</span>
-              <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={20} />
-              </span>
-            </button>
           </div>
         </motion.div>
 
-        {/* Right: photo card, styled like the pain-points feature cards — swap for a video embed once one is sent */}
+        {/* Right: photo with a floating glass fact card — swap for a video embed once one is sent */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+          className="relative"
         >
-          <div className="relative overflow-hidden bg-white rounded-[2rem] md:rounded-[2.5rem] p-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] border-[8px] border-white">
-            <FluidCardBg momentum={9} detail={1.2} />
-            <div className="relative z-10 p-5 md:p-7">
-              <div className="relative aspect-square md:aspect-[4/5] rounded-[1.5rem] md:rounded-[1.8rem] overflow-hidden">
-                <img
-                  src={aryan_avatar}
-                  alt="Aryan - Founder"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+          <div className="aspect-[4/3] lg:aspect-square overflow-hidden rounded-[32px] bg-[#EDEDE8]">
+            <img
+              src={aryan_avatar}
+              alt="Aryan, founder of LeapLayer"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="glass absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-[320px] flex items-center gap-3 p-4">
+            <span className="grid place-items-center w-10 h-10 rounded-[12px] bg-brand text-white flex-shrink-0">
+              <Building2 size={20} />
+            </span>
+            <span className="text-[15px] font-semibold leading-snug text-heading">
+              Engineer, Jaguar Land Rover
+              <span className="block text-[13.5px] font-normal text-muted">Mechanical Engineering & Computer Science</span>
+            </span>
           </div>
         </motion.div>
       </div>
     </div>
   </section>
-  );
-};
+);
 
 const GoogleWord = () => (
   <span className="whitespace-nowrap">
@@ -1317,86 +1096,68 @@ const GoogleWord = () => (
   </span>
 );
 
-// Same animated green gradient as "More Customers." in the hero — no yellow shimmer, plain (non-italic) weight
-const GradientText = ({ children }: { children: React.ReactNode }) => (
-  <motion.span
-    className="inline-block bg-clip-text text-transparent"
-    style={{
-      backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)',
-      backgroundSize: '250% 100%',
-      backgroundPosition: '100% center',
-    }}
-    animate={{ backgroundPosition: ['100% center', '0% center'] }}
-    transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
-  >
-    {children}
-  </motion.span>
+type ProductCardProps = {
+  icon: React.ElementType,
+  title: React.ReactNode,
+  description: string,
+  bullets: string[],
+  cta: string,
+};
+
+const ProductCard = ({ icon: Icon, title, description, bullets, cta }: ProductCardProps) => (
+  <div className="flex flex-col h-full bg-white border border-line rounded-[24px] p-6 lg:p-7 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft">
+    <span className="grid place-items-center w-11 h-11 rounded-[14px] bg-tint text-brand">
+      <Icon size={22} />
+    </span>
+    <h3 className="h-calm text-heading text-[22px] mt-5">{title}</h3>
+    <p className="text-muted text-[15px] leading-relaxed mt-2">{description}</p>
+    <ul className="mt-5 border-t border-line">
+      {bullets.map((bullet) => (
+        <li key={bullet} className="flex items-center gap-2.5 py-2.5 border-b border-line text-[14.5px] font-medium text-heading">
+          <Check size={16} strokeWidth={2.5} className="text-brand flex-shrink-0" />
+          {bullet}
+        </li>
+      ))}
+    </ul>
+    <div className="mt-auto pt-6">
+      <button
+        onClick={goToBooking}
+        className="inline-flex items-center gap-2 rounded-full bg-[#111111] text-white px-[18px] py-2.5 text-[15px] font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
+      >
+        {cta} <ArrowRight size={16} className="flex-shrink-0" />
+      </button>
+    </div>
+  </div>
 );
 
-const painPointCards: {
-  pill?: string,
-  heading?: string,
-  subheading?: string,
-  badge?: string,
-  icon?: React.ElementType,
-  title: React.ReactNode,
-  description?: string,
-  bullets?: { title: string, text?: string }[],
-  accentColor?: string,
-  swirlA?: string,
-  swirlB?: string,
-  learnMore?: boolean,
-  momentum?: number,
-  detail?: number,
-  mountDelay?: number,
-}[] = [
+const painPointCards: ProductCardProps[] = [
   {
-    badge: "Never Miss A Call",
-    title: <><GradientText>AI</GradientText> Receptionist</>,
+    icon: PhoneCall,
+    cta: "Never Miss A Call",
+    title: "AI Receptionist",
     description: "A 24/7 AI-powered receptionist that answers every call and books the appointment for you.",
-    bullets: [
-      { title: "24/7 Availability" },
-      { title: "Instant Call Answering" },
-      { title: "Appointment Booking" },
-      { title: "Lead Capture" },
-    ],
-    learnMore: true, momentum: 9, detail: 1.2, mountDelay: 0,
+    bullets: ["24/7 Availability", "Instant Call Answering", "Appointment Booking", "Lead Capture"],
   },
   {
-    badge: "Attract New Customers",
-    title: <>Get More <GoogleWord /> <GradientText>Reviews</GradientText> with Our AI System</>,
+    icon: Star,
+    cta: "Attract New Customers",
+    title: <>Get More <GoogleWord /> Reviews with Our AI System</>,
     description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
-    bullets: [
-      { title: "NFC Tap-To-Review Card" },
-      { title: "Automated Review Requests" },
-      { title: "Follow-Up Reminders" },
-      { title: "Auto-Posted To Social" },
-    ],
-    learnMore: true, momentum: 13, detail: 1.7, mountDelay: 0.15,
+    bullets: ["NFC Tap-To-Review Card", "Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social"],
   },
   {
-    badge: "Convert More Leads",
-    title: <>A <GradientText>Smart Website</GradientText> With Lead Capture</>,
+    icon: Globe,
+    cta: "Convert More Leads",
+    title: "A Smart Website With Lead Capture",
     description: "A website that uses AI to turn every qualified lead instantly into a text conversation DIRECTLY to your phone.",
-    bullets: [
-      { title: "Automated Website Replies" },
-      { title: "Built To Rank" },
-      { title: "Capture Every Enquiry" },
-      { title: "Mobile Optimized" },
-    ],
-    learnMore: true, momentum: 18, detail: 2.2, mountDelay: 0.3,
+    bullets: ["Automated Website Replies", "Built To Rank", "Capture Every Enquiry", "Mobile Optimized"],
   },
   {
-    badge: "See Your Results",
-    title: <><GradientText>Track</GradientText> Everything</>,
+    icon: TrendingUp,
+    cta: "See Your Results",
+    title: "Track Everything",
     description: "See every opportunity, appointment and the revenue these systems generate, all in one dashboard.",
-    bullets: [
-      { title: "Live Opportunity Tracking" },
-      { title: "Appointment Tracking" },
-      { title: "Revenue Reporting" },
-      { title: "One Dashboard" },
-    ],
-    learnMore: true, momentum: 22, detail: 2.6, mountDelay: 0.45,
+    bullets: ["Live Opportunity Tracking", "Appointment Tracking", "Revenue Reporting", "One Dashboard"],
   },
 ];
 
@@ -1408,84 +1169,53 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-page-bg relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
-    <div className="relative max-w-[85rem] mx-auto px-6 md:px-12 lg:px-20">
-      <div className="flex justify-center">
-        <span
-          className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full backdrop-blur-md text-[#0D6B45] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.15)]"
-          style={{ background: 'rgba(255,255,255,0.7)' }}
+  <section id="why-now" className="bg-page-bg relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-28 md:pt-24 md:pb-40">
+    <div className="relative max-w-[85rem] mx-auto px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
+      >
+        <div className="max-w-[640px]">
+          <p className="eyebrow">Why now</p>
+          <h2 className="h-calm two-tone text-heading text-[34px] lg:text-[48px] mt-3">
+            Google changed the rules <br className="hidden sm:block" /><span className="tone">in mid 2026.</span>
+          </h2>
+        </div>
+        <button
+          onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
+          className="self-start lg:self-auto inline-flex items-center justify-center gap-2 rounded-full bg-white text-heading border border-line px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:border-heading active:scale-[0.97]"
         >
-          Why Now
-        </span>
-      </div>
-      <SectionHeading
-        centered
-        className="!mb-10 md:!mb-14"
-        titleClassName="text-4xl md:text-5xl lg:text-6xl"
-        title={<>Google Changed the Rules in <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>Mid 2026</motion.span>.</>}
-      />
+          See how we help <ArrowDown size={18} />
+        </button>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mt-10 lg:mt-14">
         {whyNowPoints.map(({ icon: Icon, title, text }, i) => (
           <motion.div
             key={title}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="bg-white border border-black/5 shadow-[0_15px_35px_-15px_rgba(0,0,0,0.15)] rounded-3xl p-6 md:p-7"
+            transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
+            className="bg-white border border-line rounded-[24px] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft"
           >
-            <div className="w-11 h-11 rounded-2xl bg-[#2DAC65]/10 flex items-center justify-center mb-4">
-              <Icon size={20} className="text-[#2DAC65]" />
-            </div>
-            <h3 className="text-heading font-bold text-lg md:text-xl mb-2 tracking-tight">{title}</h3>
-            <p className="text-body text-sm md:text-base leading-relaxed">{text}</p>
+            <span className="grid place-items-center w-11 h-11 rounded-[14px] bg-tint text-brand">
+              <Icon size={22} />
+            </span>
+            <h3 className="h-calm text-heading text-[20px] mt-5">{title}</h3>
+            <p className="text-muted text-[15.5px] leading-relaxed mt-2">{text}</p>
           </motion.div>
         ))}
-      </div>
-
-      <div className="flex justify-center mt-10 md:mt-14">
-        <button
-          onClick={() => document.getElementById('built-for-you')?.scrollIntoView({ behavior: 'smooth' })}
-          className="group inline-flex items-center gap-4 md:gap-6 pl-7 md:pl-9 pr-1.5 py-1.5 rounded-full bg-[#111111] text-white shadow-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_15px_40px_rgba(0,0,0,0.35)] active:scale-[0.98]"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-        >
-          <span className="text-base md:text-[1.2rem] font-semibold">See How We Help</span>
-          <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-black flex-shrink-0 transition-transform duration-300 group-hover:translate-y-0.5">
-            <ArrowDown size={20} />
-          </span>
-        </button>
       </div>
     </div>
   </section>
 );
 
-const PainPoints = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
-  const bubbleY = useTransform(scrollYProgress, [0, 1], [-160, 160]);
-
-  return (
-  <section id="built-for-you" ref={sectionRef} className="pb-24 md:pb-40 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.35)] -mt-20 overflow-hidden">
-    {/* Floating pastel bubble — bleeds off the right edge, drifts as the section scrolls into/out of view */}
-    <motion.div
-      className="absolute -right-[10%] top-[42%] w-[320px] h-[320px] md:w-[520px] md:h-[520px] pointer-events-none"
-      style={{ y: bubbleY }}
-    >
-      <motion.div
-        className="w-full h-full bg-[#2DAC65]/12"
-        animate={{
-          x: [0, -14, 10, 0],
-          y: [0, 12, -16, 0],
-          borderRadius: [
-            '58% 42% 39% 61% / 55% 40% 60% 45%',
-            '40% 60% 55% 45% / 45% 55% 45% 55%',
-            '58% 42% 39% 61% / 55% 40% 60% 45%',
-          ],
-        }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </motion.div>
+const PainPoints = () => (
+  <section id="built-for-you" className="pb-24 md:pb-36 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.35)] -mt-20 overflow-hidden">
     {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
     <div className="relative bg-[#141414] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px] overflow-hidden">
       {/* Subtle off-centre glow — soft brightness low in the panel, echoing the reference screenshot */}
@@ -1507,12 +1237,18 @@ const PainPoints = () => {
       </svg>
       <div className="relative">
         <div className="max-w-[85rem] mx-auto px-6">
-          <div className="flex justify-center">
-            <span className="inline-flex items-center px-5 py-2.5 mb-5 md:mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#67CB53] text-sm font-bold uppercase tracking-wider shadow-[0_10px_25px_-6px_rgba(0,0,0,0.45)]">
-              Local Business Package
-            </span>
-          </div>
-          <SectionHeading dark centered={true} className="!mb-4 md:!mb-6" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Built for <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 50%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>You,</motion.span> Affordable, No Effort.</>} />
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="text-center"
+          >
+            <p className="eyebrow !text-[#67CB53]">Local Business Package</p>
+            <h2 className="h-calm text-white text-[34px] md:text-[44px] lg:text-[56px] mt-3 mb-4 md:mb-6 max-w-4xl mx-auto">
+              Built for You, <span className="text-white/50">Affordable, No Effort.</span>
+            </h2>
+          </motion.div>
           <p className="text-[0.95rem] md:text-[1.3rem] font-semibold text-[#9CA3AF] text-center max-w-4xl mx-auto leading-[1.55] px-1">
             Everything below exists for one core outcome, bringing you more business and not being hidden on Google.
           </p>
@@ -1520,27 +1256,25 @@ const PainPoints = () => {
       </div>
     </div>
 
-    <div className="relative z-10 max-w-[100rem] mx-auto px-4 md:px-8 pt-14 md:pt-20">
+    <div className="relative z-10 max-w-[85rem] mx-auto px-5 lg:px-8 pt-14 md:pt-20">
       {/* Four products, one row */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
         {painPointCards.map((card, i) => (
           <motion.div
-            key={i}
+            key={card.cta}
             className="h-full"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
           >
-            <FeatureCard {...card} />
+            <ProductCard {...card} />
           </motion.div>
         ))}
       </div>
-
     </div>
   </section>
-  );
-};
+);
 
 
 
