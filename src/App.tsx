@@ -350,7 +350,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="bg-page-bg flex items-center pt-40 pb-32 md:pt-48 md:pb-40 overflow-hidden relative">
+    <section className="bg-white flex items-center pt-40 pb-32 md:pt-48 md:pb-40 overflow-hidden relative">
       {/* WebGL shader background (mobile: static, unchanged) */}
       <Shader key={`mobile-${shaderCycle}`} className="absolute inset-0 z-0 pointer-events-none md:hidden">
         <Swirl colorA="#f0faf5" colorB="#c2e8d4" detail={1.7} />
@@ -409,7 +409,7 @@ const Hero = () => {
       <div
         className="absolute inset-0 z-[5] pointer-events-none md:hidden"
         style={{
-          background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(245,245,240,0.95) 35%, rgba(245,245,240,0.65) 62%, transparent 100%)',
+          background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255,255,255,0.95) 35%, rgba(255,255,255,0.65) 62%, transparent 100%)',
         }}
       />
 
@@ -417,7 +417,7 @@ const Hero = () => {
       <div
         className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
         style={{
-          background: 'radial-gradient(ellipse 60% 80% at 28% 50%, rgba(245,245,240,0.97) 35%, rgba(245,245,240,0.7) 60%, transparent 100%)',
+          background: 'radial-gradient(ellipse 60% 80% at 28% 50%, rgba(255,255,255,0.97) 35%, rgba(255,255,255,0.7) 60%, transparent 100%)',
         }}
       />
 
@@ -1163,7 +1163,7 @@ const whyNowPoints: { icon: React.ElementType, title: string, text: string }[] =
 ];
 
 const WhyNow = () => (
-  <section id="why-now" className="bg-page-bg relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-28 md:pt-24 md:pb-40">
+  <section id="why-now" className="bg-[#F6F7F9] relative z-[9] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.12)] -mt-20 overflow-hidden pt-16 pb-28 md:pt-24 md:pb-40">
     <div className="relative max-w-[85rem] mx-auto px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -1273,48 +1273,31 @@ const PainPoints = () => (
 
 
 const WantToLearn = () => (
-  <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-page-bg relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
-    <div className="max-w-[85rem] mx-auto px-6">
-      <SectionHeading centered className="!mb-0" titleClassName="text-4xl md:text-5xl lg:text-6xl" title={<>Want to <motion.span className="inline-block font-serif italic font-bold text-[1.1em] bg-clip-text text-transparent p-[0.15em] -m-[0.15em]" style={{ backgroundImage: 'linear-gradient(105deg, #2DAC65 0%, #34B36C 30%, #67CB53 40%, #eeff99 50%, #67CB53 60%, #34B36C 70%, #2DAC65 100%)', backgroundSize: '250% 100%', backgroundPosition: '100% center' }} animate={{ backgroundPosition: ['100% center', '0% center'] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}>learn</motion.span> it yourself?</>} />
-
-      {/* Coming Soon banner */}
+  <section className="pt-14 pb-20 md:pt-20 md:pb-28 bg-white relative z-[35] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20">
+    <div className="max-w-[75rem] mx-auto px-5 lg:px-8">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] mt-10 md:mt-16 px-8 py-12 md:px-16 md:py-16 text-center shadow-[0_30px_60px_-15px_rgba(6,95,70,0.4)]"
-        style={{ background: 'linear-gradient(120deg, #064E3B 0%, #0D9467 32%, #14B8A6 62%, #2DD4C6 100%)' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="relative overflow-hidden rounded-[32px] bg-tint px-6 py-12 sm:px-10 lg:px-16 lg:py-16"
       >
-        {/* Decorative wavy line texture */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
-          viewBox="0 0 1500 460"
-          preserveAspectRatio="none"
-          fill="none"
-        >
-          <path d="M-50,380 C250,280 450,480 750,360 C1050,240 1250,420 1550,300" stroke="white" strokeOpacity="0.18" strokeWidth="1.5" />
-          <path d="M-50,320 C250,220 450,420 750,300 C1050,180 1250,360 1550,240" stroke="white" strokeOpacity="0.14" strokeWidth="1.5" />
-          <path d="M-50,440 C250,340 450,540 750,420 C1050,300 1250,480 1550,360" stroke="white" strokeOpacity="0.14" strokeWidth="1.5" />
-          <path d="M-50,60 C250,140 450,-20 750,60 C1050,140 1250,-20 1550,60" stroke="white" strokeOpacity="0.12" strokeWidth="1.5" />
-          <circle cx="130" cy="110" r="55" stroke="white" strokeOpacity="0.2" strokeWidth="1.5" />
-          <circle cx="230" cy="200" r="28" stroke="white" strokeOpacity="0.2" strokeWidth="1.5" />
-        </svg>
-
-        <div className="relative z-10">
-          <h3 className="text-white font-bold tracking-tight leading-[1.4] text-lg sm:text-xl md:text-2xl mb-8 md:mb-10 max-w-2xl mx-auto">
-            Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
-          </h3>
-
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/20 blur-3xl" aria-hidden="true" />
+        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-[640px]">
+            <p className="eyebrow">Free guidance</p>
+            <h2 className="h-calm two-tone text-heading text-[34px] lg:text-[48px] mt-3">
+              Want to learn <span className="tone">it yourself?</span>
+            </h2>
+            <p className="text-muted text-[17px] lg:text-[19px] leading-relaxed mt-4">
+              Google recently reweighted its local business search algorithm, just a couple of months ago. We're showing businesses, completely free, how they can use AI to fix what's hiding them from Google, no agency required.
+            </p>
+          </div>
           <button
             onClick={goToBooking}
-            className="group inline-flex items-center gap-3 md:gap-4 pl-6 md:pl-7 pr-1.5 py-1.5 rounded-full bg-white/15 border border-white/40 backdrop-blur-sm text-white shadow-lg transition-all duration-300 hover:bg-white/25 hover:-translate-y-0.5 active:scale-[0.98]"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="self-start lg:self-auto flex-shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[#111111] text-white px-6 py-3.5 text-base font-semibold leading-tight transition-all duration-200 hover:bg-black hover:shadow-soft active:scale-[0.97]"
           >
-            <span className="text-sm md:text-base font-semibold">Book A Free Call To Learn</span>
-            <span className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/25 text-white flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
-              <ArrowRight size={18} />
-            </span>
+            Book A Free Call To Learn <ArrowRight size={18} />
           </button>
         </div>
       </motion.div>
