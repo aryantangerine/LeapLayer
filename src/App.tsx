@@ -1147,8 +1147,8 @@ const painPointCards: ProductCardProps[] = [
   {
     to: productPath("google-review-automation"),
     cta: "Attract New Customers",
-    title: <>Get More <GoogleWord /> Reviews with Our AI System</>,
-    description: "Great customers forget to review. We give you a system that makes sure it never happens again, protecting your brand.",
+    title: <>Get More <GoogleWord /> Reviews with Our Automated System</>,
+    description: "Great customers forget to leave a review. We give you an AI automation system that makes sure it never happens again, protecting your brand.",
     bullets: ["Automated Review Requests", "Follow-Up Reminders", "Auto-Posted To Social", "NFC Tap-To-Review Card"],
   },
   {
