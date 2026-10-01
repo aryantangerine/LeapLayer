@@ -1007,7 +1007,7 @@ const FolderGraphic = () => (
 );
 
 const HomeFounderIntro = () => (
-  <section className="pt-16 pb-24 md:pt-28 md:pb-36 bg-page-bg relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
+  <section className="pt-16 pb-24 md:pt-28 md:pb-36 bg-white relative z-[8] rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)] -mt-20 overflow-hidden">
     <div className="max-w-[85rem] mx-auto px-6 lg:px-8 relative">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
         {/* Left: eyebrow, heading, name + LinkedIn, bio, buttons */}
@@ -1107,7 +1107,7 @@ const ProductCard = ({ title, description, bullets, cta }: ProductCardProps) => 
   <button
     type="button"
     onClick={goToBooking}
-    className="group relative flex flex-col h-full w-full text-left bg-[#EAEAE3] rounded-[32px] p-7 md:p-10 transition-colors duration-300 hover:bg-[#E3E3DB]"
+    className="group relative flex flex-col h-full w-full text-left bg-[#F3F4F6] rounded-[32px] p-7 md:p-10 transition-colors duration-300 hover:bg-[#ECEEF1]"
   >
     <span
       className="absolute top-7 right-7 md:top-10 md:right-10 grid place-items-center w-10 h-10 rounded-full bg-white text-heading transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -1209,7 +1209,7 @@ const WhyNow = () => (
 );
 
 const PainPoints = () => (
-  <section id="built-for-you" className="pb-24 md:pb-36 bg-page-bg relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.35)] -mt-20 overflow-hidden">
+  <section id="built-for-you" className="pb-24 md:pb-36 bg-white relative z-10 rounded-t-[40px] md:rounded-t-[80px] shadow-[0_-25px_60px_-10px_rgba(0,0,0,0.35)] -mt-20 overflow-hidden">
     {/* Dark intro panel — its bottom edge runs from both screen edges down to a lightly rounded centre point */}
     <div className="relative bg-[#141414] pt-10 pb-[134px] md:pt-20 md:pb-[197px] 2xl:pb-[152px] overflow-hidden">
       {/* Subtle off-centre glow — soft brightness low in the panel, echoing the reference screenshot */}
@@ -1226,7 +1226,7 @@ const PainPoints = () => (
       >
         <path
           d="M0,0 L600,218 Q720,262 840,218 L1440,0 L1440,240 L0,240 Z"
-          fill="var(--color-page-bg, #F5F5F0)"
+          fill="#FFFFFF"
         />
       </svg>
       <div className="relative">
